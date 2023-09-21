@@ -1,23 +1,14 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+import HomePage from "./pages/Home";
 
 function App() {
-  const [value, setValue] = useState<string>("");
-
-  useEffect(() => {
-    const fetch = async () => {
-      const response = await axios.get("/api");
-      setValue(response.data);
-      console.log(response.data);
-    };
-    fetch();
-  }, []);
-
   return (
-    <div className="text-2xl font-semibold">
-      <p>Hello World From the Typescript Client!</p>
-      <p>{value}</p>
-    </div>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<HomePage />} />
+      </Route>
+    </Routes>
   );
 }
 
