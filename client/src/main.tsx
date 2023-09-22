@@ -8,7 +8,7 @@ import {
   Theme,
   createLightTheme,
   createDarkTheme,
-  teamsLightTheme,
+  makeStyles,
 } from "@fluentui/react-components";
 import { BrowserRouter } from "react-router-dom";
 

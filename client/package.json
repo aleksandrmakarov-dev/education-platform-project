@@ -10,13 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fluentui/react-breadcrumb-preview": "^1.0.3",
     "@fluentui/react-components": "^9.32.1",
     "@fluentui/react-icons": "^2.0.217",
+    "@fluentui/react-search-preview": "^0.1.19",
     "axios": "^1.5.0",
+    "clsx": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
-    "clsx": "^2.0.0",
     "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {

@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import LeftSidebar from "../components/left-sidebar/LeftSidebar";
 import Topbar from "../components/topbar/Topbar";
 
@@ -7,7 +8,11 @@ export default function MainLayout() {
       <Topbar />
       <div className="flex">
         <LeftSidebar />
-        <div className="bg-white w-full min-h-[1440px] ml-72">content</div>
+        <div className="bg-white w-full min-h-[1440px] ml-72">
+          <div className="p-8">
+            <Outlet />
+          </div>
+        </div>
       </div>
     </div>
   );
