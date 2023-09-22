@@ -1,20 +1,14 @@
-import {
-  Avatar,
-  Button,
-  Card,
-  CardFooter,
-  CardHeader,
-  CardPreview,
-} from "@fluentui/react-components";
+import { Button } from "@fluentui/react-components";
 import BreadcrumbContainer from "../components/breadcrumb/BreadcrumbContainer";
 import Header from "../components/header/Header";
-import {
-  BookAdd24Filled,
-  BookLetter24Filled,
-  Open16Regular,
-} from "@fluentui/react-icons";
-import { dictionariesMockData } from "../lib/constants";
-import { Link } from "react-router-dom";
+import { BookAdd24Filled } from "@fluentui/react-icons";
+import { Dictionary, dictionariesMockData, mockDelay } from "../lib/constants";
+import DictionaryCard from "../components/cards/dictionary-card/DictionaryCard";
+import DictionaryDialog from "../components/dialogs/DictionaryDialog";
+import { DictionaryFormSchemaType } from "../lib/validations/dictionary-form.schema";
+import { useRef, useState } from "react";
+import { DialogHandle } from "../components/dialogs/DialogContainer";
+import { wait } from "../lib/utils";
 
 const breadcrumbItems = [
   {
@@ -27,63 +21,70 @@ const breadcrumbItems = [
   },
 ];
 
+const getId = () => {
+  return Math.round(Math.random() % 1000000);
+};
+
 const StudyPage = () => {
+  const [dictionaries, setDictionaries] =
+    useState<Dictionary[]>(dictionariesMockData);
+
+  const createDictionaryRef = useRef<DialogHandle>(null);
+
+  const onCreateDictionary = async (values: DictionaryFormSchemaType) => {
+    await wait<boolean>(mockDelay, true);
+    setDictionaries(
+      dictionaries.concat({ id: getId().toString(), name: values.name })
+    );
+    createDictionaryRef.current?.close();
+    return true;
+  };
+
+  const onUpdateDictionary = async (
+    id: string,
+    values: DictionaryFormSchemaType
+  ) => {
+    await wait<boolean>(mockDelay, true);
+
+    const updatedDictionaries = dictionaries.map((d) =>
+      d.id === id ? { ...d, name: values.name } : d
+    );
+    setDictionaries(updatedDictionaries);
+    return true;
+  };
+
+  const onRemoveDictionary = async (id: string) => {
+    await wait<boolean>(mockDelay, true);
+    setDictionaries(dictionaries.filter((d) => d.id !== id));
+    return true;
+  };
+
   return (
     <div>
       <BreadcrumbContainer items={breadcrumbItems} />
       <div className="my-3 flex justify-between items-center">
         <Header text="Study" />
-        <Button appearance="primary" icon={<BookAdd24Filled />}>
+        <Button
+          appearance="primary"
+          icon={<BookAdd24Filled />}
+          onClick={() => createDictionaryRef.current?.open()}
+        >
           Create Dictionary
         </Button>
+        <DictionaryDialog
+          ref={createDictionaryRef}
+          onSubmitCallback={onCreateDictionary}
+          title="Create Dictionary"
+        />
       </div>
       <div className="flex flex-col gap-2">
-        {dictionariesMockData.map((item, i) => (
-          <div key={i} className="bg-gray-50 rounded-sm px-2 py-3">
-            <div className="mb-2">
-              <Link
-                className="font-semibold text-gray-700 hover:underline uppercase"
-                to="/"
-              >
-                {item.name}
-              </Link>
-            </div>
-            <div className="grid grid-cols-3 gap-3">
-              {item.themes.map((theme, i) => (
-                <Card key={`${item.name}-${i}`}>
-                  <CardPreview className="h-24 bg-gray-200 p-4">
-                    <BookLetter24Filled className="text-white" />
-                  </CardPreview>
-                  <CardHeader
-                    header={
-                      <p className="font-semibold text-gray-800">
-                        {theme.name}
-                      </p>
-                    }
-                    description={
-                      <p className="text-gray-600">{theme.description}</p>
-                    }
-                  />
-                  <CardFooter>
-                    <div className="w-full flex items-center justify-between">
-                      <Button appearance="primary" icon={<Open16Regular />}>
-                        Show
-                      </Button>
-                      <p className="text-xs uppercase">{theme.count} word(s)</p>
-                    </div>
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
-            <div className="mt-4 text-center">
-              <Link
-                to="/"
-                className="p-2 text-blue-500 font-semibold hover:underline"
-              >
-                Show All
-              </Link>
-            </div>
-          </div>
+        {dictionaries.map((item, i) => (
+          <DictionaryCard
+            key={`dictionary-${i}`}
+            dictionary={item}
+            onUpdateCallback={onUpdateDictionary}
+            onRemoveCallback={onRemoveDictionary}
+          />
         ))}
       </div>
     </div>

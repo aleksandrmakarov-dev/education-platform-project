@@ -1,9 +1,11 @@
 export type Dictionary = {
+  id: string;
   name: string;
-  themes: Theme[];
+  themes?: Theme[];
 };
 
 export type Theme = {
+  id: string;
   name: string;
   description: string;
   count: string;
@@ -17,11 +19,15 @@ export type User = {
   fallback: string;
 };
 
+export const mockDelay = 2000;
+
 export const dictionariesMockData: Dictionary[] = [
   {
+    id: "d1a8e3",
     name: "Finnish Language",
     themes: [
       {
+        id: "t4b2e1",
         name: "Greetings",
         description: "Common greetings in Finnish",
         count: "100",
@@ -30,6 +36,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "greetings"],
       },
       {
+        id: "t8c7f6",
         name: "Grammar Basics",
         description: "Foundational Finnish grammar rules",
         count: "200",
@@ -38,6 +45,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "grammar"],
       },
       {
+        id: "t2d5a3",
         name: "Common Vocabulary",
         description: "Frequently used Finnish words",
         count: "500",
@@ -46,6 +54,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "vocabulary"],
       },
       {
+        id: "t7f8c5",
         name: "Travel Phrases",
         description: "Useful phrases for travelers",
         count: "150",
@@ -54,6 +63,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "travel"],
       },
       {
+        id: "t9e2b1",
         name: "Advanced Grammar",
         description: "Complex Finnish grammar rules",
         count: "300",
@@ -62,6 +72,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "grammar"],
       },
       {
+        id: "t6d5e2",
         name: "Common Expressions",
         description: "Everyday expressions in Finnish",
         count: "250",
@@ -72,9 +83,11 @@ export const dictionariesMockData: Dictionary[] = [
     ],
   },
   {
+    id: "d2f4e5",
     name: "English Language",
     themes: [
       {
+        id: "t1a3b5",
         name: "Basic Vocabulary",
         description: "Essential English words",
         count: "1000",
@@ -83,6 +96,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "vocabulary"],
       },
       {
+        id: "t7d8e9",
         name: "Common Phrases",
         description: "Frequently used English phrases",
         count: "300",
@@ -91,6 +105,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "phrases"],
       },
       {
+        id: "t5c2b4",
         name: "Idioms",
         description: "Well-known English idioms",
         count: "50",
@@ -101,9 +116,11 @@ export const dictionariesMockData: Dictionary[] = [
     ],
   },
   {
+    id: "d3b7c1",
     name: "Spanish Language",
     themes: [
       {
+        id: "t3e2f1",
         name: "Numbers",
         description: "Counting in Spanish",
         count: "200",
@@ -112,6 +129,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "numbers"],
       },
       {
+        id: "t2g4h6",
         name: "Common Verbs",
         description: "Frequently used Spanish verbs",
         count: "400",
@@ -120,6 +138,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "verbs"],
       },
       {
+        id: "t9a2l3",
         name: "Travel Vocabulary",
         description: "Useful Spanish words for travelers",
         count: "150",
@@ -130,9 +149,11 @@ export const dictionariesMockData: Dictionary[] = [
     ],
   },
   {
+    id: "d4f6r8",
     name: "French Language",
     themes: [
       {
+        id: "t4g8r2",
         name: "Greetings",
         description: "Common greetings in French",
         count: "100",
@@ -141,6 +162,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "greetings"],
       },
       {
+        id: "t3s5d2",
         name: "Verb Conjugation",
         description: "Conjugation of French verbs",
         count: "300",
@@ -149,6 +171,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "verbs"],
       },
       {
+        id: "t2f9c1",
         name: "French Cuisine",
         description: "French culinary terms",
         count: "200",
@@ -157,6 +180,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "cuisine"],
       },
       {
+        id: "t1h3i5",
         name: "Historical Events",
         description: "Historical events in French history",
         count: "75",
@@ -167,9 +191,11 @@ export const dictionariesMockData: Dictionary[] = [
     ],
   },
   {
+    id: "d5g6e7",
     name: "German Language",
     themes: [
       {
+        id: "t8r9a3",
         name: "Travel Phrases",
         description: "Useful German phrases for travelers",
         count: "100",
@@ -178,6 +204,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "travel"],
       },
       {
+        id: "t7d4e5",
         name: "Common Verbs",
         description: "Frequently used German verbs",
         count: "350",
@@ -186,6 +213,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "verbs"],
       },
       {
+        id: "t6k5w8",
         name: "History and Culture",
         description: "German history and culture",
         count: "150",
@@ -194,6 +222,7 @@ export const dictionariesMockData: Dictionary[] = [
         tags: ["language", "history"],
       },
       {
+        id: "t5b2i1",
         name: "Business German",
         description: "German for business communication",
         count: "200",
