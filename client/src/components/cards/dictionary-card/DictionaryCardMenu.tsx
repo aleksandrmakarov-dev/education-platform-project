@@ -12,11 +12,11 @@ import {
   Edit16Filled,
 } from "@fluentui/react-icons";
 import React, { useRef } from "react";
-import DictionaryDialog from "../../dialogs/DictionaryDialog";
+import DictionaryCreateUpdateDialog from "../../dialogs/dictionary-dialogs/DictionaryCreateUpdateDialog";
 import { Dictionary } from "../../../lib/constants";
 import { DictionaryFormSchemaType } from "../../../lib/validations/dictionary-form.schema";
 import { DialogHandle } from "../../dialogs/DialogContainer";
-import DictionaryRemoveDialog from "../../dialogs/DictionaryRemoveDialog";
+import ActionDialog from "../../dialogs/ActionDialog";
 
 interface DictionaryCardMenuProps {
   dictionary: Dictionary;
@@ -78,13 +78,16 @@ const DictionaryCardMenu: React.FC<DictionaryCardMenuProps> = ({
           </MenuList>
         </MenuPopover>
       </Menu>
-      <DictionaryDialog
+      <DictionaryCreateUpdateDialog
         ref={updateDialogRef}
         title="Update Dictionary"
         defaultValues={{ name: dictionary.name }}
         onSubmitCallback={onUpdate}
       />
-      <DictionaryRemoveDialog
+      <ActionDialog
+        title={`Confirm action "Remove ${dictionary.name}"`}
+        description={`Are you sure you want to remove dictionary "${dictionary.name}" and all themes it container? To confirm action select option "Remove"`}
+        primaryBtnLabel="Remove"
         ref={removeDialogRef}
         onSubmitCallback={onRemove}
       />

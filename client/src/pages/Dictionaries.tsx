@@ -3,12 +3,13 @@ import BreadcrumbContainer from "../components/breadcrumb/BreadcrumbContainer";
 import Header from "../components/header/Header";
 import { BookAdd24Filled } from "@fluentui/react-icons";
 import { Dictionary, dictionariesMockData, mockDelay } from "../lib/constants";
-import DictionaryCard from "../components/cards/dictionary-card/DictionaryCard";
-import DictionaryDialog from "../components/dialogs/DictionaryDialog";
+import DictionaryCreateUpdateialog from "../components/dialogs/dictionary-dialogs/DictionaryCreateUpdateDialog";
 import { DictionaryFormSchemaType } from "../lib/validations/dictionary-form.schema";
 import { useRef, useState } from "react";
 import { DialogHandle } from "../components/dialogs/DialogContainer";
 import { wait } from "../lib/utils";
+import DictionaryList from "../components/lists/dictionary-list/DictionaryList";
+import DictionaryListEmpty from "../components/lists/dictionary-list/DictionaryListEmpty";
 
 const breadcrumbItems = [
   {
@@ -16,8 +17,8 @@ const breadcrumbItems = [
     route: "/",
   },
   {
-    text: "Study",
-    route: "/study",
+    text: "Dictionaries",
+    route: "/dictionaries",
   },
 ];
 
@@ -25,7 +26,7 @@ const getId = () => {
   return Math.round(Math.random() % 1000000);
 };
 
-const StudyPage = () => {
+const DictionariesPage = () => {
   const [dictionaries, setDictionaries] =
     useState<Dictionary[]>(dictionariesMockData);
 
@@ -60,10 +61,10 @@ const StudyPage = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       <BreadcrumbContainer items={breadcrumbItems} />
-      <div className="my-3 flex justify-between items-center">
-        <Header text="Study" />
+      <div className="flex justify-between items-center">
+        <Header text="Dictionaries" />
         <Button
           appearance="primary"
           icon={<BookAdd24Filled />}
@@ -71,24 +72,20 @@ const StudyPage = () => {
         >
           Create Dictionary
         </Button>
-        <DictionaryDialog
+        <DictionaryCreateUpdateialog
           ref={createDictionaryRef}
           onSubmitCallback={onCreateDictionary}
           title="Create Dictionary"
         />
       </div>
-      <div className="flex flex-col gap-2">
-        {dictionaries.map((item, i) => (
-          <DictionaryCard
-            key={`dictionary-${i}`}
-            dictionary={item}
-            onUpdateCallback={onUpdateDictionary}
-            onRemoveCallback={onRemoveDictionary}
-          />
-        ))}
-      </div>
+      <DictionaryList
+        dictionaries={dictionaries}
+        onRemoveCallback={onRemoveDictionary}
+        onUpdateCallback={onUpdateDictionary}
+        emptyView={<DictionaryListEmpty />}
+      />
     </div>
   );
 };
 
-export default StudyPage;
+export default DictionariesPage;

@@ -1,7 +1,5 @@
 import {
-  Dialog,
   DialogTrigger,
-  DialogSurface,
   DialogBody,
   DialogTitle,
   DialogContent,
@@ -9,25 +7,25 @@ import {
   Button,
 } from "@fluentui/react-components";
 import React, { useState } from "react";
-import SpinnerButton from "../buttons/SpinnerButton";
-import DictionaryForm from "../forms/DictionaryForm";
+import SpinnerButton from "../../buttons/SpinnerButton";
+import DictionaryForm from "../../forms/DictionaryForm";
 import {
   DictionaryFormSchema,
   DictionaryFormSchemaType,
-} from "../../lib/validations/dictionary-form.schema";
+} from "../../../lib/validations/dictionary-form.schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import DialogContainer, { DialogHandle } from "./DialogContainer";
+import DialogContainer, { DialogHandle } from "../DialogContainer";
 
-interface DictionaryDialogProps {
+interface DictionaryCreateUpdateDialogProps {
   onSubmitCallback: (values: DictionaryFormSchemaType) => Promise<boolean>;
   defaultValues?: DictionaryFormSchemaType;
   title: string;
 }
 
-const DictionaryDialog: React.ForwardRefRenderFunction<
+const DictionaryCreateUpdateDialog: React.ForwardRefRenderFunction<
   DialogHandle,
-  DictionaryDialogProps
+  DictionaryCreateUpdateDialogProps
 > = ({ onSubmitCallback, defaultValues, title }, ref) => {
   const {
     register,
@@ -81,4 +79,4 @@ const DictionaryDialog: React.ForwardRefRenderFunction<
   );
 };
 
-export default React.forwardRef(DictionaryDialog);
+export default React.forwardRef(DictionaryCreateUpdateDialog);

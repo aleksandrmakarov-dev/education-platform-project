@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import DialogContainer, { DialogHandle } from "./DialogContainer";
 import {
   DialogBody,
   DialogTitle,
@@ -9,22 +8,29 @@ import {
   Button,
 } from "@fluentui/react-components";
 import SpinnerButton from "../buttons/SpinnerButton";
+import DialogContainer, { DialogHandle } from "./DialogContainer";
 
-interface DictionaryDialogProps {
+interface ActionDialogProps {
   onSubmitCallback: () => Promise<boolean>;
+  title: string;
+  primaryBtnLabel?: string;
+  secondaryBtnLabel?: string;
+  description?: string;
 }
 
-const DictionaryDialog: React.ForwardRefRenderFunction<
+const ActionDialog: React.ForwardRefRenderFunction<
   DialogHandle,
-  DictionaryDialogProps
-> = ({ onSubmitCallback }, ref) => {
+  ActionDialogProps
+> = (
+  { onSubmitCallback, primaryBtnLabel, secondaryBtnLabel, description, title },
+  ref
+) => {
   const [isBusy, setIsBusy] = useState<boolean>(false);
 
   const onSubmit = async () => {
     if (isBusy) {
       return;
     }
-
     setIsBusy(true);
     await onSubmitCallback();
     setIsBusy(false);
@@ -33,15 +39,12 @@ const DictionaryDialog: React.ForwardRefRenderFunction<
   return (
     <DialogContainer ref={ref}>
       <DialogBody>
-        <DialogTitle>Remove Dictionary</DialogTitle>
-        <DialogContent>
-          This dialog cannot be dismissed by clicking on the backdrop nor by
-          pressing Escape. Close button should be pressed to dismiss this Alert
-        </DialogContent>
+        <DialogTitle>{title}</DialogTitle>
+        <DialogContent>{description}</DialogContent>
         <DialogActions>
           <DialogTrigger disableButtonEnhancement>
             <Button appearance="secondary" disabled={isBusy}>
-              Cancel
+              {secondaryBtnLabel ?? "Cancel"}
             </Button>
           </DialogTrigger>
           <SpinnerButton
@@ -49,7 +52,7 @@ const DictionaryDialog: React.ForwardRefRenderFunction<
             onClick={onSubmit}
             isBusy={isBusy}
           >
-            Remove
+            {primaryBtnLabel ?? "Confirm"}
           </SpinnerButton>
         </DialogActions>
       </DialogBody>
@@ -57,4 +60,4 @@ const DictionaryDialog: React.ForwardRefRenderFunction<
   );
 };
 
-export default React.forwardRef(DictionaryDialog);
+export default React.forwardRef(ActionDialog);

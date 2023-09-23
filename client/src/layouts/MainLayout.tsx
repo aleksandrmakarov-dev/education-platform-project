@@ -8,7 +8,7 @@ export default function MainLayout() {
       <Topbar />
       <div className="flex">
         <LeftSidebar />
-        <div className="bg-white w-full min-h-[1440px] ml-72">
+        <div className="bg-white w-full ml-72">
           <div className="p-8">
             <Outlet />
           </div>

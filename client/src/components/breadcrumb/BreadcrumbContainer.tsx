@@ -14,11 +14,15 @@ export type BreadcrumbItemData = {
 };
 
 interface BreadcrumbContainerProps {
-  items: BreadcrumbItemData[];
+  items?: BreadcrumbItemData[];
 }
 
 const BreadcrumbContainer: React.FC<BreadcrumbContainerProps> = ({ items }) => {
   const navigate = useNavigate();
+
+  if (!items) {
+    return null;
+  }
 
   const length = items.length - 1;
   return (
