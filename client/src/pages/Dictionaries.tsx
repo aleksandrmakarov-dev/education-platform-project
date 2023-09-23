@@ -7,7 +7,7 @@ import DictionaryCreateUpdateialog from "../components/dialogs/dictionary-dialog
 import { DictionaryFormSchemaType } from "../lib/validations/dictionary-form.schema";
 import { useRef, useState } from "react";
 import { DialogHandle } from "../components/dialogs/DialogContainer";
-import { wait } from "../lib/utils";
+import { getId, wait } from "../lib/utils";
 import DictionaryList from "../components/lists/dictionary-list/DictionaryList";
 import DictionaryListEmpty from "../components/lists/dictionary-list/DictionaryListEmpty";
 
@@ -21,10 +21,6 @@ const breadcrumbItems = [
     route: "/dictionaries",
   },
 ];
-
-const getId = () => {
-  return Math.round(Math.random() % 1000000);
-};
 
 const DictionariesPage = () => {
   const [dictionaries, setDictionaries] =
