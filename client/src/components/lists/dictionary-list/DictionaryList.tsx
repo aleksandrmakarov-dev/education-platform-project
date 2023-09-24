@@ -1,26 +1,32 @@
 import React from "react";
-import { Dictionary } from "../../../lib/constants";
 import DictionaryCard from "../../cards/dictionary-card/DictionaryCard";
-import { DictionaryFormSchemaType } from "../../../lib/validations/dictionary-form.schema";
+import { Dictionary } from "../../../lib/constants";
 
 interface DictionaryListProps {
   dictionaries?: Dictionary[];
+  isDictionariesLoading: boolean;
+  isDictionariesError: boolean;
   emptyView?: React.ReactNode;
+  loadingView?: React.ReactNode;
   errorView?: React.ReactNode;
-  onUpdateCallback: (
-    id: string,
-    values: DictionaryFormSchemaType
-  ) => Promise<boolean>;
-  onRemoveCallback: (id: string) => Promise<boolean>;
 }
 
 const DictionaryList: React.FC<DictionaryListProps> = ({
   dictionaries,
+  isDictionariesError,
+  isDictionariesLoading,
   emptyView,
+  loadingView,
   errorView,
-  onUpdateCallback,
-  onRemoveCallback,
 }) => {
+  if (isDictionariesLoading) {
+    return loadingView;
+  }
+
+  if (isDictionariesError) {
+    return errorView;
+  }
+
   if (!dictionaries || dictionaries.length === 0) {
     return emptyView;
   }
@@ -28,12 +34,7 @@ const DictionaryList: React.FC<DictionaryListProps> = ({
   return (
     <div className="flex flex-col gap-2">
       {dictionaries.map((item, i) => (
-        <DictionaryCard
-          key={`dictionary-${i}`}
-          dictionary={item}
-          onUpdateCallback={onUpdateCallback}
-          onRemoveCallback={onRemoveCallback}
-        />
+        <DictionaryCard key={item.id} dictionary={item} />
       ))}
     </div>
   );

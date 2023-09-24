@@ -20,7 +20,7 @@ const ThemeCard: React.FC<ThemeCardProps> = ({ theme }) => {
         <BookLetter24Filled className="text-white" />
       </CardPreview>
       <CardHeader
-        header={<p className="font-semibold text-gray-800">{theme.name}</p>}
+        header={<p className="font-semibold text-gray-800">{theme.title}</p>}
         description={<p className="text-gray-600">{theme.description}</p>}
       />
       <CardFooter>

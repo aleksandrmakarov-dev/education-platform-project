@@ -4,15 +4,29 @@ import { Theme } from "../../../lib/constants";
 
 interface ThemeListProps {
   themes?: Theme[];
+  isThemesLoading?: boolean;
+  isThemesError?: boolean;
   emptyView?: React.ReactNode;
+  loadingView?: React.ReactNode;
   errorView?: React.ReactNode;
 }
 
 const ThemeList: React.FC<ThemeListProps> = ({
   themes,
+  isThemesLoading,
+  isThemesError,
   emptyView,
+  loadingView,
   errorView,
 }) => {
+  if (isThemesLoading) {
+    return loadingView;
+  }
+
+  if (isThemesError) {
+    return errorView;
+  }
+
   if (!themes || themes.length === 0) {
     return emptyView;
   }

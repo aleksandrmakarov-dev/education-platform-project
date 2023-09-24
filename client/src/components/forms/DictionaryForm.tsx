@@ -14,12 +14,12 @@ const DictionaryForm: React.FC<DictionaryFormProps> = ({
   return (
     <div className="flex flex-col gap-1">
       <Field
-        label="Name"
+        label="Title"
         required
-        validationState={errors.name && "error"}
-        validationMessage={errors.name?.message}
+        validationState={errors.title && "error"}
+        validationMessage={errors.title?.message}
       >
-        <Input {...register("name")} />
+        <Input {...register("title")} />
       </Field>
     </div>
   );

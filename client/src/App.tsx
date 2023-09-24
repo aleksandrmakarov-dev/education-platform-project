@@ -11,7 +11,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="dictionaries">
           <Route index element={<StudyPage />} />
-          <Route path=":slug" element={<DictionaryDetailsPage />} />
+          <Route path=":id" element={<DictionaryDetailsPage />} />
         </Route>
       </Route>
     </Routes>

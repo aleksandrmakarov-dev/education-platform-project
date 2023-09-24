@@ -25,7 +25,7 @@ app.get("/api", (req: Request, res: Response) => {
   res.json({ message: "hello from server!" });
 });
 
-app.use("/dictionaries", DictionariesRouter);
-app.use("/themes", ThemesRouter);
+app.use("/api/dictionaries", DictionariesRouter);
+app.use("/api/themes", ThemesRouter);
 
 export default app;
