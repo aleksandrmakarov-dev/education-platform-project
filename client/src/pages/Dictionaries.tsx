@@ -9,6 +9,7 @@ import DictionaryListError from "../components/lists/dictionary-list/DictionaryL
 import { useQuery } from "@tanstack/react-query";
 import { getDictionaries } from "../services/dictionaries.service";
 import DictionaryCreateFormDialog from "../components/dialogs/dictionary-dialogs/DictionaryCreateFormDialog";
+import { Dictionary } from "../lib/constants";
 
 const breadcrumbItems = [
   {
@@ -26,7 +27,7 @@ const DictionariesPage = () => {
     data: dictionaries,
     isLoading: isDictionariesLoading,
     isError: isDictionariesError,
-  } = useQuery({
+  } = useQuery<Dictionary[]>({
     queryKey: ["dictionaries-list"],
     queryFn: async () =>
       await getDictionaries({
@@ -34,6 +35,7 @@ const DictionariesPage = () => {
         populateThemesLimit: 6,
       }),
     refetchOnWindowFocus: false,
+    initialData: [],
   });
 
   return (

@@ -31,13 +31,12 @@ const DictionaryUpdateFormDialog: React.ForwardRefRenderFunction<
 
       queryClient.cancelQueries(["dictionaries-list"]);
 
-      const previousData = queryClient.getQueryData<Dictionary[]>([
-        "dictionaries-list",
-      ]);
+      const previousData =
+        queryClient.getQueryData<Dictionary[]>(["dictionaries-list"]) ?? [];
 
       queryClient.setQueriesData(
         ["dictionaries-list"],
-        previousData?.map((d) =>
+        previousData.map((d) =>
           d.id === updatedDictionary.id
             ? { ...d, title: updatedDictionary.title }
             : d

@@ -26,15 +26,12 @@ const DictionaryCreateFormDialog: React.ForwardRefRenderFunction<
 
       queryClient.cancelQueries(["dictionaries-list"]);
 
-      const previousData = queryClient.getQueryData<Dictionary[]>([
-        "dictionaries-list",
-      ]);
+      const previousData =
+        queryClient.getQueryData<Dictionary[]>(["dictionaries-list"]) ?? [];
 
       queryClient.setQueriesData(
         ["dictionaries-list"],
-        previousData
-          ? [createdDictionary, ...previousData]
-          : [createdDictionary]
+        [createdDictionary, ...previousData]
       );
 
       return true;
