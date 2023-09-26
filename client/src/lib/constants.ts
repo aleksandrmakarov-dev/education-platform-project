@@ -11,6 +11,7 @@ export type Theme = {
   count: string;
   createdBy: User;
   createdAt: string;
+  dictionary: string;
   tags: string[];
 };
 

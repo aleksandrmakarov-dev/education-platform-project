@@ -1,10 +1,8 @@
-import { DocumentAdd24Filled } from "@fluentui/react-icons";
 import BreadcrumbContainer, {
   BreadcrumbItemData,
 } from "../components/breadcrumb/BreadcrumbContainer";
 import Header from "../components/header/Header";
-import { Button } from "@fluentui/react-components";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { mockDelay } from "../lib/constants";
 import ThemeList from "../components/lists/theme-list/ThemeList";
 import { useParams } from "react-router-dom";
@@ -18,11 +16,14 @@ import {
 } from "../services/dictionaries.service";
 import ThemeListLoading from "../components/lists/theme-list/ThemeListLoading";
 import ThemeListError from "../components/lists/theme-list/ThemeListError";
+import { Button } from "@mui/material";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import ThemeCreateFormDialog from "../components/dialogs/theme-dialogs/ThemeCreateFormDialog";
 
 export default function DictionaryDetailsPage() {
-  const { id } = useParams();
+  const { dictionaryId } = useParams();
 
-  if (!id) {
+  if (!dictionaryId) {
     return null;
   }
 
@@ -36,7 +37,7 @@ export default function DictionaryDetailsPage() {
     isError: isDictionaryError,
   } = useQuery({
     queryKey: ["dictionary"],
-    queryFn: async () => await getDictionaryById(id),
+    queryFn: async () => await getDictionaryById(dictionaryId),
     refetchOnWindowFocus: false,
   });
 
@@ -46,7 +47,7 @@ export default function DictionaryDetailsPage() {
     isError: isThemesError,
   } = useQuery({
     queryKey: ["themes-list"],
-    queryFn: async () => await getThemesByDictionaryId(id),
+    queryFn: async () => await getThemesByDictionaryId(dictionaryId),
     refetchOnWindowFocus: false,
   });
 
@@ -66,26 +67,30 @@ export default function DictionaryDetailsPage() {
       },
       {
         text: dictionary?.title,
-        route: `/study/${dictionary.id}`,
+        route: `/study/${dictionaryId}`,
       },
     ];
 
     setBreadcrumbItems(items);
   }, [dictionary]);
 
-  const onCreateTheme = async (values: ThemeFormSchemaType) => {
-    await wait<boolean>(mockDelay, true);
-    return true;
-  };
-
   return (
     <div className="flex flex-col gap-3">
       <BreadcrumbContainer items={breadcrumbItems} />
       <div className="flex justify-between items-center">
         <Header text={dictionary?.title ?? ""} />
-        <Button appearance="primary" icon={<DocumentAdd24Filled />}>
-          Create Theme
-        </Button>
+        <ThemeCreateFormDialog
+          trigger={
+            <Button
+              variant="contained"
+              disableElevation
+              startIcon={<NoteAddIcon />}
+            >
+              Create Theme
+            </Button>
+          }
+          dictionaryId={dictionaryId}
+        />
       </div>
       <ThemeList
         themes={themes}

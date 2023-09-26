@@ -1,5 +1,4 @@
 import { Dictionary, Theme } from "../lib/constants";
-import { wait } from "../lib/utils";
 import { DictionaryFormSchemaType } from "../lib/validations/dictionary-form.schema";
 import axios from "axios";
 
@@ -28,8 +27,6 @@ async function getDictionaries(options: GetDictionariesOptions) {
 }
 
 async function getThemesByDictionaryId(id: string) {
-  await wait<boolean>(2000, true);
-
   const response = await axios.get<Theme[]>(`${baseUrl}/id/${id}/themes`);
   return response.data;
 }

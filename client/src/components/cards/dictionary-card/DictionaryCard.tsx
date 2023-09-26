@@ -1,9 +1,10 @@
 import React from "react";
 import { Dictionary } from "../../../lib/constants";
-import { Link } from "react-router-dom";
-import DictionaryCardMenu from "./DictionaryCardMenu";
 import ThemeList from "../../lists/theme-list/ThemeList";
 import ThemeListEmptyCreate from "../../lists/theme-list/ThemeListEmptyCreate";
+import { IconButton, Link } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DictionaryCardMenu from "../../menus/DictionaryCardMenu";
 
 interface DictionaryCardProps {
   dictionary: Dictionary;
@@ -16,15 +17,22 @@ const DictionaryCard: React.FC<DictionaryCardProps> = ({ dictionary }) => {
         <p className="font-semibold text-gray-700 uppercase">
           {dictionary.title}
         </p>
-        <DictionaryCardMenu dictionary={dictionary} />
+        <DictionaryCardMenu
+          dictionary={dictionary}
+          trigger={
+            <IconButton size="small">
+              <MoreVertIcon />
+            </IconButton>
+          }
+        />
       </div>
       <ThemeList
         themes={dictionary.themes}
-        emptyView={<ThemeListEmptyCreate />}
+        emptyView={<ThemeListEmptyCreate dictionaryId={dictionary.id} />}
       />
       <div className="text-center">
         <Link
-          to={`/dictionaries/${dictionary.id}`}
+          href={`/dictionaries/${dictionary.id}`}
           className="p-2 text-blue-500 font-semibold hover:underline"
         >
           Show All

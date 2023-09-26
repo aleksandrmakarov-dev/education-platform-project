@@ -1,13 +1,8 @@
-import {
-  Button,
-  Card,
-  CardFooter,
-  CardHeader,
-  CardPreview,
-} from "@fluentui/react-components";
-import { BookLetter24Filled, Open16Filled } from "@fluentui/react-icons";
 import React from "react";
 import { Theme } from "../../lib/constants";
+import { Button, Card, CardActions, CardHeader } from "@mui/material";
+import TopicIcon from "@mui/icons-material/Topic";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 interface ThemeCardProps {
   theme: Theme;
@@ -15,22 +10,31 @@ interface ThemeCardProps {
 
 const ThemeCard: React.FC<ThemeCardProps> = ({ theme }) => {
   return (
-    <Card>
-      <CardPreview className="h-24 bg-gray-200 p-4">
-        <BookLetter24Filled className="text-white" />
-      </CardPreview>
+    <Card variant="outlined" className="flex flex-col">
+      <div className="h-36 bg-gray-200 p-4 flex items-center justify-center">
+        <TopicIcon
+          className="text-white"
+          sx={{ width: "4rem", height: "4rem" }}
+        />
+      </div>
       <CardHeader
-        header={<p className="font-semibold text-gray-800">{theme.title}</p>}
-        description={<p className="text-gray-600">{theme.description}</p>}
+        title={theme.title}
+        subheader={theme.description}
+        className="flex-1"
       />
-      <CardFooter>
-        <div className="w-full flex items-center justify-between">
-          <Button appearance="primary" icon={<Open16Filled />}>
+      <CardActions>
+        <div className="w-full flex items-center justify-between p-2">
+          <Button
+            variant="contained"
+            disableElevation
+            startIcon={<OpenInNewIcon />}
+            href={`/dictionaries/${theme.dictionary}/themes/${theme.id}`}
+          >
             Open
           </Button>
-          <p className="text-xs uppercase">{theme.count} word(s)</p>
+          <p className="text-sm uppercase">{theme.count} word(s)</p>
         </div>
-      </CardFooter>
+      </CardActions>
     </Card>
   );
 };

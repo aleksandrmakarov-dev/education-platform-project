@@ -1,12 +1,8 @@
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbButton,
-  BreadcrumbDivider,
-} from "@fluentui/react-breadcrumb-preview";
 import React from "react";
-import { cn } from "../../lib/utils";
-import { Link, useNavigate } from "react-router-dom";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import Link from "@mui/material/Link";
+import { useNavigate } from "react-router-dom";
 
 export type BreadcrumbItemData = {
   text: string;
@@ -26,28 +22,22 @@ const BreadcrumbContainer: React.FC<BreadcrumbContainerProps> = ({ items }) => {
 
   const length = items.length - 1;
   return (
-    <Breadcrumb size="medium">
+    <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
       {items.map((item, i) => {
         const isActive = i === length;
 
         return (
-          <React.Fragment key={item.route}>
-            <BreadcrumbItem>
-              <Link
-                className={cn("px-1 py-0.5", {
-                  "!font-semibold !text-gray-800": isActive,
-                  "text-gray-600": !isActive,
-                })}
-                to={item.route}
-              >
-                {item.text}
-              </Link>
-            </BreadcrumbItem>
-            {!isActive && <BreadcrumbDivider />}
-          </React.Fragment>
+          <Link
+            key={item.route}
+            href={item.route}
+            underline="hover"
+            color={isActive ? "text.primary" : "inherit"}
+          >
+            {item.text}
+          </Link>
         );
       })}
-    </Breadcrumb>
+    </Breadcrumbs>
   );
 };
 

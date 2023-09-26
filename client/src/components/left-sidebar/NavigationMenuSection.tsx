@@ -2,6 +2,7 @@ import React from "react";
 import NavigationMenuItem, {
   NavigationMenuItemData,
 } from "./NavigationMenuItem";
+import { List } from "@mui/material";
 
 interface NavigationMenuSectionProps {
   items: NavigationMenuItemData[];
@@ -13,7 +14,7 @@ const NavigationMenuSection: React.FC<NavigationMenuSectionProps> = ({
   pathname,
 }) => {
   return (
-    <ul className="flex flex-col gap-0.5">
+    <List>
       {items.map((item, i) => {
         const isActive =
           (pathname.includes(item.route) && item.route.length > 1) ||
@@ -22,7 +23,7 @@ const NavigationMenuSection: React.FC<NavigationMenuSectionProps> = ({
           <NavigationMenuItem key={item.text} data={item} isActive={isActive} />
         );
       })}
-    </ul>
+    </List>
   );
 };
 

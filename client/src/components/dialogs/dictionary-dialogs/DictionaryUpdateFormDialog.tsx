@@ -5,49 +5,53 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DictionaryFormSchemaType } from "../../../lib/validations/dictionary-form.schema";
 import { updateDictionaryById } from "../../../services/dictionaries.service";
 import { Dictionary } from "../../../lib/constants";
+import { useNavigate } from "react-router-dom";
 
 interface DictionaryUpdateFormDialogProps {
   id: string;
   formValues: DictionaryFormSchemaType;
-  trigger?: any;
+  trigger?: JSX.Element;
+  redirectOnSuccess?: boolean;
 }
 
 const DictionaryUpdateFormDialog: React.ForwardRefRenderFunction<
   DialogHandle,
   DictionaryUpdateFormDialogProps
-> = ({ id, formValues, trigger }, ref) => {
+> = ({ id, formValues, trigger, redirectOnSuccess }, ref) => {
   const queryClient = useQueryClient();
 
   const updateMutation = useMutation({
     mutationFn: updateDictionaryById,
   });
 
+  const navigate = useNavigate();
+
   const onUpdateDictionary = async (values: DictionaryFormSchemaType) => {
     try {
-      const updatedDictionary = await updateMutation.mutateAsync({
+      return await updateMutation.mutateAsync({
         id: id,
         body: values,
       });
-
-      queryClient.cancelQueries(["dictionaries-list"]);
-
-      const previousData =
-        queryClient.getQueryData<Dictionary[]>(["dictionaries-list"]) ?? [];
-
-      queryClient.setQueriesData(
-        ["dictionaries-list"],
-        previousData.map((d) =>
-          d.id === updatedDictionary.id
-            ? { ...d, title: updatedDictionary.title }
-            : d
-        )
-      );
-
-      return true;
     } catch (error: any) {
       console.log("update dictionary error:", error);
-      return false;
+      return undefined;
     }
+  };
+
+  const onAfterCreate = (value: Dictionary | undefined) => {
+    if (redirectOnSuccess) {
+      navigate(`/dictionaries/${value?.id}`);
+    }
+
+    queryClient.cancelQueries(["dictionaries-list"]);
+
+    const previousData =
+      queryClient.getQueryData<Dictionary[]>(["dictionaries-list"]) ?? [];
+
+    queryClient.setQueriesData(
+      ["dictionaries-list"],
+      previousData.map((item) => (item.id === value?.id ? value : item))
+    );
   };
 
   return (
@@ -57,6 +61,7 @@ const DictionaryUpdateFormDialog: React.ForwardRefRenderFunction<
       title={"Update Dictionary"}
       values={formValues}
       onSubmitCallback={onUpdateDictionary}
+      onDialogClose={onAfterCreate}
     />
   );
 };

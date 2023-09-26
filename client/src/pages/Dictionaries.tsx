@@ -1,15 +1,17 @@
-import { Button } from "@fluentui/react-components";
-import BreadcrumbContainer from "../components/breadcrumb/BreadcrumbContainer";
 import Header from "../components/header/Header";
-import { BookAdd24Filled } from "@fluentui/react-icons";
 import DictionaryList from "../components/lists/dictionary-list/DictionaryList";
 import DictionaryListEmpty from "../components/lists/dictionary-list/DictionaryListEmpty";
 import DictionaryListLoading from "../components/lists/dictionary-list/DictionaryListLoading";
 import DictionaryListError from "../components/lists/dictionary-list/DictionaryListError";
 import { useQuery } from "@tanstack/react-query";
 import { getDictionaries } from "../services/dictionaries.service";
-import DictionaryCreateFormDialog from "../components/dialogs/dictionary-dialogs/DictionaryCreateFormDialog";
 import { Dictionary } from "../lib/constants";
+import BreadcrumbContainer from "../components/breadcrumb/BreadcrumbContainer";
+import { Button } from "@mui/material";
+import { useRef } from "react";
+import { DialogHandle } from "../hooks/useImperativeDialog";
+import DictionaryCreateFormDialog from "../components/dialogs/dictionary-dialogs/DictionaryCreateFormDialog";
+import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 
 const breadcrumbItems = [
   {
@@ -38,6 +40,8 @@ const DictionariesPage = () => {
     initialData: [],
   });
 
+  const createDictionaryDialogRef = useRef<DialogHandle>(null);
+
   return (
     <div className="flex flex-col gap-3">
       <BreadcrumbContainer items={breadcrumbItems} />
@@ -45,10 +49,11 @@ const DictionariesPage = () => {
         <Header text="Dictionaries" />
         <DictionaryCreateFormDialog
           trigger={
-            <Button appearance="primary" icon={<BookAdd24Filled />}>
+            <Button startIcon={<CreateNewFolderIcon />}>
               Create Dictionary
             </Button>
           }
+          redirectOnSuccess
         />
       </div>
       <DictionaryList

@@ -1,25 +1,24 @@
-import {
-  Home24Filled,
-  Book24Filled,
-  Games24Filled,
-} from "@fluentui/react-icons";
 import NavigationMenuSection from "./NavigationMenuSection";
 import { useLocation } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
+import SourceIcon from "@mui/icons-material/Source";
+import ExtensionIcon from "@mui/icons-material/Extension";
+import { Divider } from "@mui/material";
 
 const mainSection = [
   {
     text: "Home",
-    icon: <Home24Filled />,
+    icon: <HomeIcon />,
     route: "/",
   },
   {
     text: "Dictionaries",
-    icon: <Book24Filled />,
+    icon: <SourceIcon />,
     route: "/dictionaries",
   },
   {
     text: "Practice",
-    icon: <Games24Filled />,
+    icon: <ExtensionIcon />,
     route: "/practice",
   },
 ];
@@ -28,7 +27,7 @@ const NavigationMenu = () => {
   const { pathname } = useLocation();
 
   return (
-    <div className="p-4 flex flex-col gap-y-4">
+    <div>
       <NavigationMenuSection items={mainSection} pathname={pathname} />
     </div>
   );

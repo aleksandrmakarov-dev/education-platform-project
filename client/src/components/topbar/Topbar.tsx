@@ -1,6 +1,5 @@
 import AppLogo from "./AppLogo";
 import UserSignInSignUp from "../user-sign-in-sign-up/UserSignInSignUp";
-import { Input } from "@fluentui/react-components";
 
 const Topbar = () => {
   return (
@@ -8,7 +7,6 @@ const Topbar = () => {
       <div className="flex gap-10 justify-between items-center w-full">
         <AppLogo />
         <div className="flex items-center gap-2">
-          <Input placeholder="Search..." />
           <UserSignInSignUp />
         </div>
       </div>

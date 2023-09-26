@@ -1,38 +1,36 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import LoadingButton from "@mui/lab/LoadingButton";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import React, { cloneElement, useState } from "react";
+import { useForm } from "react-hook-form";
 import useImperativeHandleDialog, {
   DialogHandle,
 } from "../../../hooks/useImperativeDialog";
 import {
-  DictionaryFormSchema,
-  DictionaryFormSchemaType,
-} from "../../../lib/validations/dictionary-form.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
-import DictionaryForm from "../../forms/DictionaryForm";
-import { Dictionary } from "../../../lib/constants";
+  ThemeFormSchema,
+  ThemeFormSchemaType,
+} from "../../../lib/validations/theme-form.schema";
+import ThemeForm from "../../forms/ThemeForm";
+import { Theme } from "../../../lib/constants";
 
-interface DictionaryFormDialogProps {
+interface ThemeFormDialogProps {
   trigger?: JSX.Element;
   title: string;
-  defaultValues?: DictionaryFormSchemaType;
-  values?: DictionaryFormSchemaType;
-  onSubmitCallback: (
-    values: DictionaryFormSchemaType
-  ) => Promise<Dictionary | undefined>;
-  onDialogClose?: (value: Dictionary | undefined) => void;
+  defaultValues?: ThemeFormSchemaType;
+  values?: ThemeFormSchemaType;
+  onSubmitCallback: (values: ThemeFormSchemaType) => Promise<Theme | undefined>;
+  onDialogClose?: (value: Theme | undefined) => void;
 }
 
-const DictionaryFormDialog: React.ForwardRefRenderFunction<
+const ThemeFormDialog: React.ForwardRefRenderFunction<
   DialogHandle,
-  DictionaryFormDialogProps
+  ThemeFormDialogProps
 > = (
   { trigger, title, onSubmitCallback, defaultValues, values, onDialogClose },
   ref
@@ -47,20 +45,22 @@ const DictionaryFormDialog: React.ForwardRefRenderFunction<
     reset,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(DictionaryFormSchema),
-    defaultValues: defaultValues ? defaultValues : { title: "" },
+    resolver: zodResolver(ThemeFormSchema),
+    defaultValues: defaultValues
+      ? defaultValues
+      : { title: "", description: "" },
     values: values,
   });
 
-  const onSubmit = async (formValues: DictionaryFormSchemaType) => {
+  const onSubmit = async (formValues: ThemeFormSchemaType) => {
     setIsBusy(true);
-    const dictionary = await onSubmitCallback(formValues);
+    const theme = await onSubmitCallback(formValues);
     reset();
     setIsBusy(false);
     setIsOpen(false);
 
     if (onDialogClose) {
-      onDialogClose(dictionary);
+      onDialogClose(theme);
     }
   };
 
@@ -86,7 +86,7 @@ const DictionaryFormDialog: React.ForwardRefRenderFunction<
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>{title}</DialogTitle>
           <DialogContent>
-            <DictionaryForm register={register} errors={errors} />
+            <ThemeForm register={register} errors={errors} />
           </DialogContent>
           <DialogActions>
             <Button variant="text" onClick={handleClose} disabled={isBusy}>
@@ -107,4 +107,4 @@ const DictionaryFormDialog: React.ForwardRefRenderFunction<
   );
 };
 
-export default React.forwardRef(DictionaryFormDialog);
+export default React.forwardRef(ThemeFormDialog);

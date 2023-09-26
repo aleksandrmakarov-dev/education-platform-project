@@ -1,4 +1,4 @@
-import { Avatar } from "@fluentui/react-components";
+import { Avatar } from "@mui/material";
 import React from "react";
 
 interface UserAvatarProps {
@@ -10,7 +10,7 @@ interface UserAvatarProps {
 const UserAvatar: React.FC<UserAvatarProps> = ({ name, image, fallback }) => {
   return (
     <div className="flex gap-2 items-center font-semibold hover:cursor-pointer">
-      <Avatar image={{ src: image }} initials={fallback} />
+      <Avatar src={image}>{fallback}</Avatar>
       <p className=" hover:underline">Hello, {name}</p>
     </div>
   );
