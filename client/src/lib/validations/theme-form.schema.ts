@@ -3,6 +3,7 @@ import { z } from "zod";
 const ThemeFormSchema = z.object({
   title: z.string().nonempty().min(5).max(50),
   description: z.string().max(100),
+  image: z.string().optional(),
   dictionary: z.string().nonempty(),
 });
 

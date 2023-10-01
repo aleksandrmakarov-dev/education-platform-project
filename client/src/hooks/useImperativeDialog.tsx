@@ -1,4 +1,4 @@
-import { useEffect, useImperativeHandle, useState } from "react";
+import { useImperativeHandle, useState } from "react";
 
 export type DialogHandle = {
   open: () => void;
@@ -12,16 +12,21 @@ const useImperativeHandleDialog = (ref?: React.ForwardedRef<DialogHandle>) => {
     ref,
     () => {
       return {
-        open: () => setIsOpen(true),
-        close: () => setIsOpen(false),
+        open: () => handleOpen(),
+        close: () => handleClose(),
       };
     },
     []
   );
 
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
+
   return {
     isOpen,
     setIsOpen,
+    handleOpen,
+    handleClose,
   };
 };
 

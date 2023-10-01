@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Theme } from "../lib/constants";
+import { Theme } from "../lib/types";
 import { ThemeFormSchemaType } from "../lib/validations/theme-form.schema";
 
 const baseUrl = "http://localhost:3000/api/themes";
@@ -20,4 +20,9 @@ async function updateThemeById(params: {
   return response.data;
 }
 
-export { createTheme, updateThemeById };
+async function deleteThemeById(id: string) {
+  const response = await axios.delete(`${baseUrl}/id/${id}`);
+  return response.data;
+}
+
+export { createTheme, updateThemeById, deleteThemeById };

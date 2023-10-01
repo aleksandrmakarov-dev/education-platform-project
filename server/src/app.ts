@@ -7,6 +7,10 @@ import cookieParser from "cookie-parser";
 import DictionariesRouter from "./routes/dictionaries.routes";
 import { connect } from "./database/mongoose";
 import ThemesRouter from "./routes/themes.routes";
+import { cloudinaryConfigure } from "./config/cloudinary.config";
+import FileSystemRouter from "./routes/filesystem.routes";
+
+cloudinaryConfigure();
 
 const app = express();
 
@@ -27,5 +31,6 @@ app.get("/api", (req: Request, res: Response) => {
 
 app.use("/api/dictionaries", DictionariesRouter);
 app.use("/api/themes", ThemesRouter);
+app.use("/api/filesystem", FileSystemRouter);
 
 export default app;

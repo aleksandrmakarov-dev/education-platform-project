@@ -9,8 +9,11 @@ const DictionaryUpdateValidationSchema = z.object({
 });
 
 const DictionaryGetValidationSchema = z.object({
+  page: z.coerce.number(),
+  limit: z.coerce.number(),
   populateThemes: z.coerce.boolean().optional(),
   populateThemesLimit: z.coerce.number().optional(),
+  searchQuery: z.string().optional(),
 });
 
 export {

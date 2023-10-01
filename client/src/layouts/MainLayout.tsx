@@ -1,17 +1,15 @@
+import Topbar from "../components/layout-components/Topbar";
+import Sidebar from "../components/layout-components/Sidebar";
 import { Outlet } from "react-router-dom";
-import LeftSidebar from "../components/left-sidebar/LeftSidebar";
-import Topbar from "../components/topbar/Topbar";
 
 export default function MainLayout() {
   return (
-    <div>
+    <div className="flex flex-col h-screen">
       <Topbar />
-      <div className="flex">
-        <LeftSidebar />
-        <div className="bg-white w-full ml-72">
-          <div className="p-8">
-            <Outlet />
-          </div>
+      <div className="flex flex-1">
+        <Sidebar />
+        <div className="p-5 w-full">
+          <Outlet />
         </div>
       </div>
     </div>

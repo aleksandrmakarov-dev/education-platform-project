@@ -12,5 +12,6 @@ DictionariesRouter.get(
 DictionariesRouter.get("/id/:identifier", DictionariesController.getById);
 DictionariesRouter.get("/slug/:identifier", DictionariesController.getBySlug);
 DictionariesRouter.put("/id/:identifier", DictionariesController.updateById);
+DictionariesRouter.delete("/id/:identifier", DictionariesController.deleteById);
 
 export default DictionariesRouter;

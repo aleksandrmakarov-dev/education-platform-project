@@ -4,7 +4,7 @@ const mongooseSlugUpdater = require("mongoose-slug-updater");
 const DictionarySchema = new mongoose.Schema({
   title: { type: String, required: true },
   slug: { type: String, slug: "title", slugPaddingSize: 4, unique: true },
-  createdAt: { type: Date, default: Date.now() },
+  createdAt: { type: Date, default: () => Date.now() },
   themes: [
     {
       type: mongoose.Schema.Types.ObjectId,

@@ -7,6 +7,7 @@ import {
 } from "../validations/dictionary.validation";
 import IdentifierValidationSchema from "../validations/identifier.validation";
 import ThemeModel from "../models/theme.model";
+import { ThemeGetValidationSchema } from "../validations/theme.validation";
 
 async function create(req: Request, res: Response) {
   const { title } = DictionaryCreateValidationSchema.parse(req.body);
@@ -20,10 +21,18 @@ async function create(req: Request, res: Response) {
 }
 
 async function get(req: Request, res: Response) {
-  const { populateThemes, populateThemesLimit } =
+  const { page, limit, populateThemes, populateThemesLimit, searchQuery } =
     DictionaryGetValidationSchema.parse(req.query);
 
-  let query = DictionaryModel.find({}).sort({ createdAt: -1 });
+  const searchOptions = searchQuery
+    ? { title: { $regex: searchQuery, $options: "i" } }
+    : {};
+
+  let query = DictionaryModel.find(searchOptions)
+    .sort({ createdAt: -1 })
+    .skip((page - 1) * limit)
+    .limit(limit);
+
   if (populateThemes) {
     let options = populateThemesLimit
       ? { path: "themes", options: { limit: populateThemesLimit } }
@@ -33,15 +42,49 @@ async function get(req: Request, res: Response) {
   }
 
   const dictionaries = await query.exec();
+  const count = await DictionaryModel.countDocuments(searchOptions).exec();
 
-  return res.status(200).json(dictionaries);
+  const data = {
+    items: dictionaries,
+    meta: {
+      count: count,
+    },
+  };
+
+  return res.status(200).json(data);
 }
 
 async function getThemesByParentId(req: Request, res: Response) {
   const { identifier } = IdentifierValidationSchema.parse(req.params);
 
-  const themes = await ThemeModel.find({ dictionary: identifier });
-  return res.status(200).json(themes);
+  const { page, limit, searchQuery } = ThemeGetValidationSchema.parse(
+    req.query
+  );
+
+  const searchOptions = searchQuery
+    ? {
+        $and: [
+          { dictionary: identifier },
+          { title: { $regex: searchQuery, $options: "i" } },
+        ],
+      }
+    : { dictionary: identifier };
+
+  const themes = await ThemeModel.find(searchOptions)
+    .sort({ createdAt: -1 })
+    .skip((page - 1) * limit)
+    .limit(limit);
+
+  const count = await ThemeModel.countDocuments(searchOptions).exec();
+
+  const data = {
+    items: themes,
+    meta: {
+      count: count,
+    },
+  };
+
+  return res.status(200).json(data);
 }
 
 async function getById(req: Request, res: Response) {
@@ -82,10 +125,27 @@ async function updateById(req: Request, res: Response) {
   );
 
   if (!updatedDictionary) {
-    return res.status(404).json("dictionary not found");
+    return res.status(404).json({ message: "dictionary not found" });
   }
 
   return res.status(200).json(updatedDictionary);
+}
+
+async function deleteById(req: Request, res: Response) {
+  const { identifier } = IdentifierValidationSchema.parse(req.params);
+  const dictionaryToDelete = await DictionaryModel.findById(identifier);
+
+  if (!dictionaryToDelete) {
+    return res.status(404).json({ message: "dictionary not found" });
+  }
+
+  const { deletedCount } = await ThemeModel.deleteMany({
+    _id: { $in: dictionaryToDelete.themes },
+  });
+
+  await DictionaryModel.findByIdAndDelete(identifier);
+
+  return res.status(204).end();
 }
 
 const DictionariesController = {
@@ -95,6 +155,7 @@ const DictionariesController = {
   getById,
   getBySlug,
   updateById,
+  deleteById,
 };
 
 export default DictionariesController;
