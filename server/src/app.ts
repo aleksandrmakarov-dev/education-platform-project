@@ -25,7 +25,7 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(cookieParser());
 
-app.get("/api", (req: Request, res: Response) => {
+app.get("/api", (_req: Request, res: Response) => {
   res.json({ message: "hello from server!" });
 });
 

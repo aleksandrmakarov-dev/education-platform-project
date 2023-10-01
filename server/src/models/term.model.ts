@@ -12,7 +12,7 @@ const TermSchema = new mongoose.Schema({
 });
 
 TermSchema.set("toJSON", {
-  transform: (doc, returnObj) => {
+  transform: (_doc, returnObj) => {
     returnObj.id = returnObj._id.toString();
 
     delete returnObj._id;

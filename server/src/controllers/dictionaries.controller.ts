@@ -139,7 +139,7 @@ async function deleteById(req: Request, res: Response) {
     return res.status(404).json({ message: "dictionary not found" });
   }
 
-  const { deletedCount } = await ThemeModel.deleteMany({
+  await ThemeModel.deleteMany({
     _id: { $in: dictionaryToDelete.themes },
   });
 

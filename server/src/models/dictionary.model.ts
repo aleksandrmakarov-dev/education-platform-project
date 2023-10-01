@@ -16,7 +16,7 @@ const DictionarySchema = new mongoose.Schema({
 DictionarySchema.plugin(mongooseSlugUpdater);
 
 DictionarySchema.set("toJSON", {
-  transform: (doc, returnObj) => {
+  transform: (_doc, returnObj) => {
     returnObj.id = returnObj._id.toString();
 
     delete returnObj._id;

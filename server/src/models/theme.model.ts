@@ -23,7 +23,7 @@ const ThemeSchema = new mongoose.Schema({
 ThemeSchema.plugin(mongooseSlugUpdater);
 
 ThemeSchema.set("toJSON", {
-  transform: (doc, returnObj) => {
+  transform: (_doc, returnObj) => {
     returnObj.id = returnObj._id.toString();
 
     delete returnObj._id;
