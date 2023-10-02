@@ -17,12 +17,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useQuery } from "@tanstack/react-query";
 import usePagination from "../../../hooks/usePagination";
 import { getDictionaries } from "../../../services/dictionaries.service";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DictionaryDataGridBody from "./DictionaryDataGridBody";
 
 import CreateDictionaryDialog from "../../dialogs/dictionary/CreateDictionaryDialog";
 import UpdateDictionaryDialog from "../../dialogs/dictionary/UpdateDictionaryDialog";
-import { DictionariesPage, Dictionary } from "../../../lib/types";
+import { Dictionary } from "../../../lib/types";
 import DeleteDictionaryDialog from "../../dialogs/dictionary/DeleteDictionaryDialog";
 import useSearch from "../../../hooks/useSearch";
 import DataGridSearchForm from "../../forms/DataGridSearchForm";
@@ -39,23 +39,16 @@ const DictionaryDataGrid = () => {
     Dictionary | undefined
   >(undefined);
 
-  const initialData: DictionariesPage = { items: [], meta: { count: 0 } };
-
-  const getDictionariesQuery = useQuery({
+  const { data, isLoading, isError, isRefetching } = useQuery({
     queryKey: ["dictionaries", pagination, search],
     queryFn: async () => {
       const params = { ...pagination, ...search };
       return await getDictionaries(params);
     },
-    initialData: initialData,
     refetchOnWindowFocus: false,
     keepPreviousData: true,
     cacheTime: 0,
   });
-
-  useEffect(() => {
-    getDictionariesQuery.refetch();
-  }, [pagination, search]);
 
   const onSelectItem = (value: Dictionary) => {
     if (value.id === selectedDictionary?.id) {
@@ -137,9 +130,9 @@ const DictionaryDataGrid = () => {
             </TableHead>
             <TableBody>
               <DictionaryDataGridBody
-                data={getDictionariesQuery.data?.items}
-                isLoading={getDictionariesQuery.isLoading}
-                isError={getDictionariesQuery.isError}
+                data={data?.items}
+                isLoading={isLoading || isRefetching}
+                isError={isError}
                 selectedItem={selectedDictionary}
                 onSelectItem={onSelectItem}
                 emptyView={<DictionaryDataGridEmpty />}
@@ -151,7 +144,7 @@ const DictionaryDataGrid = () => {
         <TablePagination
           rowsPerPageOptions={[6, 12, 24]}
           component="div"
-          count={getDictionariesQuery.data.meta.count}
+          count={data?.meta.count ?? 0}
           rowsPerPage={pagination.limit}
           page={pagination.page - 1}
           onPageChange={onChangePage}

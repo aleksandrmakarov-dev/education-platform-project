@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import TermModel from "./term.model";
 
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 
@@ -21,6 +22,12 @@ const ThemeSchema = new mongoose.Schema({
 });
 
 ThemeSchema.plugin(mongooseSlugUpdater);
+
+ThemeSchema.post(["deleteMany", "deleteOne"], async (doc) => {
+  await TermModel.deleteMany({
+    _id: { $in: doc.terms },
+  });
+});
 
 ThemeSchema.set("toJSON", {
   transform: (_doc, returnObj) => {

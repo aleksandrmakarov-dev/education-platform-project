@@ -5,20 +5,18 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useQuery } from "@tanstack/react-query";
 import usePagination from "../../../hooks/usePagination";
 import { getThemesByDictionaryId } from "../../../services/dictionaries.service";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ThemeDataGridBody from "./ThemeDataGridBody";
 
 import CreateThemeDialog from "../../dialogs/theme/CreateThemeDialog";
 import UpdateThemeDialog from "../../dialogs/theme/UpdateThemeDialog";
-import { Theme, ThemesPage } from "../../../lib/types";
+import { Theme } from "../../../lib/types";
 import DeleteThemeDialog from "../../dialogs/theme/DeleteThemeDialog";
 import useSearch from "../../../hooks/useSearch";
 import DataGridSearchForm from "../../forms/DataGridSearchForm";
 import { useParams } from "react-router-dom";
 import ThemeDataGridEmpty from "./ThemeDataGridEmpty";
 import ThemeDataGridLoading from "./ThemeDataGridLoading";
-
-const Columns = ["Title", "Description", "Created At", "Slug", "Terms"];
 
 const ThemeDataGrid = () => {
   const { dictionaryId } = useParams();
@@ -30,9 +28,7 @@ const ThemeDataGrid = () => {
     undefined
   );
 
-  const initialData: ThemesPage = { items: [], meta: { count: 0 } };
-
-  const getThemesQuery = useQuery({
+  const { data, isLoading, isError, isRefetching } = useQuery({
     queryKey: ["themes", pagination, search],
     queryFn: async () => {
       const params = { ...pagination, ...search };
@@ -41,15 +37,10 @@ const ThemeDataGrid = () => {
         searchParams: params,
       });
     },
-    initialData: initialData,
     refetchOnWindowFocus: false,
     keepPreviousData: true,
     cacheTime: 0,
   });
-
-  useEffect(() => {
-    getThemesQuery.refetch();
-  }, [pagination, search]);
 
   const onSelectItem = (value: Theme) => {
     if (value.id === selectedTheme?.id) {
@@ -118,9 +109,9 @@ const ThemeDataGrid = () => {
         </div>
       </div>
       <ThemeDataGridBody
-        data={getThemesQuery.data.items}
-        isLoading={getThemesQuery.isLoading}
-        isError={getThemesQuery.isError}
+        data={data?.items}
+        isLoading={isLoading || isRefetching}
+        isError={isError}
         onSelectItem={onSelectItem}
         selectedItem={selectedTheme}
         emptyView={<ThemeDataGridEmpty />}
@@ -129,7 +120,7 @@ const ThemeDataGrid = () => {
       <TablePagination
         rowsPerPageOptions={[6, 12, 24]}
         component="div"
-        count={getThemesQuery.data.meta.count}
+        count={data?.meta.count ?? 0}
         rowsPerPage={pagination.limit}
         page={pagination.page - 1}
         onPageChange={onChangePage}

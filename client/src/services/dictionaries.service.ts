@@ -1,4 +1,5 @@
 import { DictionariesPage, Dictionary, Theme, ThemesPage } from "../lib/types";
+import { wait } from "../lib/utils";
 import { DictionaryFormSchemaType } from "../lib/validations/dictionary-form.schema";
 import axios from "axios";
 
@@ -25,6 +26,7 @@ async function getDictionaries(searchParams: GetDictionariesParams) {
     .forEach((p) => url.searchParams.append(p.key, p.value.toString()));
 
   const response = await axios.get<DictionariesPage>(url.href);
+  await wait<boolean>(1000, true);
   return response.data;
 }
 
@@ -48,6 +50,7 @@ async function getThemesByDictionaryId(params: {
     .forEach((p) => url.searchParams.append(p.key, p.value.toString()));
 
   const response = await axios.get<ThemesPage>(url.href);
+  await wait<boolean>(1000, true);
   return response.data;
 }
 

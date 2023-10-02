@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import ThemeModel from "./theme.model";
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 
 const DictionarySchema = new mongoose.Schema({
@@ -14,6 +15,12 @@ const DictionarySchema = new mongoose.Schema({
 });
 
 DictionarySchema.plugin(mongooseSlugUpdater);
+
+DictionarySchema.post(["deleteMany", "deleteOne"], async (doc) => {
+  await ThemeModel.deleteMany({
+    _id: { $in: doc.themes },
+  });
+});
 
 DictionarySchema.set("toJSON", {
   transform: (_doc, returnObj) => {

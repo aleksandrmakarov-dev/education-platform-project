@@ -10,10 +10,10 @@ import ThemeModel from "../models/theme.model";
 import { ThemeGetValidationSchema } from "../validations/theme.validation";
 
 async function create(req: Request, res: Response) {
-  const { title } = DictionaryCreateValidationSchema.parse(req.body);
+  const body = DictionaryCreateValidationSchema.parse(req.body);
 
   const createdDictionary = await DictionaryModel.create({
-    title: title,
+    ...body,
     createdAt: Date.now(),
   });
 
@@ -54,7 +54,7 @@ async function get(req: Request, res: Response) {
   return res.status(200).json(data);
 }
 
-async function getThemesByParentId(req: Request, res: Response) {
+async function getThemesByDictionaryId(req: Request, res: Response) {
   const { identifier } = IdentifierValidationSchema.parse(req.params);
 
   const { page, limit, searchQuery } = ThemeGetValidationSchema.parse(
@@ -111,13 +111,11 @@ async function getBySlug(req: Request, res: Response) {
 
 async function updateById(req: Request, res: Response) {
   const { identifier } = IdentifierValidationSchema.parse(req.params);
-  const { title } = DictionaryUpdateValidationSchema.parse(req.body);
+  const body = DictionaryUpdateValidationSchema.parse(req.body);
 
   const updatedDictionary = await DictionaryModel.findByIdAndUpdate(
     identifier,
-    {
-      title: title,
-    },
+    body,
     {
       returnDocument: "after",
       new: true,
@@ -133,17 +131,14 @@ async function updateById(req: Request, res: Response) {
 
 async function deleteById(req: Request, res: Response) {
   const { identifier } = IdentifierValidationSchema.parse(req.params);
-  const dictionaryToDelete = await DictionaryModel.findById(identifier);
 
-  if (!dictionaryToDelete) {
-    return res.status(404).json({ message: "dictionary not found" });
-  }
-
-  await ThemeModel.deleteMany({
-    _id: { $in: dictionaryToDelete.themes },
+  const { deletedCount } = await DictionaryModel.deleteOne({
+    _id: identifier,
   });
 
-  await DictionaryModel.findByIdAndDelete(identifier);
+  if (deletedCount === 0) {
+    return res.status(404).json({ message: "dictionary not found" });
+  }
 
   return res.status(204).end();
 }
@@ -151,7 +146,7 @@ async function deleteById(req: Request, res: Response) {
 const DictionariesController = {
   create,
   get,
-  getThemesByParentId,
+  getThemesByDictionaryId,
   getById,
   getBySlug,
   updateById,

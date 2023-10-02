@@ -7,7 +7,7 @@ DictionariesRouter.post("/", DictionariesController.create);
 DictionariesRouter.get("/", DictionariesController.get);
 DictionariesRouter.get(
   "/id/:identifier/themes",
-  DictionariesController.getThemesByParentId
+  DictionariesController.getThemesByDictionaryId
 );
 DictionariesRouter.get("/id/:identifier", DictionariesController.getById);
 DictionariesRouter.get("/slug/:identifier", DictionariesController.getBySlug);

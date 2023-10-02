@@ -6,6 +6,8 @@ import {
 import ThemeModel from "../models/theme.model";
 import DictionaryModel from "../models/dictionary.model";
 import IdentifierValidationSchema from "../validations/identifier.validation";
+import { TermGetValidationSchema } from "../validations/term.validation";
+import TermModel from "../models/term.model";
 
 async function create(req: Request, res: Response) {
   const body = ThemeCreateValidationSchema.parse(req.body);
@@ -46,25 +48,53 @@ async function updateById(req: Request, res: Response) {
 
 async function deleteById(req: Request, res: Response) {
   const { identifier } = IdentifierValidationSchema.parse(req.params);
-  const deletedTheme = await ThemeModel.findByIdAndDelete(identifier);
+  const { deletedCount } = await ThemeModel.deleteOne({ _id: identifier });
 
-  if (!deletedTheme) {
+  if (deletedCount === 0) {
     return res.status(404).json({ message: "theme not found" });
   }
 
-  await DictionaryModel.findByIdAndUpdate(deletedTheme.dictionary, {
-    $pull: {
-      themes: deletedTheme._id,
-    },
-  });
-
   return res.status(204).end();
+}
+
+async function getTermsByThemeId(req: Request, res: Response) {
+  const { identifier } = IdentifierValidationSchema.parse(req.params);
+
+  const { page, limit, searchQuery } = TermGetValidationSchema.parse(req.query);
+
+  const searchOptions = searchQuery
+    ? {
+        $and: [
+          { dictionary: identifier },
+          { title: { $regex: searchQuery, $options: "i" } },
+        ],
+      }
+    : { dictionary: identifier };
+
+  let query = TermModel.find(searchOptions).sort({ createdAt: -1 });
+  if (page && limit) {
+    query = query.skip((page - 1) * limit).limit(limit);
+  }
+
+  const themes = await query.exec();
+
+  const count = await TermModel.countDocuments(searchOptions).exec();
+
+  const data = {
+    items: themes,
+    meta: {
+      count: count,
+    },
+  };
+
+  return res.status(200).json(data);
 }
 
 const ThemesController = {
   create,
   deleteById,
   updateById,
+  getTermsByThemeId,
 };
 
 export default ThemesController;
