@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import DialogFormBase from "../DialogFormBase";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -9,7 +8,8 @@ import {
 import DictionaryForm from "../../forms/dictionary/DictionaryForm";
 import { DialogHandle } from "../../../hooks/useImperativeDialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createDictionary } from "../../../services/dictionaries.service";
+import DialogFormBase from "../base/DialogFormBase";
+import DictionaryService from "../../../services/dictionaries.service";
 
 interface CreateDictionaryDialogProps {
   trigger: JSX.Element;
@@ -24,7 +24,7 @@ const CreateDictionaryDialog: React.FC<CreateDictionaryDialogProps> = ({
 
   // How to handle errors???
   const { mutateAsync, isLoading, isError } = useMutation({
-    mutationFn: createDictionary,
+    mutationFn: DictionaryService.create,
   });
 
   const {

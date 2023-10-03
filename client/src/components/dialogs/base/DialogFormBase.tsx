@@ -6,10 +6,10 @@ import {
   Button,
 } from "@mui/material";
 import React from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
 import useImperativeHandleDialog, {
   DialogHandle,
-} from "../../hooks/useImperativeDialog";
-import LoadingButton from "@mui/lab/LoadingButton";
+} from "../../../hooks/useImperativeDialog";
 
 interface DialogFormBaseProps {
   trigger: JSX.Element;

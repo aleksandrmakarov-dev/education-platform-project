@@ -16,7 +16,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useQuery } from "@tanstack/react-query";
 import usePagination from "../../../hooks/usePagination";
-import { getDictionaries } from "../../../services/dictionaries.service";
 import { useState } from "react";
 import DictionaryDataGridBody from "./DictionaryDataGridBody";
 
@@ -28,6 +27,7 @@ import useSearch from "../../../hooks/useSearch";
 import DataGridSearchForm from "../../forms/DataGridSearchForm";
 import DictionaryDataGridEmpty from "./DictionaryDataGridEmpty";
 import DictionaryDataGridLoading from "./DictionaryDataGridLoading";
+import DictionaryService from "../../../services/dictionaries.service";
 
 const Columns = ["Title", "Created At", "Slug", "Themes"];
 
@@ -43,7 +43,7 @@ const DictionaryDataGrid = () => {
     queryKey: ["dictionaries", pagination, search],
     queryFn: async () => {
       const params = { ...pagination, ...search };
-      return await getDictionaries(params);
+      return await DictionaryService.getAll(params);
     },
     refetchOnWindowFocus: false,
     keepPreviousData: true,

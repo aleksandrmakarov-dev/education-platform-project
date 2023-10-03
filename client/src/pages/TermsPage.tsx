@@ -1,9 +1,11 @@
-import { useParams } from "react-router-dom";
+import TermDataGrid from "../components/data-grids/term/TermDataGrid";
 
 const TermsPage = () => {
-  const { themeId } = useParams();
-
-  return <div>{themeId}</div>;
+  return (
+    <div className="p-5">
+      <TermDataGrid />
+    </div>
+  );
 };
 
 export default TermsPage;

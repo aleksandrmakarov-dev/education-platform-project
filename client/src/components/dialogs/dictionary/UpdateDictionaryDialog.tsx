@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import DialogFormBase from "../DialogFormBase";
+import DialogFormBase from "../base/DialogFormBase";
 import { Dictionary } from "../../../lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -9,8 +9,8 @@ import {
 } from "../../../lib/validations/dictionary-form.schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DialogHandle } from "../../../hooks/useImperativeDialog";
-import { updateDictionaryById } from "../../../services/dictionaries.service";
 import DictionaryForm from "../../forms/dictionary/DictionaryForm";
+import DictionaryService from "../../../services/dictionaries.service";
 
 interface UpdateDictionaryDialogProps {
   trigger: JSX.Element;
@@ -26,8 +26,8 @@ const UpdateDictionaryDialog: React.FC<UpdateDictionaryDialogProps> = ({
   const dialogRef = useRef<DialogHandle>(null);
 
   // How to handle errors???
-  const { mutateAsync, isLoading, isError } = useMutation({
-    mutationFn: updateDictionaryById,
+  const { mutateAsync, isLoading } = useMutation({
+    mutationFn: DictionaryService.updateById,
   });
 
   const {
@@ -47,7 +47,7 @@ const UpdateDictionaryDialog: React.FC<UpdateDictionaryDialogProps> = ({
     }
 
     try {
-      const updatedDictionary = await mutateAsync({
+      await mutateAsync({
         id: dictionary.id,
         body: values,
       });

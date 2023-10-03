@@ -1,12 +1,9 @@
 import React, { useRef } from "react";
-import DialogFormBase from "../DialogFormBase";
+import DialogFormBase from "../base/DialogFormBase";
 import { Theme } from "../../../lib/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { ThemeFormSchema } from "../../../lib/validations/theme-form.schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DialogHandle } from "../../../hooks/useImperativeDialog";
-import { deleteThemeById } from "../../../services/themes.service";
+import ThemesService from "../../../services/themes.service";
 
 interface DeleteThemeDialogProps {
   trigger: JSX.Element;
@@ -23,7 +20,7 @@ const DeleteThemeDialog: React.FC<DeleteThemeDialogProps> = ({
 
   // How to handle errors???
   const { mutateAsync, isLoading, isError } = useMutation({
-    mutationFn: deleteThemeById,
+    mutationFn: ThemesService.deleteById,
   });
 
   const onSubmit = async () => {

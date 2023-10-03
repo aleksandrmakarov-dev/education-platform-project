@@ -1,17 +1,16 @@
 import React, { useRef } from "react";
-import DialogFormBase from "../DialogFormBase";
+import DialogFormBase from "../base/DialogFormBase";
 import { Dictionary } from "../../../lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
-  DictionaryFormSchema,
   DictionaryDeleteFormSchemaType,
   DictionaryDeleteFormSchema,
 } from "../../../lib/validations/dictionary-form.schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DialogHandle } from "../../../hooks/useImperativeDialog";
-import { deleteDictionaryById } from "../../../services/dictionaries.service";
 import DictionaryDeleteForm from "../../forms/dictionary/DictionaryDeleteForm";
+import DictionaryService from "../../../services/dictionaries.service";
 
 interface DeleteDictionaryDialogProps {
   trigger: JSX.Element;
@@ -28,7 +27,7 @@ const DeleteDictionaryDialog: React.FC<DeleteDictionaryDialogProps> = ({
 
   // How to handle errors???
   const { mutateAsync, isLoading, isError } = useMutation({
-    mutationFn: deleteDictionaryById,
+    mutationFn: DictionaryService.deleteById,
   });
 
   const {
@@ -82,9 +81,11 @@ const DeleteDictionaryDialog: React.FC<DeleteDictionaryDialogProps> = ({
           <p>This process deletes the dictionary and all related resources.</p>
         </div>
         <div className="flex flex-col items-start">
-          <p>Enter the following to confirm:</p>
-          <p className="bg-gray-200 rounded-md font-semibold text-sm px-1 py-0.5">
-            {dictionary?.slug}
+          <p>
+            Enter the following to confirm:{" "}
+            <span className="bg-gray-200 rounded-md font-semibold text-sm px-1 py-0.5">
+              {dictionary?.slug}
+            </span>
           </p>
         </div>
         <DictionaryDeleteForm register={register} errors={errors} />

@@ -33,20 +33,16 @@ export type Meta = {
   count: number;
 };
 
-export type DictionariesPage = {
-  items: Dictionary[];
-  meta: Meta;
-};
-
-export type ThemesPage = {
-  items: Theme[];
-  meta: Meta;
-};
-
 export type SignData = {
   signature: string;
   timestamp: number;
   cloudname: string;
   apiKey: string;
   path: string;
+};
+
+export type SearchParams = {
+  page: number;
+  limit: number;
+  searchQuery?: string;
 };

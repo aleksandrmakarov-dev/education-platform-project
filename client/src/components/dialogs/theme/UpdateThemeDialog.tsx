@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import DialogFormBase from "../DialogFormBase";
+import DialogFormBase from "../base/DialogFormBase";
 import { Theme } from "../../../lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -9,8 +9,8 @@ import {
 } from "../../../lib/validations/theme-form.schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DialogHandle } from "../../../hooks/useImperativeDialog";
-import { updateThemeById } from "../../../services/themes.service";
 import ThemeForm from "../../forms/theme/ThemeForm";
+import ThemesService from "../../../services/themes.service";
 
 interface UpdateThemeDialogProps {
   trigger: JSX.Element;
@@ -27,7 +27,7 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
 
   // How to handle errors???
   const { mutateAsync, isLoading } = useMutation({
-    mutationFn: updateThemeById,
+    mutationFn: ThemesService.updateById,
   });
 
   const defaultValues: ThemeFormSchemaType = {

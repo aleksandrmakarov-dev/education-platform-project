@@ -4,7 +4,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useQuery } from "@tanstack/react-query";
 import usePagination from "../../../hooks/usePagination";
-import { getThemesByDictionaryId } from "../../../services/dictionaries.service";
 import { useState } from "react";
 import ThemeDataGridBody from "./ThemeDataGridBody";
 
@@ -17,6 +16,7 @@ import DataGridSearchForm from "../../forms/DataGridSearchForm";
 import { useParams } from "react-router-dom";
 import ThemeDataGridEmpty from "./ThemeDataGridEmpty";
 import ThemeDataGridLoading from "./ThemeDataGridLoading";
+import DictionaryService from "../../../services/dictionaries.service";
 
 const ThemeDataGrid = () => {
   const { dictionaryId } = useParams();
@@ -32,7 +32,7 @@ const ThemeDataGrid = () => {
     queryKey: ["themes", pagination, search],
     queryFn: async () => {
       const params = { ...pagination, ...search };
-      return await getThemesByDictionaryId({
+      return await DictionaryService.getThemesByDictionaryId({
         id: dictionaryId ?? "",
         searchParams: params,
       });

@@ -4,10 +4,10 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import UploadRoundedIcon from "@mui/icons-material/UploadRounded";
 import { v4 as uuidv4 } from "uuid";
 import prettyBytes from "pretty-bytes";
-import { getSignature, uploadFile } from "../../../services/filesystem.service";
 import { AxiosProgressEvent } from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { SignData } from "../../../lib/types";
+import FileSystemService from "../../../services/filesystem.service";
 
 export type FileData = {
   id: string;
@@ -49,12 +49,12 @@ const FileUpload: React.FC<FileUploadProps> = ({
       file: File;
       signData: SignData;
       onUploadProgress: (e: AxiosProgressEvent) => void;
-    }) => uploadFile(file, signData, onUploadProgress),
+    }) => FileSystemService.uploadFile(file, signData, onUploadProgress),
   });
 
   const { data: signData } = useQuery({
     queryKey: ["signData"],
-    queryFn: async () => await getSignature(path),
+    queryFn: async () => await FileSystemService.getSignature(path),
     refetchOnWindowFocus: false,
   });
 

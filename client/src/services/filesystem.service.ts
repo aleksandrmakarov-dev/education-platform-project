@@ -38,4 +38,6 @@ async function uploadFile(
   return response.data;
 }
 
-export { getSignature, uploadFile };
+const FileSystemService = { getSignature, uploadFile };
+
+export default FileSystemService;
