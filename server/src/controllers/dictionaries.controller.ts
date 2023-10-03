@@ -2,12 +2,13 @@ import DictionaryModel from "../models/dictionary.model";
 import { Request, Response } from "express";
 import {
   DictionaryCreateValidationSchema,
-  DictionaryGetValidationSchema,
   DictionaryUpdateValidationSchema,
 } from "../validations/dictionary.validation";
-import IdentifierValidationSchema from "../validations/identifier.validation";
 import ThemeModel from "../models/theme.model";
-import { ThemeGetValidationSchema } from "../validations/theme.validation";
+import {
+  IdentifierValidationSchema,
+  SearchParamsValidationSchema,
+} from "../validations/shared.validation";
 
 async function create(req: Request, res: Response) {
   const body = DictionaryCreateValidationSchema.parse(req.body);
@@ -21,24 +22,18 @@ async function create(req: Request, res: Response) {
 }
 
 async function get(req: Request, res: Response) {
-  const { page, limit, populateThemes, populateThemesLimit, searchQuery } =
-    DictionaryGetValidationSchema.parse(req.query);
+  const { page, limit, searchQuery } = SearchParamsValidationSchema.parse(
+    req.query
+  );
 
   const searchOptions = searchQuery
     ? { title: { $regex: searchQuery, $options: "i" } }
     : {};
 
-  let query = DictionaryModel.find(searchOptions)
-    .sort({ createdAt: -1 })
-    .skip((page - 1) * limit)
-    .limit(limit);
+  let query = DictionaryModel.find(searchOptions).sort({ createdAt: -1 });
 
-  if (populateThemes) {
-    let options = populateThemesLimit
-      ? { path: "themes", options: { limit: populateThemesLimit } }
-      : { path: "themes" };
-
-    query = query.populate(options);
+  if (page && limit) {
+    query = query.skip((page - 1) * limit).limit(limit);
   }
 
   const dictionaries = await query.exec();
@@ -57,7 +52,7 @@ async function get(req: Request, res: Response) {
 async function getThemesByDictionaryId(req: Request, res: Response) {
   const { identifier } = IdentifierValidationSchema.parse(req.params);
 
-  const { page, limit, searchQuery } = ThemeGetValidationSchema.parse(
+  const { page, limit, searchQuery } = SearchParamsValidationSchema.parse(
     req.query
   );
 
@@ -70,10 +65,13 @@ async function getThemesByDictionaryId(req: Request, res: Response) {
       }
     : { dictionary: identifier };
 
-  const themes = await ThemeModel.find(searchOptions)
-    .sort({ createdAt: -1 })
-    .skip((page - 1) * limit)
-    .limit(limit);
+  let query = ThemeModel.find(searchOptions).sort({ createdAt: -1 });
+
+  if (page && limit) {
+    query = query.skip((page - 1) * limit).limit(limit);
+  }
+
+  const themes = await query.exec();
 
   const count = await ThemeModel.countDocuments(searchOptions).exec();
 

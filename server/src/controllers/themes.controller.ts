@@ -5,9 +5,11 @@ import {
 } from "../validations/theme.validation";
 import ThemeModel from "../models/theme.model";
 import DictionaryModel from "../models/dictionary.model";
-import IdentifierValidationSchema from "../validations/identifier.validation";
-import { TermGetValidationSchema } from "../validations/term.validation";
-import TermModel from "../models/term.model";
+import WordModel from "../models/word.model";
+import {
+  IdentifierValidationSchema,
+  SearchParamsValidationSchema,
+} from "../validations/shared.validation";
 
 async function create(req: Request, res: Response) {
   const body = ThemeCreateValidationSchema.parse(req.body);
@@ -57,10 +59,12 @@ async function deleteById(req: Request, res: Response) {
   return res.status(204).end();
 }
 
-async function getTermsByThemeId(req: Request, res: Response) {
+async function getWordsByThemeId(req: Request, res: Response) {
   const { identifier } = IdentifierValidationSchema.parse(req.params);
 
-  const { page, limit, searchQuery } = TermGetValidationSchema.parse(req.query);
+  const { page, limit, searchQuery } = SearchParamsValidationSchema.parse(
+    req.query
+  );
 
   const searchOptions = searchQuery
     ? {
@@ -71,14 +75,15 @@ async function getTermsByThemeId(req: Request, res: Response) {
       }
     : { dictionary: identifier };
 
-  let query = TermModel.find(searchOptions).sort({ createdAt: -1 });
+  let query = WordModel.find(searchOptions).sort({ createdAt: -1 });
+
   if (page && limit) {
     query = query.skip((page - 1) * limit).limit(limit);
   }
 
   const themes = await query.exec();
 
-  const count = await TermModel.countDocuments(searchOptions).exec();
+  const count = await WordModel.countDocuments(searchOptions).exec();
 
   const data = {
     items: themes,
@@ -94,7 +99,7 @@ const ThemesController = {
   create,
   deleteById,
   updateById,
-  getTermsByThemeId,
+  getWordsByThemeId,
 };
 
 export default ThemesController;

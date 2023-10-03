@@ -46,8 +46,6 @@ const DictionaryDataGrid = () => {
       return await DictionaryService.getAll(params);
     },
     refetchOnWindowFocus: false,
-    keepPreviousData: true,
-    cacheTime: 0,
   });
 
   const onSelectItem = (value: Dictionary) => {

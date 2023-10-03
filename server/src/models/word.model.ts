@@ -1,17 +1,19 @@
 import mongoose from "mongoose";
 
-const TermSchema = new mongoose.Schema({
+const WordSchema = new mongoose.Schema({
   text: { type: String, required: true },
   translation: { type: String, required: true },
   image: { type: String },
   createdAt: { type: Date, default: () => Date.now() },
+  context: { type: String },
+  contextTranslation: { type: String },
   theme: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Theme",
   },
 });
 
-TermSchema.set("toJSON", {
+WordSchema.set("toJSON", {
   transform: (_doc, returnObj) => {
     returnObj.id = returnObj._id.toString();
 
@@ -20,6 +22,6 @@ TermSchema.set("toJSON", {
   },
 });
 
-const TermModel = mongoose.models.Term || mongoose.model("Term", TermSchema);
+const WordModel = mongoose.models.Word || mongoose.model("Word", WordSchema);
 
-export default TermModel;
+export default WordModel;

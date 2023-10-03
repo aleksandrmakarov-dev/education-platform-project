@@ -3,7 +3,7 @@ import MainLayout from "./layouts/MainLayout";
 import HomePage from "./pages/HomePage";
 import DictionariesPage from "./pages/DictionariesPage";
 import ThemesPage from "./pages/ThemesPage";
-import TermsPage from "./pages/TermsPage";
+import WordsPage from "./pages/WordsPage";
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
           <Route path=":dictionaryId">
             <Route index element={<ThemesPage />} />
             <Route path="themes">
-              <Route path=":themeId" element={<TermsPage />} />
+              <Route path=":themeId" element={<WordsPage />} />
             </Route>
           </Route>
         </Route>

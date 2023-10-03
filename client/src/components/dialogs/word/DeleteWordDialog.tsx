@@ -1,16 +1,16 @@
 import React, { useRef } from "react";
 import DialogFormBase from "../base/DialogFormBase";
-import { Theme } from "../../../lib/types";
+import { Word } from "../../../lib/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DialogHandle } from "../../../hooks/useImperativeDialog";
-import ThemesService from "../../../services/themes.service";
+import WordsService from "../../../services/themes.service";
 
-interface DeleteThemeDialogProps {
+interface DeleteWordDialogProps {
   trigger: JSX.Element;
-  theme?: Theme;
+  theme?: Word;
 }
 
-const DeleteThemeDialog: React.FC<DeleteThemeDialogProps> = ({
+const DeleteWordDialog: React.FC<DeleteWordDialogProps> = ({
   trigger,
   theme,
 }) => {
@@ -20,7 +20,7 @@ const DeleteThemeDialog: React.FC<DeleteThemeDialogProps> = ({
 
   // How to handle errors???
   const { mutateAsync, isLoading, isError } = useMutation({
-    mutationFn: ThemesService.deleteById,
+    mutationFn: WordsService.deleteById,
   });
 
   const onSubmit = async () => {
@@ -52,17 +52,11 @@ const DeleteThemeDialog: React.FC<DeleteThemeDialogProps> = ({
     >
       <div className="flex flex-col gap-1">
         <div className="bg-red-100 px-5 py-2.5 rounded-sm">
-          <p className="font-semibold">
-            You are about to delete this theme containing:
-          </p>
-          <ul className="list-inside list-disc">
-            <li>{theme?.words?.length ?? 0} word(s)</li>
-          </ul>
-          <p>This process deletes the theme and all related resources.</p>
+          <p>This process deletes the word and all related resources.</p>
         </div>
       </div>
     </DialogFormBase>
   );
 };
 
-export default DeleteThemeDialog;
+export default DeleteWordDialog;

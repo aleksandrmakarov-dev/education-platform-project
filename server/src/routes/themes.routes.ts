@@ -6,6 +6,6 @@ const ThemesRouter = express.Router();
 ThemesRouter.post("/", ThemesController.create);
 ThemesRouter.delete("/id/:identifier", ThemesController.deleteById);
 ThemesRouter.put("/id/:identifier", ThemesController.updateById);
-ThemesRouter.get("/id/:identifier/themes", ThemesController.getTermsByThemeId);
-
+ThemesRouter.get("/id/:identifier/themes", ThemesController.getWordsByThemeId);
+ThemesRouter.get("/id/:identifier/words", ThemesController.getWordsByThemeId);
 export default ThemesRouter;

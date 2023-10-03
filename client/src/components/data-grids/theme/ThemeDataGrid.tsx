@@ -31,15 +31,17 @@ const ThemeDataGrid = () => {
   const { data, isLoading, isError, isRefetching } = useQuery({
     queryKey: ["themes", pagination, search],
     queryFn: async () => {
+      if (!dictionaryId) {
+        return undefined;
+      }
+
       const params = { ...pagination, ...search };
       return await DictionaryService.getThemesByDictionaryId({
-        id: dictionaryId ?? "",
+        id: dictionaryId,
         searchParams: params,
       });
     },
     refetchOnWindowFocus: false,
-    keepPreviousData: true,
-    cacheTime: 0,
   });
 
   const onSelectItem = (value: Theme) => {

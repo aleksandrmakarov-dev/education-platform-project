@@ -1,25 +1,27 @@
-import React, { useRef } from "react";
-import DialogFormBase from "../base/DialogFormBase";
-import { Theme } from "../../../lib/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import {
-  ThemeFormSchemaType,
-  ThemeFormSchema,
-} from "../../../lib/validations/theme-form.schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Word } from "../../../lib/types";
 import { DialogHandle } from "../../../hooks/useImperativeDialog";
+import { useRef } from "react";
+import WordsService from "../../../services/words.service";
+import {
+  WordFormSchema,
+  WordFormSchemaType,
+} from "../../../lib/validations/word-form.schema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ThemeFormSchemaType } from "../../../lib/validations/theme-form.schema";
 import ThemeForm from "../../forms/theme/ThemeForm";
-import ThemesService from "../../../services/themes.service";
+import DialogFormBase from "../base/DialogFormBase";
+import WordForm from "../../forms/word/WordForm";
 
 interface UpdateThemeDialogProps {
   trigger: JSX.Element;
-  theme?: Theme;
+  word?: Word;
 }
 
 const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
   trigger,
-  theme,
+  word,
 }) => {
   const queryClient = useQueryClient();
 
@@ -27,13 +29,14 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
 
   // How to handle errors???
   const { mutateAsync, isLoading } = useMutation({
-    mutationFn: ThemesService.updateById,
+    mutationFn: WordsService.updateById,
   });
 
-  const defaultValues: ThemeFormSchemaType = {
-    title: "",
-    description: "",
-    dictionary: "",
+  const defaultValues: WordFormSchemaType = {
+    text: "",
+    translation: "",
+    theme: "",
+    image: "",
   };
 
   const {
@@ -42,21 +45,22 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
     formState: { errors },
     reset,
     setValue,
-  } = useForm<ThemeFormSchemaType>({
-    resolver: zodResolver(ThemeFormSchema),
+    getValues,
+  } = useForm<WordFormSchemaType>({
+    resolver: zodResolver(WordFormSchema),
     defaultValues: defaultValues,
-    values: theme ? { ...theme } : defaultValues,
+    values: word ? { ...word } : defaultValues,
   });
 
-  const onSubmit = async (values: ThemeFormSchemaType) => {
-    if (!theme) {
+  const onSubmit = async (values: WordFormSchemaType) => {
+    if (!word) {
       return;
     }
 
     try {
       reset();
       dialogRef.current?.close();
-      await mutateAsync({ id: theme.id, body: values });
+      await mutateAsync({ id: word.id, body: values });
 
       // queryClient.cancelQueries(["dictionaries"]);
       // const previousData = queryClient.getQueryData<Theme[]>([
@@ -72,7 +76,7 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
 
       // For some reason code above does not work (previous data undefined)
 
-      queryClient.invalidateQueries(["themes"]);
+      queryClient.invalidateQueries(["words"]);
     } catch (error: any) {
       console.log(error);
     }
@@ -87,7 +91,12 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
       isBusy={isLoading}
       ref={dialogRef}
     >
-      <ThemeForm setValue={setValue} register={register} errors={errors} />
+      <WordForm
+        setValue={setValue}
+        register={register}
+        errors={errors}
+        getValues={getValues}
+      />
     </DialogFormBase>
   );
 };

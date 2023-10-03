@@ -33,7 +33,6 @@ const CreateThemeDialog: React.FC<CreateThemeDialogProps> = ({
     title: "",
     description: "",
     dictionary: dictionaryId,
-    image: "",
   };
 
   const {

@@ -9,7 +9,7 @@ import { connect } from "./database/mongoose";
 import ThemesRouter from "./routes/themes.routes";
 import { cloudinaryConfigure } from "./config/cloudinary.config";
 import FileSystemRouter from "./routes/filesystem.routes";
-import TermsRouter from "./routes/terms.routes";
+import WordsRouter from "./routes/words.routes";
 
 cloudinaryConfigure();
 
@@ -32,7 +32,7 @@ app.get("/", (_req: Request, res: Response) => {
 
 app.use("/api/dictionaries", DictionariesRouter);
 app.use("/api/themes", ThemesRouter);
-app.use("/api/terms", TermsRouter);
+app.use("/api/words", WordsRouter);
 app.use("/api/filesystem", FileSystemRouter);
 
 export default app;

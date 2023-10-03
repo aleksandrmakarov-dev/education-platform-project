@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import TermModel from "./term.model";
+import TermModel from "./word.model";
 
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 
@@ -13,10 +13,10 @@ const ThemeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Dictionary",
   },
-  terms: [
+  words: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Term",
+      ref: "Word",
     },
   ],
 });
@@ -25,7 +25,7 @@ ThemeSchema.plugin(mongooseSlugUpdater);
 
 ThemeSchema.post(["deleteMany", "deleteOne"], async (doc) => {
   await TermModel.deleteMany({
-    _id: { $in: doc.terms },
+    _id: { $in: doc.words },
   });
 });
 

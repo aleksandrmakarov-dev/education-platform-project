@@ -2,7 +2,6 @@ import { TextField } from "@mui/material";
 import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { ThemeFormSchemaType } from "../../../lib/validations/theme-form.schema";
 import FileUpload, { FileData } from "../../shared/file-upload/FileUpload";
-import { useEffect } from "react";
 
 interface ThemeFormProps {
   register: UseFormRegister<ThemeFormSchemaType>;
@@ -16,8 +15,6 @@ const ThemeForm: React.FC<ThemeFormProps> = ({
   setValue,
 }) => {
   const onFileUploadCallback = (files: FileData[]) => {
-    console.log("file uploaded");
-
     if (files.length === 0) {
       setValue("image", undefined);
     } else {
@@ -27,6 +24,8 @@ const ThemeForm: React.FC<ThemeFormProps> = ({
 
   return (
     <div className="py-1.5 w-[512px] flex flex-col gap-5">
+      <TextField sx={{ display: "none" }} {...register("image")} />
+      <FileUpload onCallback={onFileUploadCallback} path="/themes/previews" />
       <TextField
         label="Title"
         size="small"
@@ -40,14 +39,13 @@ const ThemeForm: React.FC<ThemeFormProps> = ({
         label="Description"
         size="small"
         fullWidth
+        required
         {...register("description")}
         error={errors.description !== undefined}
         helperText={errors.description?.message}
         multiline
         rows={2}
       />
-      <TextField sx={{ display: "none" }} {...register("image")} />
-      <FileUpload onCallback={onFileUploadCallback} path="/themes/previews" />
     </div>
   );
 };

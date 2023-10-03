@@ -14,14 +14,18 @@ export type Theme = {
   image?: string;
   createdAt: Date;
   dictionary: string;
-  terms?: Term[];
+  words?: Word[];
 };
 
-export type Term = {
+export type Word = {
   id: string;
   text: string;
   translation: string;
+  context?: string;
+  contextTranslation?: string;
   createdAt: string;
+  theme: string;
+  image?: string;
 };
 
 export type User = {

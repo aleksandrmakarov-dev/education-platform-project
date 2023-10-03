@@ -12,11 +12,12 @@ const DictionaryForm: React.FC<DictionaryFormProps> = ({
   errors,
 }) => {
   return (
-    <div className="py-1.5 w-96">
+    <div className="py-1.5 w-[512px] flex flex-col gap-5">
       <TextField
         label="Title"
         size="small"
         fullWidth
+        required
         {...register("title")}
         error={errors.title !== undefined}
         helperText={errors.title?.message}
