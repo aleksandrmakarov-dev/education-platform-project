@@ -6,21 +6,25 @@ import { useQuery } from "@tanstack/react-query";
 import usePagination from "../../../hooks/usePagination";
 import { useState } from "react";
 import ThemeDataGridBody from "./ThemeDataGridBody";
-
 import CreateThemeDialog from "../../dialogs/theme/CreateThemeDialog";
 import UpdateThemeDialog from "../../dialogs/theme/UpdateThemeDialog";
-import { Theme } from "../../../lib/types";
+import { Dictionary, Theme } from "../../../lib/types";
 import DeleteThemeDialog from "../../dialogs/theme/DeleteThemeDialog";
 import useSearch from "../../../hooks/useSearch";
 import DataGridSearchForm from "../../forms/DataGridSearchForm";
-import { useParams } from "react-router-dom";
 import ThemeDataGridEmpty from "./ThemeDataGridEmpty";
 import ThemeDataGridLoading from "./ThemeDataGridLoading";
 import DictionaryService from "../../../services/dictionaries.service";
 
-const ThemeDataGrid = () => {
-  const { dictionaryId } = useParams();
+interface ThemeDataGridProps {
+  dictionaryId: string;
+  baseUrl: string;
+}
 
+const ThemeDataGrid: React.FC<ThemeDataGridProps> = ({
+  dictionaryId,
+  baseUrl,
+}) => {
   const { pagination, setPagination } = usePagination();
   const { search, setSearch, resetSearch } = useSearch();
 
@@ -31,13 +35,9 @@ const ThemeDataGrid = () => {
   const { data, isLoading, isError, isRefetching } = useQuery({
     queryKey: ["themes", pagination, search],
     queryFn: async () => {
-      if (!dictionaryId) {
-        return undefined;
-      }
-
       const params = { ...pagination, ...search };
       return await DictionaryService.getThemesByDictionaryId({
-        id: dictionaryId,
+        identifier: dictionaryId,
         searchParams: params,
       });
     },
@@ -69,9 +69,6 @@ const ThemeDataGrid = () => {
   return (
     <div className="w-full">
       <div className="mb-2">
-        <Typography variant="h5" className="mb-2">
-          Themes
-        </Typography>
         <div className="flex gap-10 items-center justify-between">
           <div className="flex gap-1 items-center">
             <DataGridSearchForm
@@ -97,7 +94,7 @@ const ThemeDataGrid = () => {
             />
           </div>
           <CreateThemeDialog
-            dictionaryId={dictionaryId ?? ""}
+            dictionary={dictionaryId}
             trigger={
               <Button
                 startIcon={<AddIcon />}
@@ -117,7 +114,8 @@ const ThemeDataGrid = () => {
         onSelectItem={onSelectItem}
         selectedItem={selectedTheme}
         emptyView={<ThemeDataGridEmpty />}
-        loadingView={<ThemeDataGridLoading />}
+        loadingView={<ThemeDataGridLoading count={6} />}
+        baseUrl={baseUrl}
       />
       <TablePagination
         rowsPerPageOptions={[6, 12, 24]}

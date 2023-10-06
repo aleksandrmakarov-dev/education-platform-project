@@ -10,6 +10,7 @@ import ThemesRouter from "./routes/themes.routes";
 import { cloudinaryConfigure } from "./config/cloudinary.config";
 import FileSystemRouter from "./routes/filesystem.routes";
 import WordsRouter from "./routes/words.routes";
+import ErrorHandlingMiddleware from "./middlewares/error-handling.middleware";
 
 cloudinaryConfigure();
 
@@ -34,5 +35,7 @@ app.use("/api/dictionaries", DictionariesRouter);
 app.use("/api/themes", ThemesRouter);
 app.use("/api/words", WordsRouter);
 app.use("/api/filesystem", FileSystemRouter);
+
+app.use(ErrorHandlingMiddleware);
 
 export default app;

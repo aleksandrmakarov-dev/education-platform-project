@@ -11,6 +11,7 @@ interface ThemeDataGridBodyProps {
   loadingView?: JSX.Element;
   emptyView?: JSX.Element;
   errorView?: JSX.Element;
+  baseUrl: string;
 }
 
 const ThemeDataGridBody: React.FC<ThemeDataGridBodyProps> = ({
@@ -20,7 +21,7 @@ const ThemeDataGridBody: React.FC<ThemeDataGridBodyProps> = ({
   onSelectItem,
   loadingView,
   emptyView,
-  errorView,
+  baseUrl,
 }) => {
   if (isLoading) {
     return loadingView;
@@ -37,7 +38,7 @@ const ThemeDataGridBody: React.FC<ThemeDataGridBodyProps> = ({
           key={item.id}
           onSelectItem={onSelectItem}
           data={item}
-          url={`/dictionaries/${item.dictionary}/themes/${item.id}`}
+          url={`${baseUrl}/themes/${item.slug}`}
           isSelectedItem={item.id === selectedItem?.id}
         />
       ))}

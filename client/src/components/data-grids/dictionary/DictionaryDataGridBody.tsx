@@ -1,6 +1,5 @@
 import React from "react";
 import { Dictionary } from "../../../lib/types";
-import DictionaryDataGridLoading from "./DictionaryDataGridLoading";
 import { TableRow, TableCell, Checkbox } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -22,14 +21,9 @@ const DictionaryDataGridBody: React.FC<DictionaryDataGridBodyProps> = ({
   onSelectItem,
   emptyView,
   loadingView,
-  errorView,
 }) => {
   if (isLoading) {
-    return (
-      <TableRow>
-        <TableCell colSpan={5}>{loadingView}</TableCell>
-      </TableRow>
-    );
+    return loadingView;
   }
 
   if (!data || data.length === 0) {
@@ -60,7 +54,7 @@ const DictionaryDataGridBody: React.FC<DictionaryDataGridBodyProps> = ({
             </TableCell>
             <TableCell align="right">
               <Link
-                to={`/dictionaries/${item.id}`}
+                to={`/dictionaries/${item.slug}`}
                 className="text-blue-500 hover:underline"
               >
                 {item.title}

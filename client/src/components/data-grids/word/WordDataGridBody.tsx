@@ -36,6 +36,7 @@ const WordDataGridBody: React.FC<WordDataGridBodyProps> = ({
         <Carousel count={data.length}>
           {data.map((item) => (
             <Card
+              key={item.id}
               variant="outlined"
               className="flex flex-col items-center justify-center h-72"
             >

@@ -70,7 +70,7 @@ const DialogFormBase: React.ForwardRefRenderFunction<
           <DialogContent dividers>{children}</DialogContent>
           <DialogActions>
             <Button onClick={onCloseDialog} disabled={isBusy}>
-              {secondaryBtnLabel ?? "Cancel"}
+              <span>{secondaryBtnLabel ?? "Cancel"}</span>
             </Button>
             <LoadingButton
               type="submit"
@@ -80,7 +80,7 @@ const DialogFormBase: React.ForwardRefRenderFunction<
               autoFocus
               disableElevation
             >
-              {primaryBtnLabel ?? "Confirm"}
+              <span>{primaryBtnLabel ?? "Confirm"}</span>
             </LoadingButton>
           </DialogActions>
         </form>

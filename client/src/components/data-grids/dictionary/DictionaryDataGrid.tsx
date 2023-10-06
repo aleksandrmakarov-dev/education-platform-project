@@ -134,7 +134,7 @@ const DictionaryDataGrid = () => {
                 selectedItem={selectedDictionary}
                 onSelectItem={onSelectItem}
                 emptyView={<DictionaryDataGridEmpty />}
-                loadingView={<DictionaryDataGridLoading />}
+                loadingView={<DictionaryDataGridLoading count={6} />}
               />
             </TableBody>
           </Table>

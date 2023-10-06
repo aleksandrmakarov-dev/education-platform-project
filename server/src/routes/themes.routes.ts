@@ -4,8 +4,10 @@ import ThemesController from "../controllers/themes.controller";
 const ThemesRouter = express.Router();
 
 ThemesRouter.post("/", ThemesController.create);
-ThemesRouter.delete("/id/:identifier", ThemesController.deleteById);
-ThemesRouter.put("/id/:identifier", ThemesController.updateById);
-ThemesRouter.get("/id/:identifier/themes", ThemesController.getWordsByThemeId);
 ThemesRouter.get("/id/:identifier/words", ThemesController.getWordsByThemeId);
+ThemesRouter.get("/id/:identifier", ThemesController.getById);
+ThemesRouter.get("/slug/:identifier", ThemesController.getBySlug);
+ThemesRouter.put("/id/:identifier", ThemesController.updateById);
+ThemesRouter.delete("/id/:identifier", ThemesController.deleteById);
+
 export default ThemesRouter;

@@ -13,12 +13,12 @@ import ThemesService from "../../../services/themes.service";
 
 interface CreateThemeDialogProps {
   trigger: JSX.Element;
-  dictionaryId: string;
+  dictionary: string;
 }
 
 const CreateThemeDialog: React.FC<CreateThemeDialogProps> = ({
   trigger,
-  dictionaryId,
+  dictionary,
 }) => {
   const queryClient = useQueryClient();
 
@@ -32,7 +32,7 @@ const CreateThemeDialog: React.FC<CreateThemeDialogProps> = ({
   const defaultValues: ThemeFormSchemaType = {
     title: "",
     description: "",
-    dictionary: dictionaryId,
+    dictionary: dictionary,
   };
 
   const {

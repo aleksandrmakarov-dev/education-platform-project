@@ -1,8 +1,17 @@
-import { CircularProgress } from "@mui/material";
-import DataGridLoading from "../base/DataGridLoading";
+import ThemeCardSkeleton from "../../cards/theme/ThemeCardSkeleton";
 
-const ThemeDataGridLoading = () => (
-  <DataGridLoading title="Loading themes..." />
+interface ThemeDataGridLoadingProps {
+  count: number;
+}
+
+const ThemeDataGridLoading: React.FC<ThemeDataGridLoadingProps> = ({
+  count,
+}) => (
+  <div className="grid grid-cols-3 gap-5">
+    {[...Array(count).keys()].map((item) => (
+      <ThemeCardSkeleton key={item} />
+    ))}
+  </div>
 );
 
 export default ThemeDataGridLoading;

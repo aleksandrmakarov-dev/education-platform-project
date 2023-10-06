@@ -12,10 +12,10 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="dictionaries">
           <Route index element={<DictionariesPage />} />
-          <Route path=":dictionaryId">
+          <Route path=":dictionarySlug">
             <Route index element={<ThemesPage />} />
             <Route path="themes">
-              <Route path=":themeId" element={<WordsPage />} />
+              <Route path=":themeSlug" element={<WordsPage />} />
             </Route>
           </Route>
         </Route>

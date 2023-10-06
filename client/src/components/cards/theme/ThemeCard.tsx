@@ -35,9 +35,9 @@ const ThemeCard: React.FC<ThemeCardProps> = ({
             {data.title}
           </Link>
         }
-        titleTypographyProps={{ fontSize: 18 }}
+        titleTypographyProps={{ fontSize: "1.125rem" }}
         subheader={new Date(data.createdAt).toDateString()}
-        subheaderTypographyProps={{ fontSize: 14 }}
+        subheaderTypographyProps={{ fontSize: "0.875rem" }}
         action={
           <Checkbox
             checked={isSelectedItem}

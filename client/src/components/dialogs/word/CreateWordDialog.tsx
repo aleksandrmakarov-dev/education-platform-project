@@ -13,12 +13,12 @@ import { DialogHandle } from "../../../hooks/useImperativeDialog";
 
 interface CreateWordDialogProps {
   trigger: JSX.Element;
-  themeId: string;
+  theme: string;
 }
 
 const CreateWordDialog: React.FC<CreateWordDialogProps> = ({
   trigger,
-  themeId,
+  theme,
 }) => {
   const queryClient = useQueryClient();
 
@@ -32,7 +32,7 @@ const CreateWordDialog: React.FC<CreateWordDialogProps> = ({
   const defaultValues: WordFormSchemaType = {
     text: "",
     translation: "",
-    theme: themeId,
+    theme: theme,
   };
 
   const {

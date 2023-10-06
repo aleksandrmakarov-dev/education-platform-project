@@ -3,25 +3,28 @@ import { WordCreateValidationSchema } from "../validations/word.validation";
 import WordModel from "../models/word.model";
 import { IdentifierValidationSchema } from "../validations/shared.validation";
 import ThemeModel from "../models/theme.model";
+import { NotFoundError } from "../utils/api-errors.utls";
+import { Created, NoContent, Ok } from "../utils/express.utils";
 
 async function create(req: Request, res: Response) {
-  const body = WordCreateValidationSchema.parse(req.body);
+  const { theme, ...body } = WordCreateValidationSchema.parse(req.body);
 
-  const foundTheme = await ThemeModel.findById(body.theme);
+  const foundTheme = await ThemeModel.findById(theme);
 
   if (!foundTheme) {
-    return res.status(404).json({ message: "Theme not found" });
+    throw new NotFoundError(`theme with identifier "${theme} not found"`);
   }
 
   const createdWord = await WordModel.create({
     ...body,
+    theme: foundTheme._id,
     createdAt: Date.now(),
   });
 
   foundTheme.words.push(createdWord._id);
   await foundTheme.save();
 
-  return res.status(201).json(createdWord);
+  return Created(res, createdWord);
 }
 
 async function updateById(req: Request, res: Response) {
@@ -34,10 +37,10 @@ async function updateById(req: Request, res: Response) {
   });
 
   if (!updatedWord) {
-    return res.status(404).json({ message: "tern not found" });
+    throw new NotFoundError(`word with identifier "${identifier}" not found`);
   }
 
-  return res.status(200).json(updatedWord);
+  return Ok(res, updatedWord);
 }
 
 async function deleteById(req: Request, res: Response) {
@@ -46,10 +49,10 @@ async function deleteById(req: Request, res: Response) {
   const { deletedCount } = await WordModel.deleteOne({ _id: identifier });
 
   if (deletedCount === 0) {
-    return res.status(404).json({ message: "Word not found" });
+    throw new NotFoundError(`word with identifier "${identifier}" not found`);
   }
 
-  return res.status(204).end();
+  return NoContent(res);
 }
 
 const WordsController = {

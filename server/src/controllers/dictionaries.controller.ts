@@ -9,6 +9,9 @@ import {
   IdentifierValidationSchema,
   SearchParamsValidationSchema,
 } from "../validations/shared.validation";
+import { TitleSearchOptions } from "../utils/mongoose.utils";
+import { Created, NoContent, Ok } from "../utils/express.utils";
+import { NotFoundError } from "../utils/api-errors.utls";
 
 async function create(req: Request, res: Response) {
   const body = DictionaryCreateValidationSchema.parse(req.body);
@@ -18,7 +21,7 @@ async function create(req: Request, res: Response) {
     createdAt: Date.now(),
   });
 
-  return res.status(201).json(createdDictionary);
+  return Created(res, createdDictionary);
 }
 
 async function get(req: Request, res: Response) {
@@ -26,9 +29,7 @@ async function get(req: Request, res: Response) {
     req.query
   );
 
-  const searchOptions = searchQuery
-    ? { title: { $regex: searchQuery, $options: "i" } }
-    : {};
+  const searchOptions = TitleSearchOptions(searchQuery);
 
   let query = DictionaryModel.find(searchOptions).sort({ createdAt: -1 });
 
@@ -46,7 +47,33 @@ async function get(req: Request, res: Response) {
     },
   };
 
-  return res.status(200).json(data);
+  return Ok(res, data);
+}
+
+async function getById(req: Request, res: Response) {
+  const { identifier } = IdentifierValidationSchema.parse(req.params);
+  const foundDictionary = await DictionaryModel.findById(identifier);
+
+  if (!foundDictionary) {
+    throw new NotFoundError(
+      `dictionary with identifier "${identifier}" not found`
+    );
+  }
+
+  return Ok(res, foundDictionary);
+}
+
+async function getBySlug(req: Request, res: Response) {
+  const { identifier } = IdentifierValidationSchema.parse(req.params);
+  const foundDictionary = await DictionaryModel.findOne({ slug: identifier });
+
+  if (!foundDictionary) {
+    throw new NotFoundError(
+      `dictionary with identifier "${identifier}" not found`
+    );
+  }
+
+  return Ok(res, foundDictionary);
 }
 
 async function getThemesByDictionaryId(req: Request, res: Response) {
@@ -55,15 +82,20 @@ async function getThemesByDictionaryId(req: Request, res: Response) {
   const { page, limit, searchQuery } = SearchParamsValidationSchema.parse(
     req.query
   );
+  const foundDictionary = await DictionaryModel.findById(identifier);
 
-  const searchOptions = searchQuery
-    ? {
-        $and: [
-          { dictionary: identifier },
-          { title: { $regex: searchQuery, $options: "i" } },
-        ],
-      }
-    : { dictionary: identifier };
+  if (!foundDictionary) {
+    throw new NotFoundError(
+      `dictionary with identifier "${identifier}" not found`
+    );
+  }
+
+  const searchOptions = {
+    $and: [
+      { dictionary: foundDictionary._id },
+      TitleSearchOptions(searchQuery),
+    ],
+  };
 
   let query = ThemeModel.find(searchOptions).sort({ createdAt: -1 });
 
@@ -82,29 +114,7 @@ async function getThemesByDictionaryId(req: Request, res: Response) {
     },
   };
 
-  return res.status(200).json(data);
-}
-
-async function getById(req: Request, res: Response) {
-  const { identifier } = IdentifierValidationSchema.parse(req.params);
-  const dictionary = await DictionaryModel.findOne({ _id: identifier });
-
-  if (!dictionary) {
-    return res.status(404).json("dictionary not found");
-  }
-
-  return res.status(200).json(dictionary);
-}
-
-async function getBySlug(req: Request, res: Response) {
-  const { identifier } = IdentifierValidationSchema.parse(req.params);
-  const dictionary = await DictionaryModel.findOne({ slug: identifier });
-
-  if (!dictionary) {
-    return res.status(404).json("dictionary not found");
-  }
-
-  return res.status(200).json(dictionary);
+  return Ok(res, data);
 }
 
 async function updateById(req: Request, res: Response) {
@@ -121,32 +131,34 @@ async function updateById(req: Request, res: Response) {
   );
 
   if (!updatedDictionary) {
-    return res.status(404).json({ message: "dictionary not found" });
+    throw new NotFoundError(
+      `dictionary with identifier "${identifier}" not found`
+    );
   }
 
-  return res.status(200).json(updatedDictionary);
+  return Ok(res, updatedDictionary);
 }
 
 async function deleteById(req: Request, res: Response) {
   const { identifier } = IdentifierValidationSchema.parse(req.params);
 
-  const { deletedCount } = await DictionaryModel.deleteOne({
-    _id: identifier,
-  });
+  const { deletedCount } = await DictionaryModel.deleteOne({ _id: identifier });
 
   if (deletedCount === 0) {
-    return res.status(404).json({ message: "dictionary not found" });
+    throw new NotFoundError(
+      `dictionary with identifier "${identifier}" not found`
+    );
   }
 
-  return res.status(204).end();
+  return NoContent(res);
 }
 
 const DictionariesController = {
   create,
   get,
-  getThemesByDictionaryId,
   getById,
   getBySlug,
+  getThemesByDictionaryId,
   updateById,
   deleteById,
 };

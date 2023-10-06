@@ -10,53 +10,52 @@ import {
   IdentifierValidationSchema,
   SearchParamsValidationSchema,
 } from "../validations/shared.validation";
+import { TitleSearchOptions } from "../utils/mongoose.utils";
+import { NotFoundError } from "../utils/api-errors.utls";
+import { NoContent, Ok } from "../utils/express.utils";
 
 async function create(req: Request, res: Response) {
-  const body = ThemeCreateValidationSchema.parse(req.body);
+  const { dictionary, ...body } = ThemeCreateValidationSchema.parse(req.body);
 
-  const foundDictionary = await DictionaryModel.findById(body.dictionary);
+  const foundDictionary = await DictionaryModel.findById(dictionary);
 
   if (!foundDictionary) {
-    return res.status(404).json({ message: "Dictionary not found" });
+    throw new NotFoundError(
+      `dictionary with identifier "${dictionary}" not found`
+    );
   }
 
-  const createdTheme = await ThemeModel.create({ ...body });
+  const createdTheme = await ThemeModel.create({
+    ...body,
+    dictionary: foundDictionary._id,
+  });
 
   foundDictionary.themes.push(createdTheme._id);
   await foundDictionary.save();
 
-  return res.status(201).json(createdTheme);
+  return Ok(res, createdTheme);
 }
 
-async function updateById(req: Request, res: Response) {
+async function getById(req: Request, res: Response) {
   const { identifier } = IdentifierValidationSchema.parse(req.params);
-  const body = ThemeUpdateValidationSchema.parse(req.body);
+  const foundTheme = await ThemeModel.findById(identifier);
 
-  const updatedDictionary = await ThemeModel.findByIdAndUpdate(
-    identifier,
-    { ...body },
-    {
-      returnDocument: "after",
-      new: true,
-    }
-  );
-
-  if (!updatedDictionary) {
-    return res.status(404).json({ message: "dictionary not found" });
+  if (!foundTheme) {
+    throw new NotFoundError(`theme with identifier "${identifier}" not found`);
   }
 
-  return res.status(200).json(updatedDictionary);
+  return Ok(res, foundTheme);
 }
 
-async function deleteById(req: Request, res: Response) {
+async function getBySlug(req: Request, res: Response) {
   const { identifier } = IdentifierValidationSchema.parse(req.params);
-  const { deletedCount } = await ThemeModel.deleteOne({ _id: identifier });
+  const themeDictionary = await ThemeModel.findOne({ slug: identifier });
 
-  if (deletedCount === 0) {
-    return res.status(404).json({ message: "theme not found" });
+  if (!themeDictionary) {
+    throw new NotFoundError(`theme with identifier "${identifier}" not found`);
   }
 
-  return res.status(204).end();
+  return Ok(res, themeDictionary);
 }
 
 async function getWordsByThemeId(req: Request, res: Response) {
@@ -66,14 +65,15 @@ async function getWordsByThemeId(req: Request, res: Response) {
     req.query
   );
 
-  const searchOptions = searchQuery
-    ? {
-        $and: [
-          { dictionary: identifier },
-          { title: { $regex: searchQuery, $options: "i" } },
-        ],
-      }
-    : { dictionary: identifier };
+  const foundTheme = await ThemeModel.findById(identifier);
+
+  if (!foundTheme) {
+    throw new NotFoundError(`theme with identifier "${identifier}" not found`);
+  }
+
+  const searchOptions = {
+    $and: [{ theme: foundTheme._id }, TitleSearchOptions(searchQuery)],
+  };
 
   let query = WordModel.find(searchOptions).sort({ createdAt: -1 });
 
@@ -81,25 +81,58 @@ async function getWordsByThemeId(req: Request, res: Response) {
     query = query.skip((page - 1) * limit).limit(limit);
   }
 
-  const themes = await query.exec();
+  const words = await query.exec();
 
   const count = await WordModel.countDocuments(searchOptions).exec();
 
   const data = {
-    items: themes,
+    items: words,
     meta: {
       count: count,
     },
   };
 
-  return res.status(200).json(data);
+  return Ok(res, data);
+}
+
+async function updateById(req: Request, res: Response) {
+  const { identifier } = IdentifierValidationSchema.parse(req.params);
+  const body = ThemeUpdateValidationSchema.parse(req.body);
+
+  const updatedTheme = await ThemeModel.findByIdAndUpdate(
+    identifier,
+    { ...body },
+    {
+      returnDocument: "after",
+      new: true,
+    }
+  );
+
+  if (!updatedTheme) {
+    throw new NotFoundError(`theme with identifier "${identifier}" not found`);
+  }
+
+  return Ok(res, updatedTheme);
+}
+
+async function deleteById(req: Request, res: Response) {
+  const { identifier } = IdentifierValidationSchema.parse(req.params);
+  const { deletedCount } = await ThemeModel.deleteOne({ _id: identifier });
+
+  if (deletedCount === 0) {
+    throw new NotFoundError(`theme with identifier "${identifier}" not found`);
+  }
+
+  return NoContent(res);
 }
 
 const ThemesController = {
   create,
-  deleteById,
-  updateById,
+  getById,
+  getBySlug,
   getWordsByThemeId,
+  updateById,
+  deleteById,
 };
 
 export default ThemesController;
