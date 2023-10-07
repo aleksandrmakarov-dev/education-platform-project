@@ -1,9 +1,10 @@
 import React, { useRef } from "react";
-import DialogFormBase from "../base/DialogFormBase";
 import { Word } from "../../../lib/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DialogHandle } from "../../../hooks/useImperativeDialog";
 import WordsService from "../../../services/themes.service";
+import useSnackbar from "../../../hooks/useSnackbar";
+import DialogBase from "../base/DialogBase";
 
 interface DeleteWordDialogProps {
   trigger: JSX.Element;
@@ -17,6 +18,8 @@ const DeleteWordDialog: React.FC<DeleteWordDialogProps> = ({
   const queryClient = useQueryClient();
 
   const dialogRef = useRef<DialogHandle>(null);
+
+  const { push } = useSnackbar();
 
   // How to handle errors???
   const { mutateAsync, isLoading, isError } = useMutation({
@@ -32,6 +35,8 @@ const DeleteWordDialog: React.FC<DeleteWordDialogProps> = ({
       await mutateAsync(theme.id);
       dialogRef.current?.close();
 
+      push({ message: "Word deleted successfully", type: "success" });
+
       queryClient.invalidateQueries(["themes"]);
     } catch (error: any) {
       console.log(error);
@@ -39,11 +44,10 @@ const DeleteWordDialog: React.FC<DeleteWordDialogProps> = ({
   };
 
   return (
-    <DialogFormBase
+    <DialogBase
       trigger={trigger}
       title="Are you absolutely sure?"
       onSubmit={onSubmit}
-      reset={() => {}}
       isBusy={isLoading}
       ref={dialogRef}
       primaryBtnColor="error"
@@ -55,7 +59,7 @@ const DeleteWordDialog: React.FC<DeleteWordDialogProps> = ({
           <p>This process deletes the word and all related resources.</p>
         </div>
       </div>
-    </DialogFormBase>
+    </DialogBase>
   );
 };
 

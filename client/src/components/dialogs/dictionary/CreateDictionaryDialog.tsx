@@ -10,6 +10,7 @@ import { DialogHandle } from "../../../hooks/useImperativeDialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import DialogFormBase from "../base/DialogFormBase";
 import DictionaryService from "../../../services/dictionaries.service";
+import useSnackbar from "../../../hooks/useSnackbar";
 
 interface CreateDictionaryDialogProps {
   trigger: JSX.Element;
@@ -21,6 +22,7 @@ const CreateDictionaryDialog: React.FC<CreateDictionaryDialogProps> = ({
   const queryClient = useQueryClient();
 
   const dialogRef = useRef<DialogHandle>(null);
+  const { push } = useSnackbar();
 
   // How to handle errors???
   const { mutateAsync, isLoading, isError } = useMutation({
@@ -43,7 +45,8 @@ const CreateDictionaryDialog: React.FC<CreateDictionaryDialogProps> = ({
       reset();
       dialogRef.current?.close();
 
-      // Instead of invalidation maybe use setQueryData ?
+      push({ message: "Dictionary created successfully", type: "success" });
+
       queryClient.invalidateQueries(["dictionaries"]);
     } catch (error: any) {
       console.log(error);

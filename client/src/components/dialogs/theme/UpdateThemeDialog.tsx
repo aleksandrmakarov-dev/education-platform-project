@@ -11,6 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DialogHandle } from "../../../hooks/useImperativeDialog";
 import ThemeForm from "../../forms/theme/ThemeForm";
 import ThemesService from "../../../services/themes.service";
+import useSnackbar from "../../../hooks/useSnackbar";
 
 interface UpdateThemeDialogProps {
   trigger: JSX.Element;
@@ -24,6 +25,8 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
   const queryClient = useQueryClient();
 
   const dialogRef = useRef<DialogHandle>(null);
+
+  const { push } = useSnackbar();
 
   // How to handle errors???
   const { mutateAsync, isLoading } = useMutation({
@@ -54,9 +57,9 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
     }
 
     try {
+      await mutateAsync({ identifier: theme.id, body: values });
       reset();
       dialogRef.current?.close();
-      await mutateAsync({ id: theme.id, body: values });
 
       // queryClient.cancelQueries(["dictionaries"]);
       // const previousData = queryClient.getQueryData<Theme[]>([
@@ -71,6 +74,8 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
       // );
 
       // For some reason code above does not work (previous data undefined)
+
+      push({ message: "Theme updated successfully", type: "success" });
 
       queryClient.invalidateQueries(["themes"]);
     } catch (error: any) {

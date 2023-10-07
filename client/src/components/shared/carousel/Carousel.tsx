@@ -28,7 +28,7 @@ const Carousel: React.FC<CarouselProps> = ({ count, children }) => {
   };
 
   return (
-    <div className="w-[512px]">
+    <div className="w-[768px]">
       {children[activeStep]}
       <MobileStepper
         variant="text"
@@ -37,7 +37,8 @@ const Carousel: React.FC<CarouselProps> = ({ count, children }) => {
         position="static"
         backButton={
           <Button onClick={handleBack}>
-            Back <KeyboardArrowLeft />
+            <KeyboardArrowLeft />
+            Back
           </Button>
         }
         nextButton={

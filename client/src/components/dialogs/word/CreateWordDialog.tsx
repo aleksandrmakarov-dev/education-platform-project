@@ -10,6 +10,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { DialogHandle } from "../../../hooks/useImperativeDialog";
+import useSnackbar from "../../../hooks/useSnackbar";
 
 interface CreateWordDialogProps {
   trigger: JSX.Element;
@@ -23,6 +24,8 @@ const CreateWordDialog: React.FC<CreateWordDialogProps> = ({
   const queryClient = useQueryClient();
 
   const dialogRef = useRef<DialogHandle>(null);
+
+  const { push } = useSnackbar();
 
   // How to handle errors???
   const { mutateAsync, isLoading, isError } = useMutation({
@@ -52,6 +55,8 @@ const CreateWordDialog: React.FC<CreateWordDialogProps> = ({
       await mutateAsync(values);
       reset();
       dialogRef.current?.close();
+
+      push({ message: "Word created successfully", type: "success" });
 
       // Instead of invalidation maybe use setQueryData ?
       queryClient.invalidateQueries(["words"]);

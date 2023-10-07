@@ -11,6 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DialogHandle } from "../../../hooks/useImperativeDialog";
 import DictionaryForm from "../../forms/dictionary/DictionaryForm";
 import DictionaryService from "../../../services/dictionaries.service";
+import useSnackbar from "../../../hooks/useSnackbar";
 
 interface UpdateDictionaryDialogProps {
   trigger: JSX.Element;
@@ -24,6 +25,7 @@ const UpdateDictionaryDialog: React.FC<UpdateDictionaryDialogProps> = ({
   const queryClient = useQueryClient();
 
   const dialogRef = useRef<DialogHandle>(null);
+  const { push } = useSnackbar();
 
   // How to handle errors???
   const { mutateAsync, isLoading } = useMutation({
@@ -48,7 +50,7 @@ const UpdateDictionaryDialog: React.FC<UpdateDictionaryDialogProps> = ({
 
     try {
       await mutateAsync({
-        id: dictionary.id,
+        identifier: dictionary.id,
         body: values,
       });
       reset();
@@ -67,6 +69,8 @@ const UpdateDictionaryDialog: React.FC<UpdateDictionaryDialogProps> = ({
       // );
 
       // For some reason code above does not work (previous data undefined)
+
+      push({ message: "Dictionary updated successfully", type: "success" });
 
       queryClient.invalidateQueries(["dictionaries"]);
     } catch (error: any) {

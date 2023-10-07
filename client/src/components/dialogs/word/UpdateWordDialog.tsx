@@ -13,6 +13,7 @@ import { ThemeFormSchemaType } from "../../../lib/validations/theme-form.schema"
 import ThemeForm from "../../forms/theme/ThemeForm";
 import DialogFormBase from "../base/DialogFormBase";
 import WordForm from "../../forms/word/WordForm";
+import useSnackbar from "../../../hooks/useSnackbar";
 
 interface UpdateThemeDialogProps {
   trigger: JSX.Element;
@@ -26,6 +27,8 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
   const queryClient = useQueryClient();
 
   const dialogRef = useRef<DialogHandle>(null);
+
+  const { push } = useSnackbar();
 
   // How to handle errors???
   const { mutateAsync, isLoading } = useMutation({
@@ -58,9 +61,9 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
     }
 
     try {
+      await mutateAsync({ identifier: word.id, body: values });
       reset();
       dialogRef.current?.close();
-      await mutateAsync({ id: word.id, body: values });
 
       // queryClient.cancelQueries(["dictionaries"]);
       // const previousData = queryClient.getQueryData<Theme[]>([
@@ -75,6 +78,8 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
       // );
 
       // For some reason code above does not work (previous data undefined)
+
+      push({ message: "Word updated successfully", type: "success" });
 
       queryClient.invalidateQueries(["words"]);
     } catch (error: any) {

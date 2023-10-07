@@ -1,9 +1,10 @@
 import React, { useRef } from "react";
-import DialogFormBase from "../base/DialogFormBase";
 import { Theme } from "../../../lib/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DialogHandle } from "../../../hooks/useImperativeDialog";
 import ThemesService from "../../../services/themes.service";
+import useSnackbar from "../../../hooks/useSnackbar";
+import DialogBase from "../base/DialogBase";
 
 interface DeleteThemeDialogProps {
   trigger: JSX.Element;
@@ -18,8 +19,9 @@ const DeleteThemeDialog: React.FC<DeleteThemeDialogProps> = ({
 
   const dialogRef = useRef<DialogHandle>(null);
 
-  // How to handle errors???
-  const { mutateAsync, isLoading, isError } = useMutation({
+  const { push } = useSnackbar();
+
+  const { mutateAsync, isLoading } = useMutation({
     mutationFn: ThemesService.deleteById,
   });
 
@@ -32,6 +34,8 @@ const DeleteThemeDialog: React.FC<DeleteThemeDialogProps> = ({
       await mutateAsync(theme.id);
       dialogRef.current?.close();
 
+      push({ message: "Theme deleted successfully", type: "success" });
+
       queryClient.invalidateQueries(["themes"]);
     } catch (error: any) {
       console.log(error);
@@ -39,11 +43,10 @@ const DeleteThemeDialog: React.FC<DeleteThemeDialogProps> = ({
   };
 
   return (
-    <DialogFormBase
+    <DialogBase
       trigger={trigger}
       title="Are you absolutely sure?"
       onSubmit={onSubmit}
-      reset={() => {}}
       isBusy={isLoading}
       ref={dialogRef}
       primaryBtnColor="error"
@@ -61,7 +64,7 @@ const DeleteThemeDialog: React.FC<DeleteThemeDialogProps> = ({
           <p>This process deletes the theme and all related resources.</p>
         </div>
       </div>
-    </DialogFormBase>
+    </DialogBase>
   );
 };
 

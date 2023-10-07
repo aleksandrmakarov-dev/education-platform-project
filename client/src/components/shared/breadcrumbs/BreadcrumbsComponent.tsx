@@ -24,7 +24,7 @@ const BreadcrumbsComponent = () => {
               color={item.last ? "text.primary" : "inherit"}
               fontWeight={item.last ? 500 : 400}
             >
-              {item.alt ?? item.value}
+              {item.value}
             </Typography>
           ) : (
             <Link
@@ -32,7 +32,7 @@ const BreadcrumbsComponent = () => {
               className="uppercase hover:underline"
               to={item.route}
             >
-              {item.alt ?? item.value}
+              {item.value}
             </Link>
           )
         )}

@@ -1,3 +1,4 @@
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Dialog,
   DialogTitle,
@@ -6,11 +7,14 @@ import {
   Button,
 } from "@mui/material";
 import React, { useState } from "react";
+import useImperativeHandleDialog, {
+  DialogHandle,
+} from "../../../hooks/useImperativeDialog";
 
 interface DialogBaseProps {
   trigger: JSX.Element;
   title: string;
-  content: JSX.Element;
+  children: React.ReactNode;
   primaryBtnLabel?: string;
   secondaryBtnLabel?: string;
   primaryBtnColor?:
@@ -21,31 +25,30 @@ interface DialogBaseProps {
     | "error"
     | "info"
     | "warning";
-  onCallback: (value: boolean) => void;
+  isBusy?: boolean;
+  onSubmit: () => Promise<void>;
 }
 
-const DialogBase: React.FC<DialogBaseProps> = ({
-  title,
-  content,
-  trigger,
-  primaryBtnLabel,
-  secondaryBtnLabel,
-  primaryBtnColor,
-  onCallback,
-}) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+const DialogBase: React.ForwardRefRenderFunction<
+  DialogHandle,
+  DialogBaseProps
+> = (
+  {
+    title,
+    trigger,
+    children,
+    primaryBtnLabel,
+    secondaryBtnLabel,
+    primaryBtnColor,
+    isBusy,
+    onSubmit,
+  },
+  ref
+) => {
+  const { isOpen, handleOpen, handleClose } = useImperativeHandleDialog(ref);
 
-  const handleClose = () => setIsOpen(false);
-  const handleOpen = () => setIsOpen(true);
-
-  const onPrimaryBtnClick = () => {
+  const onCloseDialog = () => {
     handleClose();
-    onCallback(true);
-  };
-
-  const onSecondaryBtnClick = () => {
-    handleClose();
-    onCallback(false);
   };
 
   return (
@@ -58,22 +61,26 @@ const DialogBase: React.FC<DialogBaseProps> = ({
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
-        <DialogContent>{content}</DialogContent>
+        <DialogContent dividers>{children}</DialogContent>
         <DialogActions>
-          <Button onClick={onSecondaryBtnClick}>
-            {secondaryBtnLabel ?? "Cancel"}
+          <Button onClick={onCloseDialog} disabled={isBusy}>
+            <span>{secondaryBtnLabel ?? "Cancel"}</span>
           </Button>
-          <Button
-            onClick={onPrimaryBtnClick}
+          <LoadingButton
+            type="submit"
             color={primaryBtnColor ?? "primary"}
+            loading={isBusy}
+            variant="contained"
             autoFocus
+            disableElevation
+            onClick={onSubmit}
           >
-            {primaryBtnLabel ?? "Confirm"}
-          </Button>
+            <span>{primaryBtnLabel ?? "Confirm"}</span>
+          </LoadingButton>
         </DialogActions>
       </Dialog>
     </>
   );
 };
 
-export default DialogBase;
+export default React.forwardRef(DialogBase);

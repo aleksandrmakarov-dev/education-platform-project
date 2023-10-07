@@ -10,6 +10,7 @@ import ThemeForm from "../../forms/theme/ThemeForm";
 import { DialogHandle } from "../../../hooks/useImperativeDialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ThemesService from "../../../services/themes.service";
+import useSnackbar from "../../../hooks/useSnackbar";
 
 interface CreateThemeDialogProps {
   trigger: JSX.Element;
@@ -23,6 +24,8 @@ const CreateThemeDialog: React.FC<CreateThemeDialogProps> = ({
   const queryClient = useQueryClient();
 
   const dialogRef = useRef<DialogHandle>(null);
+
+  const { push } = useSnackbar();
 
   // How to handle errors???
   const { mutateAsync, isLoading, isError } = useMutation({
@@ -52,6 +55,7 @@ const CreateThemeDialog: React.FC<CreateThemeDialogProps> = ({
       reset();
       dialogRef.current?.close();
 
+      push({ message: "Theme created successfully", type: "success" });
       // Instead of invalidation maybe use setQueryData ?
       queryClient.invalidateQueries(["themes"]);
     } catch (error: any) {

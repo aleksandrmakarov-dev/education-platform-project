@@ -73,9 +73,6 @@ const DictionaryDataGrid = () => {
   return (
     <div className="w-full">
       <div className="mb-2">
-        <Typography variant="h5" className="mb-2">
-          Dictionaries
-        </Typography>
         <div className="flex gap-10 items-center justify-between">
           <div className="flex gap-1 items-center">
             <DataGridSearchForm

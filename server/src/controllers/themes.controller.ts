@@ -117,11 +117,17 @@ async function updateById(req: Request, res: Response) {
 
 async function deleteById(req: Request, res: Response) {
   const { identifier } = IdentifierValidationSchema.parse(req.params);
-  const { deletedCount } = await ThemeModel.deleteOne({ _id: identifier });
+  const deletedTheme = await ThemeModel.findByIdAndRemove(identifier);
 
-  if (deletedCount === 0) {
+  if (!deletedTheme) {
     throw new NotFoundError(`theme with identifier "${identifier}" not found`);
   }
+
+  await DictionaryModel.findByIdAndUpdate(deletedTheme.dictionary, {
+    $pull: {
+      themes: deletedTheme._id,
+    },
+  });
 
   return NoContent(res);
 }

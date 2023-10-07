@@ -1,9 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { matchPath, useLocation, useParams } from "react-router-dom";
+import { matchPath, useLocation } from "react-router-dom";
 
 export type BreadcrumbItemType = {
   value: string;
-  alt?: string;
   route: string;
   last: boolean;
   disabled?: boolean;
@@ -40,14 +39,11 @@ export default function useBreadcrubms() {
   const { breadcrumbs, setBreadcrumbs, disabledRoutes } =
     useContext(BreadcrumbsContext);
 
-  const { pathname, state } = useLocation();
-  const params = useParams();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const pathnames = location.pathname.split("/").filter((x) => x);
     const plength = pathnames.length - 1;
-
-    const keys = Object.keys(params);
 
     const breadcrumbItems = pathnames.map<BreadcrumbItemType>((item, i) => {
       const route = `/${pathnames.slice(0, i + 1).join("/")}`;
@@ -72,19 +68,7 @@ export default function useBreadcrubms() {
     setBreadcrumbs(breadcrumbItems);
   }, [pathname]);
 
-  const setAlt = (alt: string, value: string) => {
-    console.log(breadcrumbs);
-
-    const updatedBreadcrumbs = breadcrumbs.map((item) =>
-      item.value === value ? { ...item, alt: alt } : item
-    );
-
-    console.log(updatedBreadcrumbs);
-    setBreadcrumbs(updatedBreadcrumbs);
-  };
-
   return {
-    setAlt,
     breadcrumbs,
   };
 }

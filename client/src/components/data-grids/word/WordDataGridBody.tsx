@@ -1,9 +1,8 @@
 import React from "react";
 import { Word } from "../../../lib/types";
-import { Card, CardHeader, CardMedia } from "@mui/material";
 import WordCard from "../../cards/word/WordCard";
 import Carousel from "../../shared/carousel/Carousel";
-import ImageIcon from "@mui/icons-material/Image";
+import WordFlashCard from "../../cards/word/WordFlashCard";
 
 interface WordDataGridBodyProps {
   data?: Word[];
@@ -17,10 +16,8 @@ interface WordDataGridBodyProps {
 const WordDataGridBody: React.FC<WordDataGridBodyProps> = ({
   data,
   isLoading,
-  isError,
   loadingView,
   emptyView,
-  errorView,
 }) => {
   if (isLoading) {
     return loadingView;
@@ -35,27 +32,7 @@ const WordDataGridBody: React.FC<WordDataGridBodyProps> = ({
       <div className="mx-auto">
         <Carousel count={data.length}>
           {data.map((item) => (
-            <Card
-              key={item.id}
-              variant="outlined"
-              className="flex flex-col items-center justify-center h-72"
-            >
-              <CardMedia className="w-64 h-64 flex-1" component="div">
-                <div>
-                  {item.image ? (
-                    <img
-                      src={item.image}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="flex items-center justify-center h-full bg-gray-200">
-                      <ImageIcon className="text-white" sx={{ fontSize: 72 }} />
-                    </div>
-                  )}
-                </div>
-              </CardMedia>
-              <CardHeader title={item.text} subheader={item.translation} />
-            </Card>
+            <WordFlashCard data={item} key={item.id} />
           ))}
         </Carousel>
       </div>

@@ -11,6 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DialogHandle } from "../../../hooks/useImperativeDialog";
 import DictionaryDeleteForm from "../../forms/dictionary/DictionaryDeleteForm";
 import DictionaryService from "../../../services/dictionaries.service";
+import useSnackbar from "../../../hooks/useSnackbar";
 
 interface DeleteDictionaryDialogProps {
   trigger: JSX.Element;
@@ -22,8 +23,8 @@ const DeleteDictionaryDialog: React.FC<DeleteDictionaryDialogProps> = ({
   dictionary,
 }) => {
   const queryClient = useQueryClient();
-
   const dialogRef = useRef<DialogHandle>(null);
+  const { push } = useSnackbar();
 
   // How to handle errors???
   const { mutateAsync, isLoading, isError } = useMutation({
@@ -51,6 +52,8 @@ const DeleteDictionaryDialog: React.FC<DeleteDictionaryDialogProps> = ({
 
       reset();
       dialogRef.current?.close();
+
+      push({ message: "Dictionary deleted successfully", type: "success" });
 
       queryClient.invalidateQueries(["dictionaries"]);
     } catch (error: any) {
