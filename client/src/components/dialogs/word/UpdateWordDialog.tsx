@@ -37,9 +37,8 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
 
   const defaultValues: WordFormSchemaType = {
     text: "",
-    translation: "",
+    definition: "",
     theme: "",
-    image: "",
   };
 
   const {

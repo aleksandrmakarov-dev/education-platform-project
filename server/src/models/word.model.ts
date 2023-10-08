@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const WordSchema = new mongoose.Schema({
   text: { type: String, required: true },
-  translation: { type: String, required: true },
+  definition: { type: String, required: true },
   image: { type: String },
   createdAt: { type: Date, default: () => Date.now() },
-  context: { type: String },
-  contextTranslation: { type: String },
+  textContext: { type: String },
+  definitionContext: { type: String },
   theme: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Theme",

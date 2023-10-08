@@ -20,9 +20,9 @@ export type Theme = {
 export type Word = {
   id: string;
   text: string;
-  translation: string;
-  context?: string;
-  contextTranslation?: string;
+  definition: string;
+  textContext?: string;
+  definitionContext?: string;
   createdAt: string;
   theme: string;
   image?: string;

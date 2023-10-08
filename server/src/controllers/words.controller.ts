@@ -46,15 +46,11 @@ async function updateById(req: Request, res: Response) {
 async function deleteById(req: Request, res: Response) {
   const { identifier } = IdentifierValidationSchema.parse(req.params);
 
-  const deletedWord = await WordModel.findByIdAndRemove(identifier);
+  const { deletedCount } = await WordModel.deleteOne({ _id: identifier });
 
-  if (!deletedWord) {
+  if (deletedCount === 0) {
     throw new NotFoundError(`word with identifier "${identifier}" not found`);
   }
-
-  await ThemeModel.findByIdAndUpdate(deletedWord.theme, {
-    $pull: { words: deletedWord._id },
-  });
 
   return NoContent(res);
 }

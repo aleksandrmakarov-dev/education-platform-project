@@ -16,10 +16,23 @@ const DictionarySchema = new mongoose.Schema({
 
 DictionarySchema.plugin(mongooseSlugUpdater);
 
-DictionarySchema.post(["deleteMany", "deleteOne"], async (doc) => {
-  await ThemeModel.deleteMany({
-    _id: { $in: doc.themes },
-  });
+DictionarySchema.pre(["deleteOne"], async function (this: any, next) {
+  try {
+    const id = this.getFilter()["_id"];
+    //const dictionaryToDelete = await DictionaryModel.findOne({ _id: id });
+
+    const themes = await ThemeModel.find({ dictionary: id });
+
+    await Promise.all(
+      themes.map((theme) => ThemeModel.deleteOne({ _id: theme._id }))
+    );
+
+    // Call the next middleware
+    next();
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 });
 
 DictionarySchema.set("toJSON", {

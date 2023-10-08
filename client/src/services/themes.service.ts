@@ -20,7 +20,7 @@ async function getWordsByThemeId(params: {
 
   const response = await axios.get<PageResult<Word>>(url.href);
 
-  await wait<boolean>(2000, true);
+  //await wait<boolean>(2000, true);
 
   return response.data;
 }

@@ -21,7 +21,7 @@ async function getThemesByDictionaryId(params: {
 
   const response = await axios.get<PageResult<Theme>>(url.href);
 
-  await wait<boolean>(2000, true);
+  //await wait<boolean>(2000, true);
 
   return response.data;
 }

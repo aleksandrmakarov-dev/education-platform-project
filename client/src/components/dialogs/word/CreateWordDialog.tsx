@@ -34,7 +34,7 @@ const CreateWordDialog: React.FC<CreateWordDialogProps> = ({
 
   const defaultValues: WordFormSchemaType = {
     text: "",
-    translation: "",
+    definition: "",
     theme: theme,
   };
 

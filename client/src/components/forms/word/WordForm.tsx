@@ -47,29 +47,29 @@ const WordForm: React.FC<WordFormProps> = ({
         helperText={errors.text?.message}
       />
       <TextField
-        label="Translation"
+        label="Definition"
         size="small"
         fullWidth
         required
-        {...register("translation")}
-        error={errors.translation !== undefined}
-        helperText={errors.translation?.message}
+        {...register("definition")}
+        error={errors.definition !== undefined}
+        helperText={errors.definition?.message}
       />
       <TextField
-        label="Context"
+        label="Text context"
         size="small"
         fullWidth
-        {...register("context")}
-        error={errors.context !== undefined}
-        helperText={errors.context?.message}
+        {...register("textContext")}
+        error={errors.textContext !== undefined}
+        helperText={errors.textContext?.message}
       />
       <TextField
-        label="Context translation"
+        label="Definition context"
         size="small"
         fullWidth
-        {...register("contextTranslation")}
-        error={errors.contextTranslation !== undefined}
-        helperText={errors.contextTranslation?.message}
+        {...register("definitionContext")}
+        error={errors.definitionContext !== undefined}
+        helperText={errors.definitionContext?.message}
       />
     </div>
   );

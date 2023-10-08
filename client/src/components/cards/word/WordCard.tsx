@@ -33,15 +33,15 @@ const WordCard: React.FC<WordCardProps> = ({ data }) => {
           </div>
         </CardMedia>
         <CardContent className="flex-1">
-          <CardHeader title={data.text} subheader={data.translation} />
-          {data.context && data.contextTranslation && (
+          <CardHeader title={data.text} subheader={data.definition} />
+          {data.textContext && data.definitionContext && (
             <div className="px-4">
               <Typography variant="subtitle1" className="underline">
                 Example:
               </Typography>
-              <Typography variant="h6">{data.context}</Typography>
+              <Typography variant="h6">{data.textContext}</Typography>
               <Typography variant="subtitle1" color="text.secondary">
-                {data.contextTranslation}
+                {data.definitionContext}
               </Typography>
             </div>
           )}
