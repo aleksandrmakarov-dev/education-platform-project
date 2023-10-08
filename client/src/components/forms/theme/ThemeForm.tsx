@@ -25,7 +25,11 @@ const ThemeForm: React.FC<ThemeFormProps> = ({
   return (
     <div className="py-1.5 w-[512px] flex flex-col gap-5">
       <TextField sx={{ display: "none" }} {...register("image")} />
-      <FileUpload onCallback={onFileUploadCallback} path="/themes/previews" />
+      <FileUpload
+        onCallback={onFileUploadCallback}
+        path="/themes/previews"
+        multiple
+      />
       <TextField
         label="Title"
         size="small"

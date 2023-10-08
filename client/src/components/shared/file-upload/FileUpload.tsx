@@ -91,13 +91,15 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
     const updatedFile = { ...fileToUpdate, state: state, url: url };
 
-    setFiles(filesRef.current.map((f) => (f.id === id ? updatedFile : f)));
+    const filesAfterChange = filesRef.current.map((f) =>
+      f.id === id ? updatedFile : f
+    );
+    setFiles(filesAfterChange);
 
-    //  - TODO: change state to idle when all files uploaded
-
-    const callbackData = [updatedFile];
-    console.log(callbackData);
-    onCallback(callbackData);
+    if (filesAfterChange.every((f) => f.state === "success")) {
+      setState("idle");
+    }
+    onCallback(filesAfterChange);
   };
 
   const onProgressChange = (id: string) => (event: AxiosProgressEvent) => {
@@ -127,7 +129,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       };
 
       if (multiple) {
-        setFiles([newFile, ...files]);
+        setFiles([...files, newFile]);
       } else {
         setFiles([newFile]);
       }
@@ -153,16 +155,22 @@ const FileUpload: React.FC<FileUploadProps> = ({
     }
   };
 
+  const onFileRemove = (id: string) => {
+    const filesAfterRemove = filesRef.current.filter((f) => f.id !== id);
+    setFiles(filesAfterRemove);
+    onCallback(filesAfterRemove);
+  };
+
   return (
-    <Paper variant="outlined">
-      <div className="flex gap-10 items-center justify-between p-2">
-        <Button component="label">
+    <Paper variant="outlined" sx={{ borderColor: "lightgray" }}>
+      <div className="flex gap-10 items-center justify-between pl-0.5 pr-2 py-0.5">
+        <Button component="label" variant="text">
           Select file
           <Input type="file" sx={{ display: "none" }} onChange={onFileSelect} />
         </Button>
         <div className="text-sm flex items-center gap-1 text-gray-600">
           {state === "idle" ? (
-            <p>Select file to upload</p>
+            <p>Choose file(s) to upload</p>
           ) : (
             <>
               <UploadRoundedIcon />
@@ -174,7 +182,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
       {files && files.length > 0 && (
         <div className="border-t border-gray-200">
           {files.map((file) => (
-            <FileUploadItem key={file.id} {...file} />
+            <FileUploadItem
+              key={file.id}
+              {...file}
+              onRemove={() => onFileRemove(file.id)}
+            />
           ))}
         </div>
       )}

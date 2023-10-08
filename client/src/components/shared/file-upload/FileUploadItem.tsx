@@ -12,6 +12,7 @@ interface FileUploadItemProps {
   size: string;
   state: FileUploadItemState;
   progress: number;
+  onRemove: () => void;
 }
 
 const FileUploadItem: React.FC<FileUploadItemProps> = ({
@@ -19,6 +20,7 @@ const FileUploadItem: React.FC<FileUploadItemProps> = ({
   size,
   state,
   progress,
+  onRemove,
 }) => {
   return (
     <div className="px-2 mb-2">
@@ -57,14 +59,14 @@ const FileUploadItem: React.FC<FileUploadItemProps> = ({
               <IconButton size="small">
                 <ReplayRoundedIcon sx={{ fontSize: 18 }} />
               </IconButton>
-              <IconButton size="small">
+              <IconButton size="small" onClick={onRemove}>
                 <CloseRoundedIcon sx={{ fontSize: 18 }} />
               </IconButton>
             </>
           )}
           {state === "success" && (
             <>
-              <IconButton size="small">
+              <IconButton size="small" onClick={onRemove}>
                 <CloseRoundedIcon sx={{ fontSize: 18 }} />
               </IconButton>
             </>

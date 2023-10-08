@@ -1,4 +1,10 @@
-import { Alert, AlertColor, Snackbar, SnackbarOrigin } from "@mui/material";
+import {
+  Alert,
+  AlertColor,
+  Snackbar,
+  SnackbarCloseReason,
+  SnackbarOrigin,
+} from "@mui/material";
 import { createContext, useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
@@ -61,8 +67,17 @@ export const SnackbarProvider = ({ children }: React.PropsWithChildren<{}>) => {
     setSnackbars(afterPop);
   };
 
-  const handleClose = () => {
+  const close = () => {
     setOpen(false);
+  };
+
+  const handleClose = (
+    event: Event | React.SyntheticEvent<any, Event>,
+    reason: SnackbarCloseReason
+  ) => {
+    if (reason === "timeout") {
+      close();
+    }
   };
 
   const handleExited = () => {
@@ -85,7 +100,7 @@ export const SnackbarProvider = ({ children }: React.PropsWithChildren<{}>) => {
           TransitionProps={{ onExited: handleExited }}
         >
           <Alert
-            onClose={handleClose}
+            onClose={close}
             severity={activeItem?.type}
             sx={{ width: "100%" }}
           >
