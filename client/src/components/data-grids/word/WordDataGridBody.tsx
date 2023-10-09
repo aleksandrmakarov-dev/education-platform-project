@@ -3,6 +3,7 @@ import { Word } from "../../../lib/types";
 import WordCard from "../../cards/word/WordCard";
 import Carousel from "../../shared/carousel/Carousel";
 import WordFlashCard from "../../cards/word/WordFlashCard";
+import FlipAnimation from "../../shared/animations/FlipAnimation";
 
 interface WordDataGridBodyProps {
   data?: Word[];
@@ -30,7 +31,7 @@ const WordDataGridBody: React.FC<WordDataGridBodyProps> = ({
   return (
     <div className="flex flex-col gap-2">
       <div className="mx-auto">
-        <Carousel count={data.length}>
+        <Carousel count={data.length} progress>
           {data.map((item) => (
             <WordFlashCard data={item} key={item.id} />
           ))}

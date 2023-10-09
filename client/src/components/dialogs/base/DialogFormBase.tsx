@@ -8,11 +8,11 @@ import {
 import React from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import useImperativeHandleDialog, {
-  DialogHandle,
+  OpenCloseHandle,
 } from "../../../hooks/useImperativeDialog";
 
 interface DialogFormBaseProps {
-  trigger: JSX.Element;
+  trigger?: JSX.Element;
   title: string;
   children: React.ReactNode;
   primaryBtnLabel?: string;
@@ -33,7 +33,7 @@ interface DialogFormBaseProps {
 }
 
 const DialogFormBase: React.ForwardRefRenderFunction<
-  DialogHandle,
+  OpenCloseHandle,
   DialogFormBaseProps
 > = (
   {
@@ -56,9 +56,17 @@ const DialogFormBase: React.ForwardRefRenderFunction<
     handleClose();
   };
 
+  const onTriggerClick = () => {
+    if (trigger?.props.onClick) {
+      trigger.props.onClick();
+    }
+
+    handleOpen();
+  };
+
   return (
     <>
-      {React.cloneElement(trigger, { onClick: handleOpen })}
+      {trigger && React.cloneElement(trigger, { onClick: handleOpen })}
       <Dialog
         open={isOpen}
         onClose={handleClose}

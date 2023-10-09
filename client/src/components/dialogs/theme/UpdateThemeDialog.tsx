@@ -8,7 +8,7 @@ import {
   ThemeFormSchema,
 } from "../../../lib/validations/theme-form.schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { DialogHandle } from "../../../hooks/useImperativeDialog";
+import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
 import ThemeForm from "../../forms/theme/ThemeForm";
 import ThemesService from "../../../services/themes.service";
 import useSnackbar from "../../../hooks/useSnackbar";
@@ -24,7 +24,7 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
 }) => {
   const queryClient = useQueryClient();
 
-  const dialogRef = useRef<DialogHandle>(null);
+  const dialogRef = useRef<OpenCloseHandle>(null);
 
   const { push } = useSnackbar();
 

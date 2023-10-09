@@ -6,13 +6,13 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import useImperativeHandleDialog, {
-  DialogHandle,
+  OpenCloseHandle,
 } from "../../../hooks/useImperativeDialog";
 
 interface DialogBaseProps {
-  trigger: JSX.Element;
+  trigger?: JSX.Element;
   title: string;
   children: React.ReactNode;
   primaryBtnLabel?: string;
@@ -30,7 +30,7 @@ interface DialogBaseProps {
 }
 
 const DialogBase: React.ForwardRefRenderFunction<
-  DialogHandle,
+  OpenCloseHandle,
   DialogBaseProps
 > = (
   {
@@ -51,9 +51,17 @@ const DialogBase: React.ForwardRefRenderFunction<
     handleClose();
   };
 
+  const onTriggerClick = () => {
+    if (trigger?.props.onClick) {
+      trigger.props.onClick();
+    }
+
+    handleOpen();
+  };
+
   return (
     <>
-      {React.cloneElement(trigger, { onClick: handleOpen })}
+      {trigger && React.cloneElement(trigger, { onClick: onTriggerClick })}
       <Dialog
         open={isOpen}
         onClose={handleClose}

@@ -8,7 +8,7 @@ import {
   DictionaryDeleteFormSchema,
 } from "../../../lib/validations/dictionary-form.schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { DialogHandle } from "../../../hooks/useImperativeDialog";
+import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
 import DictionaryDeleteForm from "../../forms/dictionary/DictionaryDeleteForm";
 import DictionaryService from "../../../services/dictionaries.service";
 import useSnackbar from "../../../hooks/useSnackbar";
@@ -23,7 +23,7 @@ const DeleteDictionaryDialog: React.FC<DeleteDictionaryDialogProps> = ({
   dictionary,
 }) => {
   const queryClient = useQueryClient();
-  const dialogRef = useRef<DialogHandle>(null);
+  const dialogRef = useRef<OpenCloseHandle>(null);
   const { push } = useSnackbar();
 
   // How to handle errors???

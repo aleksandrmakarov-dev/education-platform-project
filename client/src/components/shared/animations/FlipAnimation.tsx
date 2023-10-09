@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { m } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface FlipAnimationProps {
   children: React.ReactNode;
@@ -8,22 +8,24 @@ interface FlipAnimationProps {
 const FlipAnimation: React.FC<FlipAnimationProps> = ({ children }) => {
   const [flipped, setFlipped] = useState<boolean>(false);
 
-  const onContainerClick = () => {
+  const handleFlip = () => {
     setFlipped(!flipped);
   };
 
   return (
-    <div onClick={onContainerClick}>
-      <m.div
-        initial={{ rotateX: 0 }}
-        animate={{ rotateX: 180 }}
-        transition={{ duration: 0.2 }}
+    <motion.div
+      onClick={handleFlip}
+      initial={{ perspective: "500px" }}
+      animate={{ rotateX: flipped ? 180 : 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.div
+        animate={{ rotateX: flipped ? 180 : 0 }}
+        transition={{ duration: 0 }}
       >
-        <m.div initial={{ rotateX: 0 }} animate={{ rotateX: 180 }}>
-          {children}
-        </m.div>
-      </m.div>
-    </div>
+        {children}
+      </motion.div>
+    </motion.div>
   );
 };
 

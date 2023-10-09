@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Theme } from "../../../lib/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { DialogHandle } from "../../../hooks/useImperativeDialog";
+import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
 import ThemesService from "../../../services/themes.service";
 import useSnackbar from "../../../hooks/useSnackbar";
 import DialogBase from "../base/DialogBase";
@@ -17,7 +17,7 @@ const DeleteThemeDialog: React.FC<DeleteThemeDialogProps> = ({
 }) => {
   const queryClient = useQueryClient();
 
-  const dialogRef = useRef<DialogHandle>(null);
+  const dialogRef = useRef<OpenCloseHandle>(null);
 
   const { push } = useSnackbar();
 

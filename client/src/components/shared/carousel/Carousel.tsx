@@ -1,21 +1,31 @@
-import { Button, MobileStepper } from "@mui/material";
-import React, { useState } from "react";
+import { Button, LinearProgress, MobileStepper } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import FlipAnimation from "../animations/FlipAnimation";
+import SwipeAnimation, { SwipeDirection } from "../animations/SwipeAnimation";
 
 interface CarouselProps {
   count: number;
   children: JSX.Element[];
+  progress?: boolean;
 }
 
-const Carousel: React.FC<CarouselProps> = ({ count, children }) => {
+const Carousel: React.FC<CarouselProps> = ({ count, children, progress }) => {
   const [activeStep, setActiveStep] = useState<number>(0);
+  const [direction, setDirection] = useState<SwipeDirection>("left");
+  const [progressValue, setProgressValue] = useState<number>(0);
+
+  useEffect(() => {
+    const v = ((activeStep + 1) * 100) / count;
+    setProgressValue(v);
+  }, [activeStep, count]);
 
   const handleNext = () => {
     if (activeStep >= count - 1) {
       return;
     }
-
+    setDirection("left");
     setActiveStep(activeStep + 1);
   };
 
@@ -23,26 +33,35 @@ const Carousel: React.FC<CarouselProps> = ({ count, children }) => {
     if (activeStep <= 0) {
       return;
     }
-
+    setDirection("right");
     setActiveStep(activeStep - 1);
   };
 
   return (
     <div className="w-[768px]">
-      {children[activeStep]}
+      <SwipeAnimation direction={direction} index={activeStep}>
+        {children}
+      </SwipeAnimation>
+      {progress && (
+        <LinearProgress
+          variant="determinate"
+          value={progressValue}
+          className="rounded-md"
+        />
+      )}
       <MobileStepper
         variant="text"
         steps={count}
         activeStep={activeStep}
         position="static"
         backButton={
-          <Button onClick={handleBack}>
+          <Button onClick={handleBack} disabled={activeStep === 0}>
             <KeyboardArrowLeft />
             Back
           </Button>
         }
         nextButton={
-          <Button onClick={handleNext}>
+          <Button onClick={handleNext} disabled={activeStep === count - 1}>
             Next <KeyboardArrowRight />
           </Button>
         }

@@ -1,23 +1,23 @@
 import React, { useRef } from "react";
 import { Word } from "../../../lib/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { DialogHandle } from "../../../hooks/useImperativeDialog";
+import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
 import WordsService from "../../../services/themes.service";
 import useSnackbar from "../../../hooks/useSnackbar";
 import DialogBase from "../base/DialogBase";
 
 interface DeleteWordDialogProps {
-  trigger: JSX.Element;
-  theme?: Word;
+  trigger?: JSX.Element;
+  word?: Word;
 }
 
 const DeleteWordDialog: React.FC<DeleteWordDialogProps> = ({
   trigger,
-  theme,
+  word,
 }) => {
   const queryClient = useQueryClient();
 
-  const dialogRef = useRef<DialogHandle>(null);
+  const dialogRef = useRef<OpenCloseHandle>(null);
 
   const { push } = useSnackbar();
 
@@ -27,12 +27,12 @@ const DeleteWordDialog: React.FC<DeleteWordDialogProps> = ({
   });
 
   const onSubmit = async () => {
-    if (!theme) {
+    if (!word) {
       return;
     }
 
     try {
-      await mutateAsync(theme.id);
+      await mutateAsync(word.id);
       dialogRef.current?.close();
 
       push({ message: "Word deleted successfully", type: "success" });

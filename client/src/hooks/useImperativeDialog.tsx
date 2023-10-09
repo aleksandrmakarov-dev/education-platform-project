@@ -1,11 +1,13 @@
 import { useImperativeHandle, useState } from "react";
 
-export type DialogHandle = {
+export type OpenCloseHandle = {
   open: () => void;
   close: () => void;
 };
 
-const useImperativeHandleDialog = (ref?: React.ForwardedRef<DialogHandle>) => {
+const useImperativeHandleDialog = (
+  ref?: React.ForwardedRef<OpenCloseHandle>
+) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useImperativeHandle(

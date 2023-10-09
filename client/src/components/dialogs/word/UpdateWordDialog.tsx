@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Word } from "../../../lib/types";
-import { DialogHandle } from "../../../hooks/useImperativeDialog";
+import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
 import { useRef } from "react";
 import WordsService from "../../../services/words.service";
 import {
@@ -9,8 +9,6 @@ import {
 } from "../../../lib/validations/word-form.schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ThemeFormSchemaType } from "../../../lib/validations/theme-form.schema";
-import ThemeForm from "../../forms/theme/ThemeForm";
 import DialogFormBase from "../base/DialogFormBase";
 import WordForm from "../../forms/word/WordForm";
 import useSnackbar from "../../../hooks/useSnackbar";
@@ -26,7 +24,7 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
 }) => {
   const queryClient = useQueryClient();
 
-  const dialogRef = useRef<DialogHandle>(null);
+  const dialogRef = useRef<OpenCloseHandle>(null);
 
   const { push } = useSnackbar();
 

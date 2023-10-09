@@ -9,11 +9,11 @@ import {
 } from "../../../lib/validations/word-form.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { DialogHandle } from "../../../hooks/useImperativeDialog";
+import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
 import useSnackbar from "../../../hooks/useSnackbar";
 
 interface CreateWordDialogProps {
-  trigger: JSX.Element;
+  trigger?: JSX.Element;
   theme: string;
 }
 
@@ -23,7 +23,7 @@ const CreateWordDialog: React.FC<CreateWordDialogProps> = ({
 }) => {
   const queryClient = useQueryClient();
 
-  const dialogRef = useRef<DialogHandle>(null);
+  const dialogRef = useRef<OpenCloseHandle>(null);
 
   const { push } = useSnackbar();
 

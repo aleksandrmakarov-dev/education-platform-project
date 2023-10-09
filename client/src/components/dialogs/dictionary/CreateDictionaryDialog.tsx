@@ -6,7 +6,7 @@ import {
   DictionaryFormSchemaType,
 } from "../../../lib/validations/dictionary-form.schema";
 import DictionaryForm from "../../forms/dictionary/DictionaryForm";
-import { DialogHandle } from "../../../hooks/useImperativeDialog";
+import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import DialogFormBase from "../base/DialogFormBase";
 import DictionaryService from "../../../services/dictionaries.service";
@@ -21,7 +21,7 @@ const CreateDictionaryDialog: React.FC<CreateDictionaryDialogProps> = ({
 }) => {
   const queryClient = useQueryClient();
 
-  const dialogRef = useRef<DialogHandle>(null);
+  const dialogRef = useRef<OpenCloseHandle>(null);
   const { push } = useSnackbar();
 
   // How to handle errors???
