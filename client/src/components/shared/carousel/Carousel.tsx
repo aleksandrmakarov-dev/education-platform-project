@@ -15,6 +15,7 @@ const Carousel: React.FC<CarouselProps> = ({ count, children, progress }) => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [direction, setDirection] = useState<SwipeDirection>("left");
   const [progressValue, setProgressValue] = useState<number>(0);
+  const [animationRunning, setAnimationRunning] = useState<boolean>(false);
 
   useEffect(() => {
     const v = ((activeStep + 1) * 100) / count;
@@ -39,7 +40,11 @@ const Carousel: React.FC<CarouselProps> = ({ count, children, progress }) => {
 
   return (
     <div className="w-[768px]">
-      <SwipeAnimation direction={direction} index={activeStep}>
+      <SwipeAnimation
+        direction={direction}
+        index={activeStep}
+        setAnimationRunning={setAnimationRunning}
+      >
         {children}
       </SwipeAnimation>
       {progress && (
@@ -55,13 +60,19 @@ const Carousel: React.FC<CarouselProps> = ({ count, children, progress }) => {
         activeStep={activeStep}
         position="static"
         backButton={
-          <Button onClick={handleBack} disabled={activeStep === 0}>
+          <Button
+            onClick={handleBack}
+            disabled={activeStep === 0 || animationRunning}
+          >
             <KeyboardArrowLeft />
             Back
           </Button>
         }
         nextButton={
-          <Button onClick={handleNext} disabled={activeStep === count - 1}>
+          <Button
+            onClick={handleNext}
+            disabled={activeStep === count - 1 || animationRunning}
+          >
             Next <KeyboardArrowRight />
           </Button>
         }
