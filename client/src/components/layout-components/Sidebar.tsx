@@ -29,7 +29,7 @@ const items: ItemData[] = [
   {
     name: "Practice",
     icon: <ExtensionRoundedIcon />,
-    route: "/practice/saeae-ja-laempoetila/learn",
+    route: "/practice/65245f5dac866c610a79d20d/learn",
   },
 ];
 

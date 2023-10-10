@@ -15,7 +15,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useQuery } from "@tanstack/react-query";
-import usePagination from "../../../hooks/usePagination";
+import usePagination from "../../../hooks/shared/usePagination";
 import { useState } from "react";
 import DictionaryDataGridBody from "./DictionaryDataGridBody";
 
@@ -23,7 +23,7 @@ import CreateDictionaryDialog from "../../dialogs/dictionary/CreateDictionaryDia
 import UpdateDictionaryDialog from "../../dialogs/dictionary/UpdateDictionaryDialog";
 import { Dictionary } from "../../../lib/types";
 import DeleteDictionaryDialog from "../../dialogs/dictionary/DeleteDictionaryDialog";
-import useSearch from "../../../hooks/useSearch";
+import useSearch from "../../../hooks/shared/useSearch";
 import DataGridSearchForm from "../../forms/DataGridSearchForm";
 import DictionaryDataGridEmpty from "./DictionaryDataGridEmpty";
 import DictionaryDataGridLoading from "./DictionaryDataGridLoading";

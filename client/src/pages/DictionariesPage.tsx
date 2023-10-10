@@ -1,4 +1,4 @@
-import DictionaryDataGrid from "../components/data-grids/dictionary/DictionaryDataGrid";
+import DictionaryDataGrid from "../components/views/dictionary/DictionaryDataGrid";
 import BreadcrumbsComponent from "../components/shared/breadcrumbs/BreadcrumbsComponent";
 import Header from "../components/shared/ui/header/Header";
 

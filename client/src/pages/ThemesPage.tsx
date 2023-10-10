@@ -1,5 +1,4 @@
-import { Typography } from "@mui/material";
-import ThemeDataGrid from "../components/data-grids/theme/ThemeDataGrid";
+import ThemeDataGrid from "../components/views/theme/ThemeDataGrid";
 import BreadcrumbsComponent from "../components/shared/breadcrumbs/BreadcrumbsComponent";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";

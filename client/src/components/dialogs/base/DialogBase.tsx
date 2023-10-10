@@ -9,7 +9,7 @@ import {
 import React from "react";
 import useImperativeHandleDialog, {
   OpenCloseHandle,
-} from "../../../hooks/useImperativeDialog";
+} from "../../../hooks/shared/useImperativeDialog";
 
 interface DialogBaseProps {
   trigger?: JSX.Element;

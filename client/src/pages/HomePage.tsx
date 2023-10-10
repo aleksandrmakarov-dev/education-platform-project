@@ -1,7 +1,5 @@
-import { Button, IconButton } from "@mui/material";
-import useSnackbar from "../hooks/useSnackbar";
-import MenuBase from "../components/menus/base/MenuBase";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Button } from "@mui/material";
+import useSnackbar from "../hooks/shared/useSnackbar";
 
 const HomePage = () => {
   const { push } = useSnackbar();

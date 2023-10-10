@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import { Theme } from "../../../lib/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
+import { OpenCloseHandle } from "../../../hooks/shared/useImperativeDialog";
 import ThemesService from "../../../services/themes.service";
-import useSnackbar from "../../../hooks/useSnackbar";
+import useSnackbar from "../../../hooks/shared/useSnackbar";
 import DialogBase from "../base/DialogBase";
 import { queryNames } from "../../../lib/constants";
 

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Word } from "../../../lib/types";
-import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
+import { OpenCloseHandle } from "../../../hooks/shared/useImperativeDialog";
 import { useRef } from "react";
 import WordsService from "../../../services/words.service";
 import {
@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DialogFormBase from "../base/DialogFormBase";
 import WordForm from "../../forms/word/WordForm";
-import useSnackbar from "../../../hooks/useSnackbar";
+import useSnackbar from "../../../hooks/shared/useSnackbar";
 import { queryNames } from "../../../lib/constants";
 
 interface UpdateThemeDialogProps {

@@ -7,10 +7,10 @@ import {
   ThemeFormSchemaType,
 } from "../../../lib/validations/theme-form.schema";
 import ThemeForm from "../../forms/theme/ThemeForm";
-import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
+import { OpenCloseHandle } from "../../../hooks/shared/useImperativeDialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ThemesService from "../../../services/themes.service";
-import useSnackbar from "../../../hooks/useSnackbar";
+import useSnackbar from "../../../hooks/shared/useSnackbar";
 import { queryNames } from "../../../lib/constants";
 
 interface CreateThemeDialogProps {

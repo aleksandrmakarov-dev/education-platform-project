@@ -6,11 +6,11 @@ import {
   DictionaryFormSchemaType,
 } from "../../../lib/validations/dictionary-form.schema";
 import DictionaryForm from "../../forms/dictionary/DictionaryForm";
-import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
+import { OpenCloseHandle } from "../../../hooks/shared/useImperativeDialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import DialogFormBase from "../base/DialogFormBase";
 import DictionaryService from "../../../services/dictionaries.service";
-import useSnackbar from "../../../hooks/useSnackbar";
+import useSnackbar from "../../../hooks/shared/useSnackbar";
 import { queryNames } from "../../../lib/constants";
 
 interface CreateDictionaryDialogProps {

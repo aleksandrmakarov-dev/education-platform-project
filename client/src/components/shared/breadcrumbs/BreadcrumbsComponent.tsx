@@ -1,4 +1,4 @@
-import useBreadcrubms from "../../../hooks/useBreadcrumbs";
+import useBreadcrubms from "../../../hooks/shared/useBreadcrumbs";
 import { Breadcrumbs, Typography } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link } from "react-router-dom";

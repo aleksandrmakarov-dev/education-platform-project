@@ -6,7 +6,7 @@ import {
   SearchValidationSchema,
   SearchValidationSchemaType,
 } from "../../lib/validations/utils.schema";
-import { Search } from "../../hooks/useSearch";
+import { Search } from "../../hooks/shared/useSearch";
 
 interface DataGridSearchFormProps {
   search?: Search;

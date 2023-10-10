@@ -2,7 +2,6 @@ import axios from "axios";
 import { SearchParams, Theme, Word } from "../lib/types";
 import BaseService, { PageResult, appendSearchParams } from "./base.service";
 import { ThemeFormSchemaType } from "../lib/validations/theme-form.schema";
-import { wait } from "../lib/utils";
 
 const baseUrl = "http://localhost:3000/api/themes";
 

@@ -9,8 +9,8 @@ import {
 } from "../../../lib/validations/word-form.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
-import useSnackbar from "../../../hooks/useSnackbar";
+import { OpenCloseHandle } from "../../../hooks/shared/useImperativeDialog";
+import useSnackbar from "../../../hooks/shared/useSnackbar";
 import { queryNames } from "../../../lib/constants";
 
 interface CreateWordDialogProps {

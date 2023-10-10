@@ -9,7 +9,7 @@ import React from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import useImperativeHandleDialog, {
   OpenCloseHandle,
-} from "../../../hooks/useImperativeDialog";
+} from "../../../hooks/shared/useImperativeDialog";
 
 interface DialogFormBaseProps {
   trigger?: JSX.Element;

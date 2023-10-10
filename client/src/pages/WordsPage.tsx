@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import WordDataGrid from "../components/data-grids/word/WordDataGrid";
+import WordDataGrid from "../components/views/word/WordDataGrid";
 import BreadcrumbsComponent from "../components/shared/breadcrumbs/BreadcrumbsComponent";
 import { queryNames } from "../lib/constants";
 import ThemesService from "../services/themes.service";

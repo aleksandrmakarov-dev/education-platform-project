@@ -8,10 +8,10 @@ import {
   DictionaryDeleteFormSchema,
 } from "../../../lib/validations/dictionary-form.schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
+import { OpenCloseHandle } from "../../../hooks/shared/useImperativeDialog";
 import DictionaryDeleteForm from "../../forms/dictionary/DictionaryDeleteForm";
 import DictionaryService from "../../../services/dictionaries.service";
-import useSnackbar from "../../../hooks/useSnackbar";
+import useSnackbar from "../../../hooks/shared/useSnackbar";
 import { queryNames } from "../../../lib/constants";
 
 interface DeleteDictionaryDialogProps {

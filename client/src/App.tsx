@@ -23,7 +23,7 @@ function App() {
         </Route>
         <Route path="practice">
           <Route index element={<PracticePage />} />
-          <Route path=":themeSlug">
+          <Route path=":themeId">
             <Route path="flashcards" />
             <Route path="learn" element={<LearnPage />} />
             <Route path="test" />

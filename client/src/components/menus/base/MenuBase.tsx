@@ -1,7 +1,7 @@
 import { Menu } from "@mui/material";
 import React, { forwardRef, useImperativeHandle } from "react";
-import useMenu from "../../../hooks/useMenu";
-import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
+import useMenu from "../../../hooks/shared/useMenu";
+import { OpenCloseHandle } from "../../../hooks/shared/useImperativeDialog";
 
 interface MenuBaseProps {
   trigger: JSX.Element;
