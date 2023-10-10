@@ -12,6 +12,7 @@ import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
 import ThemeForm from "../../forms/theme/ThemeForm";
 import ThemesService from "../../../services/themes.service";
 import useSnackbar from "../../../hooks/useSnackbar";
+import { queryNames } from "../../../lib/constants";
 
 interface UpdateThemeDialogProps {
   trigger: JSX.Element;
@@ -77,7 +78,7 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
 
       push({ message: "Theme updated successfully", type: "success" });
 
-      queryClient.invalidateQueries(["themes"]);
+      queryClient.invalidateQueries([queryNames.theme.list]);
     } catch (error: any) {
       console.log(error);
     }

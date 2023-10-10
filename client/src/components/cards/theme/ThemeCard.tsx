@@ -50,7 +50,10 @@ const ThemeCard: React.FC<ThemeCardProps> = ({
         className="bg-blue-400 h-[196px] border-y border-gray-200"
       >
         {data.image ? (
-          <img src={data.image} className="w-full h-full object-cover" />
+          <img
+            src={data.image}
+            className="w-full h-full object-cover object-center"
+          />
         ) : (
           <div className="flex items-center justify-center h-full">
             <ContentPasteRoundedIcon
@@ -62,7 +65,7 @@ const ThemeCard: React.FC<ThemeCardProps> = ({
       </CardMedia>
       <CardContent sx={{ flexGrow: 1 }}>
         <Typography
-          variant="body2"
+          variant="body1"
           color="text.secondary"
           className="line-clamp-3"
         >

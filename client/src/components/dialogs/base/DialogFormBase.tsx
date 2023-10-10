@@ -56,20 +56,12 @@ const DialogFormBase: React.ForwardRefRenderFunction<
     handleClose();
   };
 
-  const onTriggerClick = () => {
-    if (trigger?.props.onClick) {
-      trigger.props.onClick();
-    }
-
-    handleOpen();
-  };
-
   return (
     <>
       {trigger && React.cloneElement(trigger, { onClick: handleOpen })}
       <Dialog
         open={isOpen}
-        onClose={handleClose}
+        onClose={onCloseDialog}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >

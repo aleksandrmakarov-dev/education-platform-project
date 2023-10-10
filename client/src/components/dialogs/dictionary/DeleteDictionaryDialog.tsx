@@ -12,6 +12,7 @@ import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
 import DictionaryDeleteForm from "../../forms/dictionary/DictionaryDeleteForm";
 import DictionaryService from "../../../services/dictionaries.service";
 import useSnackbar from "../../../hooks/useSnackbar";
+import { queryNames } from "../../../lib/constants";
 
 interface DeleteDictionaryDialogProps {
   trigger: JSX.Element;
@@ -55,7 +56,7 @@ const DeleteDictionaryDialog: React.FC<DeleteDictionaryDialogProps> = ({
 
       push({ message: "Dictionary deleted successfully", type: "success" });
 
-      queryClient.invalidateQueries(["dictionaries"]);
+      queryClient.invalidateQueries([queryNames.dictionary.list]);
     } catch (error: any) {
       console.log(error);
     }

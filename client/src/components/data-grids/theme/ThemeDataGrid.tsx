@@ -15,6 +15,7 @@ import DataGridSearchForm from "../../forms/DataGridSearchForm";
 import ThemeDataGridEmpty from "./ThemeDataGridEmpty";
 import ThemeDataGridLoading from "./ThemeDataGridLoading";
 import DictionaryService from "../../../services/dictionaries.service";
+import { queryNames } from "../../../lib/constants";
 
 interface ThemeDataGridProps {
   dictionaryId: string;
@@ -33,7 +34,7 @@ const ThemeDataGrid: React.FC<ThemeDataGridProps> = ({
   );
 
   const { data, isLoading, isError, isRefetching } = useQuery({
-    queryKey: ["themes", pagination, search],
+    queryKey: [queryNames.theme.list, pagination, search],
     queryFn: async () => {
       const params = { ...pagination, ...search };
       return await DictionaryService.getThemesByDictionaryId({
@@ -41,7 +42,6 @@ const ThemeDataGrid: React.FC<ThemeDataGridProps> = ({
         searchParams: params,
       });
     },
-    refetchOnWindowFocus: false,
   });
 
   const onSelectItem = (value: Theme) => {

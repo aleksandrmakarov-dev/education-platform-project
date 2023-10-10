@@ -51,17 +51,9 @@ const DialogBase: React.ForwardRefRenderFunction<
     handleClose();
   };
 
-  const onTriggerClick = () => {
-    if (trigger?.props.onClick) {
-      trigger.props.onClick();
-    }
-
-    handleOpen();
-  };
-
   return (
     <>
-      {trigger && React.cloneElement(trigger, { onClick: onTriggerClick })}
+      {trigger && React.cloneElement(trigger, { onClick: handleOpen })}
       <Dialog
         open={isOpen}
         onClose={handleClose}

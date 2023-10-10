@@ -117,6 +117,7 @@ async function updateById(req: Request, res: Response) {
 
 async function deleteById(req: Request, res: Response) {
   const { identifier } = IdentifierValidationSchema.parse(req.params);
+
   const { deletedCount } = await ThemeModel.deleteOne({ _id: identifier });
 
   if (deletedCount === 0) {

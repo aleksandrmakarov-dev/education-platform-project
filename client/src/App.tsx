@@ -4,6 +4,8 @@ import HomePage from "./pages/HomePage";
 import DictionariesPage from "./pages/DictionariesPage";
 import ThemesPage from "./pages/ThemesPage";
 import WordsPage from "./pages/WordsPage";
+import LearnPage from "./pages/LearnPage";
+import PracticePage from "./pages/PracticePage";
 
 function App() {
   return (
@@ -17,6 +19,15 @@ function App() {
             <Route path="themes">
               <Route path=":themeSlug" element={<WordsPage />} />
             </Route>
+          </Route>
+        </Route>
+        <Route path="practice">
+          <Route index element={<PracticePage />} />
+          <Route path=":themeSlug">
+            <Route path="flashcards" />
+            <Route path="learn" element={<LearnPage />} />
+            <Route path="test" />
+            <Route path="match" />
           </Route>
         </Route>
       </Route>

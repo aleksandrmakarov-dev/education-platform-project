@@ -11,6 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import DialogFormBase from "../base/DialogFormBase";
 import DictionaryService from "../../../services/dictionaries.service";
 import useSnackbar from "../../../hooks/useSnackbar";
+import { queryNames } from "../../../lib/constants";
 
 interface CreateDictionaryDialogProps {
   trigger: JSX.Element;
@@ -47,7 +48,7 @@ const CreateDictionaryDialog: React.FC<CreateDictionaryDialogProps> = ({
 
       push({ message: "Dictionary created successfully", type: "success" });
 
-      queryClient.invalidateQueries(["dictionaries"]);
+      queryClient.invalidateQueries([queryNames.dictionary.list]);
     } catch (error: any) {
       console.log(error);
     }

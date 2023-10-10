@@ -28,6 +28,7 @@ import DataGridSearchForm from "../../forms/DataGridSearchForm";
 import DictionaryDataGridEmpty from "./DictionaryDataGridEmpty";
 import DictionaryDataGridLoading from "./DictionaryDataGridLoading";
 import DictionaryService from "../../../services/dictionaries.service";
+import { queryNames } from "../../../lib/constants";
 
 const Columns = ["Title", "Created At", "Slug", "Themes"];
 
@@ -40,12 +41,11 @@ const DictionaryDataGrid = () => {
   >(undefined);
 
   const { data, isLoading, isError, isRefetching } = useQuery({
-    queryKey: ["dictionaries", pagination, search],
+    queryKey: [queryNames.dictionary.list, pagination, search],
     queryFn: async () => {
       const params = { ...pagination, ...search };
       return await DictionaryService.getAll(params);
     },
-    refetchOnWindowFocus: false,
   });
 
   const onSelectItem = (value: Dictionary) => {
@@ -112,7 +112,7 @@ const DictionaryDataGrid = () => {
       </div>
       <Paper variant="outlined">
         <TableContainer sx={{ maxHeight: 450 }}>
-          <Table stickyHeader aria-label="simple table">
+          <Table>
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox"></TableCell>

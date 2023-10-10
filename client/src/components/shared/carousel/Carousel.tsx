@@ -2,7 +2,6 @@ import { Button, LinearProgress, MobileStepper } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import FlipAnimation from "../animations/FlipAnimation";
 import SwipeAnimation, { SwipeDirection } from "../animations/SwipeAnimation";
 
 interface CarouselProps {
@@ -39,11 +38,12 @@ const Carousel: React.FC<CarouselProps> = ({ count, children, progress }) => {
   };
 
   return (
-    <div className="w-[768px]">
+    <div className="max-w-screen-md w-full">
       <SwipeAnimation
         direction={direction}
         index={activeStep}
         setAnimationRunning={setAnimationRunning}
+        duration={0.15}
       >
         {children}
       </SwipeAnimation>

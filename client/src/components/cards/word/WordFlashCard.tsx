@@ -22,14 +22,14 @@ const WordFlashCard: React.FC<WordFlashCardProps> = ({ data }) => {
           sx={{
             boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
           }}
-          className="h-96 w-full flex items-center justify-center cursor-pointer"
+          className="h-[26rem] w-full flex items-center justify-center cursor-pointer"
         >
           {open ? (
             <div className="flex flex-col gap-2 text-center">
               {data.image && (
                 <img
                   src={data.image}
-                  className="w-96 h-52 object-contain object-center"
+                  className="w-96 h-72 object-cover object-center rounded-md"
                 />
               )}
               <Typography variant="h5">{data.definition}</Typography>

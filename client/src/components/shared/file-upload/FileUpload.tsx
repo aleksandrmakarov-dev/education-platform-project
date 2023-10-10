@@ -170,7 +170,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         </Button>
         <div className="text-sm flex items-center gap-1 text-gray-600">
           {state === "idle" ? (
-            <p>Choose file(s) to upload9</p>
+            <p>Choose file(s) to upload</p>
           ) : (
             <>
               <UploadRoundedIcon />

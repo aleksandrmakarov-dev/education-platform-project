@@ -7,6 +7,7 @@ interface SwipeAnimationProps {
   children?: JSX.Element[];
   direction: SwipeDirection;
   index: number;
+  duration?: number;
   setAnimationRunning: (value: boolean) => void;
 }
 
@@ -14,6 +15,7 @@ const SwipeAnimation: React.FC<SwipeAnimationProps> = ({
   children,
   direction,
   index,
+  duration = 0.2,
   setAnimationRunning,
 }) => {
   const x = direction === "left" ? 100 : -100;
@@ -35,7 +37,7 @@ const SwipeAnimation: React.FC<SwipeAnimationProps> = ({
         initial={{ x: x }}
         animate={{ x: 0 }}
         exit={{ opacity: 0, x: -x }}
-        transition={{ duration: 0.2 }}
+        transition={{ duration: duration }}
       >
         {children && children[index]}
       </motion.div>

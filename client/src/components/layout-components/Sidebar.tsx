@@ -27,9 +27,9 @@ const items: ItemData[] = [
     route: "/dictionaries",
   },
   {
-    name: "Games",
+    name: "Practice",
     icon: <ExtensionRoundedIcon />,
-    route: "/games",
+    route: "/practice/saeae-ja-laempoetila/learn",
   },
 ];
 

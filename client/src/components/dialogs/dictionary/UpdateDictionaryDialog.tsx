@@ -12,6 +12,7 @@ import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
 import DictionaryForm from "../../forms/dictionary/DictionaryForm";
 import DictionaryService from "../../../services/dictionaries.service";
 import useSnackbar from "../../../hooks/useSnackbar";
+import { queryNames } from "../../../lib/constants";
 
 interface UpdateDictionaryDialogProps {
   trigger: JSX.Element;
@@ -72,7 +73,7 @@ const UpdateDictionaryDialog: React.FC<UpdateDictionaryDialogProps> = ({
 
       push({ message: "Dictionary updated successfully", type: "success" });
 
-      queryClient.invalidateQueries(["dictionaries"]);
+      queryClient.invalidateQueries([queryNames.dictionary.list]);
     } catch (error: any) {
       console.log(error);
     }

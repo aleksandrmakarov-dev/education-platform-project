@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 export default function MainLayout() {
   return (
     <div className="flex flex-col h-screen">
-      <Topbar />
+      <Topbar appName="Squeezelet" />
       <div className="flex flex-1">
         <Sidebar />
         <div className="p-5 w-full">

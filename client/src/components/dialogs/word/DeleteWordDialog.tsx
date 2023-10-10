@@ -2,9 +2,10 @@ import React, { useRef } from "react";
 import { Word } from "../../../lib/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
-import WordsService from "../../../services/themes.service";
+import WordsService from "../../../services/words.service";
 import useSnackbar from "../../../hooks/useSnackbar";
 import DialogBase from "../base/DialogBase";
+import { queryNames } from "../../../lib/constants";
 
 interface DeleteWordDialogProps {
   trigger?: JSX.Element;
@@ -37,7 +38,7 @@ const DeleteWordDialog: React.FC<DeleteWordDialogProps> = ({
 
       push({ message: "Word deleted successfully", type: "success" });
 
-      queryClient.invalidateQueries(["themes"]);
+      queryClient.invalidateQueries([queryNames.word.list]);
     } catch (error: any) {
       console.log(error);
     }
@@ -51,8 +52,8 @@ const DeleteWordDialog: React.FC<DeleteWordDialogProps> = ({
       isBusy={isLoading}
       ref={dialogRef}
       primaryBtnColor="error"
-      primaryBtnLabel="Yes, delete theme"
-      secondaryBtnLabel="Cancel, keep theme"
+      primaryBtnLabel="Yes, delete word"
+      secondaryBtnLabel="Cancel, keep word"
     >
       <div className="flex flex-col gap-1">
         <div className="bg-red-100 px-5 py-2.5 rounded-sm">

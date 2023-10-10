@@ -31,7 +31,7 @@ const WordCard: React.FC<WordCardProps> = ({ data }) => {
             {data.image ? (
               <img
                 src={data.image}
-                className="w-full h-full object-contain object-center"
+                className="w-full h-full object-cover object-center"
               />
             ) : (
               <div className="flex items-center justify-center w-full h-full bg-gray-200">

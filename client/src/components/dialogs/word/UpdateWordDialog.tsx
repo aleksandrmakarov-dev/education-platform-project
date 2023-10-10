@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import DialogFormBase from "../base/DialogFormBase";
 import WordForm from "../../forms/word/WordForm";
 import useSnackbar from "../../../hooks/useSnackbar";
+import { queryNames } from "../../../lib/constants";
 
 interface UpdateThemeDialogProps {
   trigger: JSX.Element;
@@ -78,7 +79,7 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
 
       push({ message: "Word updated successfully", type: "success" });
 
-      queryClient.invalidateQueries(["words"]);
+      queryClient.invalidateQueries([queryNames.word.list]);
     } catch (error: any) {
       console.log(error);
     }

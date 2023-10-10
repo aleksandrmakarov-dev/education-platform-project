@@ -1,5 +1,6 @@
-import mongoose, { Model } from "mongoose";
+import mongoose from "mongoose";
 import WordModel from "./word.model";
+import DictionaryModel from "./dictionary.model";
 
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 
@@ -27,8 +28,22 @@ ThemeSchema.pre(["deleteOne"], async function (this: any, next) {
   try {
     const id = this.getFilter()["_id"];
 
-    await WordModel.deleteMany({
-      theme: id,
+    const foundTheme = await ThemeModel.findById(id);
+
+    if (!foundTheme) {
+      next();
+    }
+
+    const words = await WordModel.find({ theme: id });
+
+    if (words.length > 0) {
+      await Promise.all(
+        words.map((word) => WordModel.deleteOne({ _id: word._id }))
+      );
+    }
+
+    await DictionaryModel.findByIdAndUpdate(foundTheme.dictionary, {
+      $pull: { themes: foundTheme._id },
     });
 
     // Call the next middleware

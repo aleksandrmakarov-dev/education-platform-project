@@ -11,6 +11,7 @@ import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ThemesService from "../../../services/themes.service";
 import useSnackbar from "../../../hooks/useSnackbar";
+import { queryNames } from "../../../lib/constants";
 
 interface CreateThemeDialogProps {
   trigger: JSX.Element;
@@ -57,7 +58,7 @@ const CreateThemeDialog: React.FC<CreateThemeDialogProps> = ({
 
       push({ message: "Theme created successfully", type: "success" });
       // Instead of invalidation maybe use setQueryData ?
-      queryClient.invalidateQueries(["themes"]);
+      queryClient.invalidateQueries([queryNames.theme.list]);
     } catch (error: any) {
       console.log(error);
     }

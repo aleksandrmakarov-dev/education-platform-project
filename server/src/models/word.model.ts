@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import ThemeModel from "./theme.model";
 
 const WordSchema = new mongoose.Schema({
   text: { type: String, required: true },
@@ -11,6 +12,23 @@ const WordSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Theme",
   },
+});
+
+// On deleteOne, delete all words that reference this theme
+WordSchema.pre(["deleteOne"], async function (next) {
+  const id = this.getFilter()["_id"];
+
+  const foundWord = await WordModel.findById(id);
+
+  // If word is not found, call the next middleware
+  if (!foundWord) {
+    next();
+  }
+
+  // Remove word reference from themes
+  await ThemeModel.findByIdAndUpdate(foundWord.theme, {
+    $pull: { words: foundWord._id },
+  });
 });
 
 WordSchema.set("toJSON", {

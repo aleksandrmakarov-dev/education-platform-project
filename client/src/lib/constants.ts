@@ -7,4 +7,7 @@ export const queryNames = {
     list: "theme-list",
     bySlug: "theme-by-slug",
   },
+  word: {
+    list: "word-list",
+  },
 };

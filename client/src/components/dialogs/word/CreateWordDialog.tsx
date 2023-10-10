@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
 import useSnackbar from "../../../hooks/useSnackbar";
+import { queryNames } from "../../../lib/constants";
 
 interface CreateWordDialogProps {
   trigger?: JSX.Element;
@@ -59,7 +60,7 @@ const CreateWordDialog: React.FC<CreateWordDialogProps> = ({
       push({ message: "Word created successfully", type: "success" });
 
       // Instead of invalidation maybe use setQueryData ?
-      queryClient.invalidateQueries(["words"]);
+      queryClient.invalidateQueries([queryNames.word.list]);
     } catch (error: any) {
       console.log(error);
     }

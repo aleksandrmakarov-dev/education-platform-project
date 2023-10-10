@@ -5,6 +5,7 @@ import { OpenCloseHandle } from "../../../hooks/useImperativeDialog";
 import ThemesService from "../../../services/themes.service";
 import useSnackbar from "../../../hooks/useSnackbar";
 import DialogBase from "../base/DialogBase";
+import { queryNames } from "../../../lib/constants";
 
 interface DeleteThemeDialogProps {
   trigger: JSX.Element;
@@ -36,7 +37,7 @@ const DeleteThemeDialog: React.FC<DeleteThemeDialogProps> = ({
 
       push({ message: "Theme deleted successfully", type: "success" });
 
-      queryClient.invalidateQueries(["themes"]);
+      queryClient.invalidateQueries([queryNames.theme.list]);
     } catch (error: any) {
       console.log(error);
     }

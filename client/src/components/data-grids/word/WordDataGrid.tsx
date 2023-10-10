@@ -6,6 +6,7 @@ import WordDataGridBody from "./WordDataGridBody";
 import WordDataGridLoading from "./WordDataGridLoading";
 import WordDataGridEmpty from "./WordDataGridEmpty";
 import ThemesService from "../../../services/themes.service";
+import { queryNames } from "../../../lib/constants";
 
 interface WordDataGridProps {
   themeId: string;
@@ -13,13 +14,12 @@ interface WordDataGridProps {
 
 const WordDataGrid: React.FC<WordDataGridProps> = ({ themeId }) => {
   const { data, isLoading, isError, isRefetching } = useQuery({
-    queryKey: ["words"],
+    queryKey: [queryNames.word.list],
     queryFn: async () => {
       return await ThemesService.getWordsByThemeId({
         identifier: themeId,
       });
     },
-    refetchOnWindowFocus: false,
   });
 
   return (
