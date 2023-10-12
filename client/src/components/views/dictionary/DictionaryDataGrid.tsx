@@ -30,8 +30,6 @@ import DictionaryDataGridLoading from "./DictionaryDataGridLoading";
 import DictionaryService from "../../../services/dictionaries.service";
 import { queryNames } from "../../../lib/constants";
 
-const Columns = ["Title", "Created At", "Slug", "Themes"];
-
 const DictionaryDataGrid = () => {
   const { pagination, setPagination } = usePagination();
   const { search, setSearch, resetSearch } = useSearch();
@@ -81,20 +79,20 @@ const DictionaryDataGrid = () => {
               resetSearch={resetSearch}
             />
             <UpdateDictionaryDialog
+              dictionary={selectedDictionary}
               trigger={
                 <IconButton size="small" disabled={!selectedDictionary}>
                   <EditIcon />
                 </IconButton>
               }
-              dictionary={selectedDictionary}
             />
             <DeleteDictionaryDialog
+              dictionary={selectedDictionary}
               trigger={
                 <IconButton size="small" disabled={!selectedDictionary}>
                   <DeleteIcon />
                 </IconButton>
               }
-              dictionary={selectedDictionary}
             />
           </div>
           <CreateDictionaryDialog
@@ -110,44 +108,26 @@ const DictionaryDataGrid = () => {
           />
         </div>
       </div>
-      <Paper variant="outlined">
-        <TableContainer sx={{ maxHeight: 450 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell padding="checkbox"></TableCell>
-                {Columns.map((col) => (
-                  <TableCell align="right" key={col}>
-                    {col}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <DictionaryDataGridBody
-                data={data?.items}
-                isLoading={isLoading || isRefetching}
-                isError={isError}
-                selectedItem={selectedDictionary}
-                onSelectItem={onSelectItem}
-                emptyView={<DictionaryDataGridEmpty />}
-                loadingView={<DictionaryDataGridLoading count={6} />}
-              />
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[6, 12, 24]}
-          component="div"
-          count={data?.meta.count ?? 0}
-          rowsPerPage={pagination.limit}
-          page={pagination.page - 1}
-          onPageChange={onChangePage}
-          onRowsPerPageChange={onChangePageSize}
-          showFirstButton
-          showLastButton
-        />
-      </Paper>
+      <DictionaryDataGridBody
+        data={data?.items}
+        isLoading={isLoading || isRefetching}
+        isError={isError}
+        onSelectItem={onSelectItem}
+        selectedItem={selectedDictionary}
+        emptyView={<DictionaryDataGridEmpty />}
+        loadingView={<DictionaryDataGridLoading count={6} />}
+      />
+      <TablePagination
+        rowsPerPageOptions={[6, 12, 24]}
+        component="div"
+        count={data?.meta.count ?? 0}
+        rowsPerPage={pagination.limit}
+        page={pagination.page - 1}
+        onPageChange={onChangePage}
+        onRowsPerPageChange={onChangePageSize}
+        showFirstButton
+        showLastButton
+      />
     </div>
   );
 };

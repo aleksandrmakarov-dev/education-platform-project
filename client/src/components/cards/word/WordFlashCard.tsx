@@ -5,9 +5,10 @@ import FlipAnimation from "../../shared/animations/FlipAnimation";
 
 interface WordFlashCardProps {
   data: Word;
+  showContext?: boolean;
 }
 
-const WordFlashCard: React.FC<WordFlashCardProps> = ({ data }) => {
+const WordFlashCard: React.FC<WordFlashCardProps> = ({ data, showContext }) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const onChangeState = () => {
@@ -33,16 +34,20 @@ const WordFlashCard: React.FC<WordFlashCardProps> = ({ data }) => {
                 />
               )}
               <Typography variant="h5">{data.definition}</Typography>
-              <Typography variant="subtitle1" color="text.secondary">
-                {data.definitionContext}
-              </Typography>
+              {showContext && (
+                <Typography variant="subtitle1" color="text.secondary">
+                  {data.definitionContext}
+                </Typography>
+              )}
             </div>
           ) : (
             <div className="flex flex-col gap-2 text-center">
               <Typography variant="h5">{data.text}</Typography>
-              <Typography variant="subtitle1" color="text.secondary">
-                {data.textContext}
-              </Typography>
+              {showContext && (
+                <Typography variant="subtitle1" color="text.secondary">
+                  {data.textContext}
+                </Typography>
+              )}
             </div>
           )}
         </Paper>

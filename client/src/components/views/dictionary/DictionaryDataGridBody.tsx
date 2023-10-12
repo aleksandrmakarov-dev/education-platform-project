@@ -2,6 +2,7 @@ import React from "react";
 import { Dictionary } from "../../../lib/types";
 import { TableRow, TableCell, Checkbox } from "@mui/material";
 import { Link } from "react-router-dom";
+import DictionaryCard from "../../cards/dictionary/DictionaryCard";
 
 interface DictionaryDataGridBodyProps {
   data?: Dictionary[];
@@ -27,48 +28,21 @@ const DictionaryDataGridBody: React.FC<DictionaryDataGridBodyProps> = ({
   }
 
   if (!data || data.length === 0) {
-    return (
-      <TableRow>
-        <TableCell colSpan={5}>{emptyView}</TableCell>
-      </TableRow>
-    );
+    return emptyView;
   }
 
   return (
-    <>
-      {data.map((item) => {
-        const isSelectedItem = item.id === selectedItem?.id;
-
-        return (
-          <TableRow
-            role="checkbox"
-            key={item.id}
-            onClick={() => onSelectItem(item)}
-            selected={isSelectedItem}
-            aria-checked={isSelectedItem}
-            hover
-            sx={{ cursor: "pointer" }}
-          >
-            <TableCell padding="checkbox">
-              <Checkbox checked={isSelectedItem} />
-            </TableCell>
-            <TableCell align="right">
-              <Link
-                to={`/dictionaries/${item.slug}`}
-                className="text-blue-500 hover:underline"
-              >
-                {item.title}
-              </Link>
-            </TableCell>
-            <TableCell align="right">
-              {new Date(item.createdAt).toLocaleDateString()}
-            </TableCell>
-            <TableCell align="right">{item.slug}</TableCell>
-            <TableCell align="right">{item.themes?.length}</TableCell>
-          </TableRow>
-        );
-      })}
-    </>
+    <div className="grid grid-cols-3 gap-5">
+      {data.map((item) => (
+        <DictionaryCard
+          key={item.id}
+          onSelectItem={onSelectItem}
+          data={item}
+          url={`/dictionaries/${item.slug}`}
+          isSelectedItem={item.id === selectedItem?.id}
+        />
+      ))}
+    </div>
   );
 };
 

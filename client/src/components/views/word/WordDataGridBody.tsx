@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Word } from "../../../lib/types";
 import WordCard from "../../cards/word/WordCard";
 import Carousel from "../../shared/carousel/Carousel";
 import WordFlashCard from "../../cards/word/WordFlashCard";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
 interface WordDataGridBodyProps {
   data?: Word[];
@@ -19,6 +20,8 @@ const WordDataGridBody: React.FC<WordDataGridBodyProps> = ({
   loadingView,
   emptyView,
 }) => {
+  const [showContext, setShowContext] = useState<boolean>(false);
+
   if (isLoading) {
     return loadingView;
   }
@@ -28,11 +31,15 @@ const WordDataGridBody: React.FC<WordDataGridBodyProps> = ({
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <>
       <div className="flex justify-center">
-        <Carousel count={data.length} progress>
+        <Carousel count={data.length} showProgress>
           {data.map((item) => (
-            <WordFlashCard data={item} key={item.id} />
+            <WordFlashCard
+              data={item}
+              key={item.id}
+              showContext={showContext}
+            />
           ))}
         </Carousel>
       </div>
@@ -46,7 +53,7 @@ const WordDataGridBody: React.FC<WordDataGridBodyProps> = ({
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

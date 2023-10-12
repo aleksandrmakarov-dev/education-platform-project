@@ -8,7 +8,7 @@ export default function MainLayout() {
       <Topbar appName="Squeezelet" />
       <div className="flex flex-1">
         <Sidebar />
-        <div className="p-5 w-full">
+        <div className="p-5 w-full bg-gray-50">
           <Outlet />
         </div>
       </div>

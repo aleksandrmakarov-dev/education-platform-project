@@ -1,4 +1,4 @@
-import { TableRow, TableCell, Skeleton } from "@mui/material";
+import DictionaryCardSkeleton from "../../cards/dictionary/DictionaryCardSkeleton";
 
 interface DictionaryDataGridLoadingProps {
   count: number;
@@ -6,28 +6,12 @@ interface DictionaryDataGridLoadingProps {
 
 const DictionaryDataGridLoading: React.FC<DictionaryDataGridLoadingProps> = ({
   count,
-}) => {
-  return (
-    <>
-      {[...Array(count).keys()].map((item) => (
-        <TableRow role="checkbox" key={item}>
-          <TableCell padding="checkbox"></TableCell>
-          <TableCell align="right">
-            <Skeleton variant="text" sx={{ width: "5rem" }} />
-          </TableCell>
-          <TableCell align="right">
-            <Skeleton variant="text" sx={{ width: "5rem" }} />
-          </TableCell>
-          <TableCell align="right">
-            <Skeleton variant="text" sx={{ width: "5rem" }} />
-          </TableCell>
-          <TableCell align="right">
-            <Skeleton variant="text" sx={{ width: "5rem" }} />
-          </TableCell>
-        </TableRow>
-      ))}
-    </>
-  );
-};
+}) => (
+  <div className="grid grid-cols-3 gap-5">
+    {[...Array(count).keys()].map((item) => (
+      <DictionaryCardSkeleton key={item} />
+    ))}
+  </div>
+);
 
 export default DictionaryDataGridLoading;

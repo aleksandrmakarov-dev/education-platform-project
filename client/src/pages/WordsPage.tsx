@@ -21,7 +21,7 @@ const WordsPage = () => {
   });
 
   return (
-    <div className="p-5 flex flex-col gap-1">
+    <div className="p-5 flex flex-col gap-3">
       <BreadcrumbsComponent />
       <Header
         isBusy={isLoading}

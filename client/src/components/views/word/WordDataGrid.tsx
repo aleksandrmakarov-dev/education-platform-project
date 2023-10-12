@@ -23,22 +23,25 @@ const WordDataGrid: React.FC<WordDataGridProps> = ({ themeId }) => {
   });
 
   return (
-    <div className="w-full">
-      <div className="mb-2">
-        <div className="flex gap-10 items-center justify-end">
-          <CreateWordDialog
-            theme={themeId}
-            trigger={
-              <Button
-                startIcon={<AddIcon />}
-                variant="contained"
-                disableElevation
-              >
-                Create
-              </Button>
-            }
-          />
+    <div className="w-full flex flex-col gap-3">
+      <div className="flex gap-10 items-center justify-between">
+        <div>
+          <Button href={`/practice/${themeId}/learn`} variant="outlined">
+            Multiple choice
+          </Button>
         </div>
+        <CreateWordDialog
+          theme={themeId}
+          trigger={
+            <Button
+              startIcon={<AddIcon />}
+              variant="contained"
+              disableElevation
+            >
+              Create
+            </Button>
+          }
+        />
       </div>
       <WordDataGridBody
         data={data?.items}

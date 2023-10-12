@@ -7,10 +7,9 @@ import SwipeAnimation, { SwipeDirection } from "../animations/SwipeAnimation";
 interface CarouselProps {
   count: number;
   children: JSX.Element[];
-  progress?: boolean;
 }
 
-const Carousel: React.FC<CarouselProps> = ({ count, children, progress }) => {
+const Carousel: React.FC<CarouselProps> = ({ count, children }) => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [direction, setDirection] = useState<SwipeDirection>("left");
   const [progressValue, setProgressValue] = useState<number>(0);
@@ -47,14 +46,8 @@ const Carousel: React.FC<CarouselProps> = ({ count, children, progress }) => {
       >
         {children}
       </SwipeAnimation>
-      {progress && (
-        <LinearProgress
-          variant="determinate"
-          value={progressValue}
-          className="rounded-md"
-        />
-      )}
       <MobileStepper
+        sx={{ backgroundColor: "transparent" }}
         variant="text"
         steps={count}
         activeStep={activeStep}
