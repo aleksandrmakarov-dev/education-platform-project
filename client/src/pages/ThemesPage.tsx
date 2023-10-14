@@ -21,7 +21,7 @@ export default function ThemesPage() {
   });
 
   return (
-    <div className="p-5 flex flex-col gap-1">
+    <div className="p-5 flex flex-col gap-2">
       <BreadcrumbsComponent />
       <Header
         isBusy={isLoading}

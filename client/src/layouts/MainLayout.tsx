@@ -1,5 +1,5 @@
-import Topbar from "../components/layout-components/Topbar";
-import Sidebar from "../components/layout-components/Sidebar";
+import Topbar from "../components/shared/ui/Topbar";
+import Sidebar from "../components/shared/ui/Sidebar";
 import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {

@@ -23,23 +23,16 @@ const WordCard: React.FC<WordCardProps> = ({ data }) => {
   return (
     <Card key={data.id} variant="outlined">
       <div className="flex gap-5">
-        <CardMedia
-          component="div"
-          className="border-r border-gray-200 flex items-center justify-center"
-        >
-          <div className="w-64 h-48">
-            {data.image ? (
-              <img
-                src={data.image}
-                className="w-full h-full object-cover object-center"
-              />
-            ) : (
-              <div className="flex items-center justify-center w-full h-full bg-gray-200">
-                <ImageIcon className="text-white" sx={{ fontSize: 72 }} />
-              </div>
-            )}
-          </div>
-        </CardMedia>
+        <div className="border-r border-gray-200 flex items-center justify-center h-48 w-64 bg-gray-200">
+          {data.image ? (
+            <img
+              src={data.image}
+              className="w-full h-full object-cover object-center"
+            />
+          ) : (
+            <ImageIcon className="text-gray-400" sx={{ fontSize: 72 }} />
+          )}
+        </div>
         <CardContent className="flex-1 grid grid-cols-[1fr_0.5rem_1fr] items-center gap-5">
           <div className="px-4">
             <Typography variant="h6">{data.text}</Typography>

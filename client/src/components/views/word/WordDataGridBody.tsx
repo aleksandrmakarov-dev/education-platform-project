@@ -3,7 +3,6 @@ import { Word } from "../../../lib/types";
 import WordCard from "../../cards/word/WordCard";
 import Carousel from "../../shared/carousel/Carousel";
 import WordFlashCard from "../../cards/word/WordFlashCard";
-import { Checkbox, FormControlLabel } from "@mui/material";
 
 interface WordDataGridBodyProps {
   data?: Word[];
@@ -33,7 +32,7 @@ const WordDataGridBody: React.FC<WordDataGridBodyProps> = ({
   return (
     <>
       <div className="flex justify-center">
-        <Carousel count={data.length} showProgress>
+        <Carousel count={data.length}>
           {data.map((item) => (
             <WordFlashCard
               data={item}

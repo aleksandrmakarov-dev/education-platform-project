@@ -44,14 +44,9 @@ const DictionaryCard: React.FC<DictionaryCardProps> = ({
           />
         }
       />
-      <CardMedia
-        component="div"
-        className="bg-blue-400 h-[196px] border-y border-gray-200"
-      >
-        <div className="flex items-center justify-center h-full">
-          <FolderRoundedIcon className="text-white" sx={{ fontSize: 72 }} />
-        </div>
-      </CardMedia>
+      <div className="bg-blue-400 h-48 border-y border-gray-200 flex items-center justify-center">
+        <FolderRoundedIcon className="text-white" sx={{ fontSize: 72 }} />
+      </div>
       <CardActions disableSpacing className="flex justify-between items-center">
         <Button
           href={url}

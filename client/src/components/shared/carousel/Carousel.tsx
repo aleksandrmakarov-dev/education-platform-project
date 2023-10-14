@@ -1,5 +1,5 @@
-import { Button, LinearProgress, MobileStepper } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Button, MobileStepper } from "@mui/material";
+import React, { useState } from "react";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import SwipeAnimation, { SwipeDirection } from "../animations/SwipeAnimation";
@@ -12,13 +12,7 @@ interface CarouselProps {
 const Carousel: React.FC<CarouselProps> = ({ count, children }) => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [direction, setDirection] = useState<SwipeDirection>("left");
-  const [progressValue, setProgressValue] = useState<number>(0);
   const [animationRunning, setAnimationRunning] = useState<boolean>(false);
-
-  useEffect(() => {
-    const v = ((activeStep + 1) * 100) / count;
-    setProgressValue(v);
-  }, [activeStep, count]);
 
   const handleNext = () => {
     if (activeStep >= count - 1) {

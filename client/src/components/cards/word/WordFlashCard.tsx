@@ -23,7 +23,7 @@ const WordFlashCard: React.FC<WordFlashCardProps> = ({ data, showContext }) => {
           sx={{
             boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
           }}
-          className="h-[26rem] w-full flex items-center justify-center cursor-pointer"
+          className="h-[26rem] w-full flex items-center justify-center cursor-pointer p-5"
         >
           {open ? (
             <div className="flex flex-col gap-2 text-center">
