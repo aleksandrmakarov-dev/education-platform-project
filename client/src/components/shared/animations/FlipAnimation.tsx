@@ -18,6 +18,7 @@ const FlipAnimation: React.FC<FlipAnimationProps> = ({ children }) => {
       initial={{ perspective: "500px" }}
       animate={{ rotateX: flipped ? 180 : 0 }}
       transition={{ duration: 0.5 }}
+      className="h-full w-full"
     >
       <motion.div
         animate={{ rotateX: flipped ? 180 : 0 }}

@@ -37,8 +37,8 @@ const QuizContent: React.FC<QuizContentProps> = ({
         answer={
           type === "true-false" ? additionalProps.options.trueValue : answer
         }
-        answerLabel={type === "true-false" ? "Definition: " : "Term: "}
-        questionLabel={type === "true-false" ? "Term: " : "Definition: "}
+        answerLabel={type === "true-false" ? "Term: " : "Defimition: "}
+        questionLabel="Definition: "
         showAnswer={type === "true-false"}
       />
       <QuizAnswerReveal

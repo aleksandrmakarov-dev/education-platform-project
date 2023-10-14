@@ -38,7 +38,7 @@ const Carousel: React.FC<CarouselProps> = ({ count, children }) => {
         setAnimationRunning={setAnimationRunning}
         duration={0.15}
       >
-        {children}
+        {children[activeStep]}
       </SwipeAnimation>
       <MobileStepper
         sx={{ backgroundColor: "transparent" }}

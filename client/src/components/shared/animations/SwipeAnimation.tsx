@@ -4,11 +4,11 @@ import React from "react";
 export type SwipeDirection = "right" | "left";
 
 interface SwipeAnimationProps {
-  children?: JSX.Element[];
+  children?: JSX.Element;
   direction: SwipeDirection;
   index: number;
   duration?: number;
-  setAnimationRunning: (value: boolean) => void;
+  setAnimationRunning?: (value: boolean) => void;
 }
 
 const SwipeAnimation: React.FC<SwipeAnimationProps> = ({
@@ -21,11 +21,15 @@ const SwipeAnimation: React.FC<SwipeAnimationProps> = ({
   const x = direction === "left" ? 100 : -100;
 
   const onAnimationStart = () => {
-    setAnimationRunning(true);
+    if (setAnimationRunning) {
+      setAnimationRunning(true);
+    }
   };
 
   const onAnimationComplete = () => {
-    setAnimationRunning(false);
+    if (setAnimationRunning) {
+      setAnimationRunning(false);
+    }
   };
 
   return (
@@ -38,8 +42,9 @@ const SwipeAnimation: React.FC<SwipeAnimationProps> = ({
         animate={{ x: 0 }}
         exit={{ opacity: 0, x: -x }}
         transition={{ duration: duration }}
+        className="flex-1 flex"
       >
-        {children && children[index]}
+        {children}
       </motion.div>
     </AnimatePresence>
   );

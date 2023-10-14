@@ -4,6 +4,7 @@ import {
   CardContent,
   CardActions,
   CardHeader,
+  duration,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Word } from "../../../lib/types";
@@ -18,6 +19,8 @@ import QuizResult from "./QuizResult";
 import { Query, QueryClient, useQueryClient } from "@tanstack/react-query";
 import { queryNames } from "../../../lib/constants";
 import QuizActions from "./QuizActions";
+import { AnimatePresence, motion } from "framer-motion";
+import SwipeAnimation from "../../shared/animations/SwipeAnimation";
 
 export type QuizCardState =
   | "idle"
@@ -176,12 +179,14 @@ const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
         <CardHeader title={`Question ${activeIndex + 1} of ${words.length}`} />
         <CardContent className="border-y border-gray-200 flex-1 flex flex-col">
           {activeItem && state !== "finished" && (
-            <QuizContent
-              state={state}
-              {...activeItem}
-              register={register}
-              errors={errors}
-            />
+            <SwipeAnimation direction={"left"} index={activeIndex}>
+              <QuizContent
+                state={state}
+                {...activeItem}
+                register={register}
+                errors={errors}
+              />
+            </SwipeAnimation>
           )}
           {state === "finished" && <QuizResult answers={answers} />}
         </CardContent>
