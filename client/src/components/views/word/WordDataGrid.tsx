@@ -1,25 +1,19 @@
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CreateWordDialog from "../../dialogs/word/CreateWordDialog";
-import { useQuery } from "@tanstack/react-query";
 import WordDataGridBody from "./WordDataGridBody";
 import WordDataGridLoading from "./WordDataGridLoading";
 import WordDataGridEmpty from "./WordDataGridEmpty";
-import ThemesService from "../../../services/themes.service";
-import { queryNames } from "../../../lib/constants";
+import useGetWordListByThemeId from "../../../hooks/theme/useGetWordListByThemeId";
 
 interface WordDataGridProps {
   themeId: string;
+  themeSlug?: string;
 }
 
-const WordDataGrid: React.FC<WordDataGridProps> = ({ themeId }) => {
-  const { data, isLoading, isError, isRefetching } = useQuery({
-    queryKey: [queryNames.word.list],
-    queryFn: async () => {
-      return await ThemesService.getWordsByThemeId({
-        identifier: themeId,
-      });
-    },
+const WordDataGrid: React.FC<WordDataGridProps> = ({ themeId, themeSlug }) => {
+  const { data, isLoading, isError, isRefetching } = useGetWordListByThemeId({
+    themeId: themeId,
   });
 
   return (
@@ -28,7 +22,7 @@ const WordDataGrid: React.FC<WordDataGridProps> = ({ themeId }) => {
         <div>
           <Button
             sx={{ backgroundColor: "white" }}
-            href={`/practice/${themeId}/learn`}
+            href={`/practice/${themeSlug}/learn`}
             variant="outlined"
           >
             Learn

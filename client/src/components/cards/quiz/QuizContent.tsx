@@ -1,6 +1,4 @@
 import React from "react";
-import QuizMultipleChoiceForm from "../../forms/quiz/QuizMultipleChoiceForm";
-import QuizWriteForm from "../../forms/quiz/QuizWriteForm";
 import QuizAnswerReveal from "./QuizAnswerReveal";
 import QuizCardBody from "./QuizCardBody";
 import { QuizCardState, QuizQuestionType } from "./QuizCard";

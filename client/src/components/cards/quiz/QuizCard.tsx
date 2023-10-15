@@ -1,11 +1,4 @@
-import {
-  Card,
-  Button,
-  CardContent,
-  CardActions,
-  CardHeader,
-  duration,
-} from "@mui/material";
+import { Card, CardContent, CardActions, CardHeader } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Word } from "../../../lib/types";
 import { shuffle } from "../../../lib/utils";
@@ -16,10 +9,9 @@ import QuizFormSchema, {
 } from "../../../lib/validations/quiz-form.schema";
 import QuizContent from "./QuizContent";
 import QuizResult from "./QuizResult";
-import { Query, QueryClient, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { queryNames } from "../../../lib/constants";
 import QuizActions from "./QuizActions";
-import { AnimatePresence, motion } from "framer-motion";
 import SwipeAnimation from "../../shared/animations/SwipeAnimation";
 
 export type QuizCardState =

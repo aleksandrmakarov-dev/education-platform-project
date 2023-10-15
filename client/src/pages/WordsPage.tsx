@@ -1,24 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import WordDataGrid from "../components/views/word/WordDataGrid";
 import BreadcrumbsComponent from "../components/shared/breadcrumbs/BreadcrumbsComponent";
-import { queryNames } from "../lib/constants";
-import ThemesService from "../services/themes.service";
 import Header from "../components/shared/ui/header/Header";
+import useGetThemeBySlug from "../hooks/theme/useGetThemeBySlug";
 
 const WordsPage = () => {
   const { themeSlug } = useParams();
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: [queryNames.theme.bySlug, themeSlug],
-    queryFn: async () => {
-      if (!themeSlug) {
-        return undefined;
-      }
-      return await ThemesService.getBySlug(themeSlug);
-    },
-    refetchOnWindowFocus: false,
-  });
+  const { data, isLoading } = useGetThemeBySlug({ themeSlug });
 
   return (
     <div className="p-5 flex flex-col gap-3">
@@ -28,7 +17,7 @@ const WordsPage = () => {
         title={data?.title}
         subtitle={data?.description}
       />
-      {data && <WordDataGrid themeId={data.id} />}
+      {data && <WordDataGrid themeId={data.id} themeSlug={themeSlug} />}
     </div>
   );
 };

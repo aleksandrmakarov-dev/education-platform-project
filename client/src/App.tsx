@@ -21,7 +21,7 @@ function App() {
           </Route>
         </Route>
         <Route path="practice">
-          <Route path=":themeId">
+          <Route path=":themeSlug">
             <Route path="learn" element={<LearnPage />} />
           </Route>
         </Route>

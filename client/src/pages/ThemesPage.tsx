@@ -1,30 +1,21 @@
 import ThemeDataGrid from "../components/views/theme/ThemeDataGrid";
 import BreadcrumbsComponent from "../components/shared/breadcrumbs/BreadcrumbsComponent";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { queryNames } from "../lib/constants";
-import DictionaryService from "../services/dictionaries.service";
 import Header from "../components/shared/ui/header/Header";
+import useGetDictionaryBySlug from "../hooks/dictionary/useGetDictionaryBySlug";
 
 export default function ThemesPage() {
   const { dictionarySlug } = useParams();
 
-  const { data, isLoading } = useQuery({
-    queryKey: [queryNames.dictionary.bySlug, dictionarySlug],
-    queryFn: async () => {
-      if (!dictionarySlug) {
-        return undefined;
-      }
-      return await DictionaryService.getBySlug(dictionarySlug);
-    },
-    refetchOnWindowFocus: false,
+  const { data, isLoading, isRefetching } = useGetDictionaryBySlug({
+    dictionarySlug,
   });
 
   return (
     <div className="p-5 flex flex-col gap-2">
       <BreadcrumbsComponent />
       <Header
-        isBusy={isLoading}
+        isBusy={isLoading || isRefetching}
         title={data?.title}
         subtitle="Select theme and start your studies right now!"
       />

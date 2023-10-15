@@ -2,7 +2,6 @@ import { TablePagination, IconButton, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useQuery } from "@tanstack/react-query";
 import usePagination from "../../../hooks/shared/usePagination";
 import { useState } from "react";
 import ThemeDataGridBody from "./ThemeDataGridBody";
@@ -14,8 +13,7 @@ import useSearch from "../../../hooks/shared/useSearch";
 import DataGridSearchForm from "../../forms/DataGridSearchForm";
 import ThemeDataGridEmpty from "./ThemeDataGridEmpty";
 import ThemeDataGridLoading from "./ThemeDataGridLoading";
-import DictionaryService from "../../../services/dictionaries.service";
-import { queryNames } from "../../../lib/constants";
+import useGetThemeListByDictionaryId from "../../../hooks/dictionary/useGetThemeListByDictionaryId";
 
 interface ThemeDataGridProps {
   dictionaryId: string;
@@ -29,20 +27,16 @@ const ThemeDataGrid: React.FC<ThemeDataGridProps> = ({
   const { pagination, setPagination } = usePagination();
   const { search, setSearch, resetSearch } = useSearch();
 
+  const { data, isLoading, isError, isRefetching } =
+    useGetThemeListByDictionaryId({
+      dictionaryId,
+      pagination,
+      search,
+    });
+
   const [selectedTheme, setSelectedTheme] = useState<Theme | undefined>(
     undefined
   );
-
-  const { data, isLoading, isError, isRefetching } = useQuery({
-    queryKey: [queryNames.theme.list, pagination, search],
-    queryFn: async () => {
-      const params = { ...pagination, ...search };
-      return await DictionaryService.getThemesByDictionaryId({
-        identifier: dictionaryId,
-        searchParams: params,
-      });
-    },
-  });
 
   const onSelectItem = (value: Theme) => {
     if (value.id === selectedTheme?.id) {

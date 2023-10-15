@@ -1,24 +1,10 @@
-import {
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TablePagination,
-  Typography,
-  IconButton,
-  Button,
-} from "@mui/material";
+import { TablePagination, IconButton, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useQuery } from "@tanstack/react-query";
 import usePagination from "../../../hooks/shared/usePagination";
 import { useState } from "react";
 import DictionaryDataGridBody from "./DictionaryDataGridBody";
-
 import CreateDictionaryDialog from "../../dialogs/dictionary/CreateDictionaryDialog";
 import UpdateDictionaryDialog from "../../dialogs/dictionary/UpdateDictionaryDialog";
 import { Dictionary } from "../../../lib/types";
@@ -27,24 +13,20 @@ import useSearch from "../../../hooks/shared/useSearch";
 import DataGridSearchForm from "../../forms/DataGridSearchForm";
 import DictionaryDataGridEmpty from "./DictionaryDataGridEmpty";
 import DictionaryDataGridLoading from "./DictionaryDataGridLoading";
-import DictionaryService from "../../../services/dictionaries.service";
-import { queryNames } from "../../../lib/constants";
+import useGetDictionaryList from "../../../hooks/dictionary/useGetDictionaryList";
 
 const DictionaryDataGrid = () => {
   const { pagination, setPagination } = usePagination();
   const { search, setSearch, resetSearch } = useSearch();
 
+  const { data, isLoading, isError, isRefetching } = useGetDictionaryList({
+    pagination,
+    search,
+  });
+
   const [selectedDictionary, setSelectedDictionary] = useState<
     Dictionary | undefined
   >(undefined);
-
-  const { data, isLoading, isError, isRefetching } = useQuery({
-    queryKey: [queryNames.dictionary.list, pagination, search],
-    queryFn: async () => {
-      const params = { ...pagination, ...search };
-      return await DictionaryService.getAll(params);
-    },
-  });
 
   const onSelectItem = (value: Dictionary) => {
     if (value.id === selectedDictionary?.id) {
