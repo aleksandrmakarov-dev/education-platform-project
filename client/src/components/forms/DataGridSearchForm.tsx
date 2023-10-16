@@ -1,6 +1,6 @@
 import { TextField, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   SearchValidationSchema,
@@ -17,15 +17,12 @@ interface DataGridSearchFormProps {
 const DataGridSearchForm: React.FC<DataGridSearchFormProps> = ({
   search,
   setSearch,
-  resetSearch,
 }) => {
-  const { register, reset, handleSubmit } = useForm<SearchValidationSchemaType>(
-    {
-      resolver: zodResolver(SearchValidationSchema),
-      defaultValues: { ...search },
-      values: { ...search },
-    }
-  );
+  const { control, handleSubmit } = useForm<SearchValidationSchemaType>({
+    resolver: zodResolver(SearchValidationSchema),
+    defaultValues: { ...search },
+    values: { ...search },
+  });
 
   const onSubmit = (values: SearchValidationSchemaType) => {
     setSearch({ ...search, searchQuery: values.searchQuery });
@@ -34,13 +31,19 @@ const DataGridSearchForm: React.FC<DataGridSearchFormProps> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex gap-1 items-center">
-        <TextField
-          size="small"
-          variant="standard"
-          hiddenLabel
-          margin="dense"
-          placeholder="Search"
-          {...register("searchQuery")}
+        <Controller
+          control={control}
+          name="searchQuery"
+          render={({ field }) => (
+            <TextField
+              {...field}
+              size="small"
+              variant="standard"
+              hiddenLabel
+              margin="dense"
+              placeholder="Search"
+            />
+          )}
         />
         <IconButton size="small" type="submit">
           <SearchIcon />

@@ -10,6 +10,8 @@ const ThemeSchema = new mongoose.Schema({
   slug: { type: String, slug: "title", slugPaddingSize: 4, unique: true },
   createdAt: { type: Date, default: () => Date.now() },
   image: { type: String },
+  languageFrom: { type: String, required: true },
+  languageTo: { type: String, required: true },
   dictionary: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Dictionary",

@@ -39,14 +39,7 @@ const CreateWordDialog: React.FC<CreateWordDialogProps> = ({
     theme: theme,
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    setValue,
-    getValues,
-  } = useForm<WordFormSchemaType>({
+  const { control, handleSubmit, reset } = useForm<WordFormSchemaType>({
     resolver: zodResolver(WordFormSchema),
     defaultValues: defaultValues,
   });
@@ -75,12 +68,7 @@ const CreateWordDialog: React.FC<CreateWordDialogProps> = ({
       reset={() => reset()}
       isBusy={isLoading}
     >
-      <WordForm
-        register={register}
-        errors={errors}
-        setValue={setValue}
-        getValues={getValues}
-      />
+      <WordForm control={control} />
     </DialogFormBase>
   );
 };

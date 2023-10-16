@@ -45,12 +45,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [activeItem, setActiveItem] = useState<Question>();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<QuizFormSchemaType>({
+  const { control, handleSubmit, reset } = useForm<QuizFormSchemaType>({
     resolver: zodResolver(QuizFormSchema),
     defaultValues: {
       givenAnswer: "",
@@ -172,12 +167,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
         <CardContent className="border-y border-gray-200 flex-1 flex flex-col">
           {activeItem && state !== "finished" && (
             <SwipeAnimation direction={"left"} index={activeIndex}>
-              <QuizContent
-                state={state}
-                {...activeItem}
-                register={register}
-                errors={errors}
-              />
+              <QuizContent state={state} {...activeItem} control={control} />
             </SwipeAnimation>
           )}
           {state === "finished" && <QuizResult answers={answers} />}

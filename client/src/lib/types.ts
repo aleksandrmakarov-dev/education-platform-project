@@ -13,6 +13,8 @@ export type Theme = {
   slug: string;
   image?: string;
   createdAt: Date;
+  languageFrom: string;
+  languageTo: string;
   dictionary: string;
   words?: Word[];
 };

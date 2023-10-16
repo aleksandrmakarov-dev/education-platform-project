@@ -29,7 +29,7 @@ const CreateThemeDialog: React.FC<CreateThemeDialogProps> = ({
   const { push } = useSnackbar();
 
   // How to handle errors???
-  const { mutateAsync, isLoading, isError } = useMutation({
+  const { mutateAsync, isLoading } = useMutation({
     mutationFn: ThemesService.create,
   });
 
@@ -37,15 +37,11 @@ const CreateThemeDialog: React.FC<CreateThemeDialogProps> = ({
     title: "",
     description: "",
     dictionary: dictionary,
+    languageFrom: "",
+    languageTo: "",
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    setValue,
-  } = useForm<ThemeFormSchemaType>({
+  const { control, handleSubmit, reset } = useForm<ThemeFormSchemaType>({
     resolver: zodResolver(ThemeFormSchema),
     defaultValues: defaultValues,
   });
@@ -73,7 +69,7 @@ const CreateThemeDialog: React.FC<CreateThemeDialogProps> = ({
       reset={() => reset()}
       isBusy={isLoading}
     >
-      <ThemeForm setValue={setValue} register={register} errors={errors} />
+      <ThemeForm control={control} />
     </DialogFormBase>
   );
 };

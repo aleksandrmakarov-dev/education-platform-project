@@ -1,54 +1,103 @@
-import { TextField } from "@mui/material";
-import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { MenuItem, TextField } from "@mui/material";
+import { Control, Controller } from "react-hook-form";
 import { ThemeFormSchemaType } from "../../../lib/validations/theme-form.schema";
-import FileUpload, { FileData } from "../../shared/file-upload/FileUpload";
+import FileUpload from "../../shared/file-upload/FileUpload";
+import { languagesAndCodes } from "../../../lib/constants";
 
 interface ThemeFormProps {
-  register: UseFormRegister<ThemeFormSchemaType>;
-  errors: FieldErrors<ThemeFormSchemaType>;
-  setValue: UseFormSetValue<ThemeFormSchemaType>;
+  control: Control<ThemeFormSchemaType>;
 }
 
-const ThemeForm: React.FC<ThemeFormProps> = ({
-  register,
-  errors,
-  setValue,
-}) => {
-  const onFileUploadCallback = (files: FileData[]) => {
-    if (files.length === 0) {
-      setValue("image", undefined);
-    } else {
-      setValue("image", files[0].url);
-    }
-  };
-
+const ThemeForm: React.FC<ThemeFormProps> = ({ control }) => {
   return (
     <div className="py-1.5 w-[512px] flex flex-col gap-5">
-      <TextField sx={{ display: "none" }} {...register("image")} />
-      <FileUpload
-        onCallback={onFileUploadCallback}
-        path="/themes/previews"
-        multiple
+      <Controller
+        name="image"
+        control={control}
+        render={({ field: { onChange } }) => (
+          <FileUpload
+            onCallback={(f) => {
+              if (f && f.length > 0) {
+                onChange(f[0].url);
+              } else {
+                onChange("");
+              }
+            }}
+            path="/themes/previews"
+          />
+        )}
       />
-      <TextField
-        label="Title"
-        size="small"
-        fullWidth
-        required
-        {...register("title")}
-        error={errors.title !== undefined}
-        helperText={errors.title?.message}
+      <Controller
+        name="title"
+        control={control}
+        render={({ field, fieldState: { error } }) => (
+          <TextField
+            {...field}
+            label="Title"
+            size="small"
+            fullWidth
+            required
+            error={error !== undefined}
+            helperText={error?.message}
+          />
+        )}
       />
-      <TextField
-        label="Description"
-        size="small"
-        fullWidth
-        required
-        {...register("description")}
-        error={errors.description !== undefined}
-        helperText={errors.description?.message}
-        multiline
-        rows={2}
+      <Controller
+        name="description"
+        control={control}
+        render={({ field, fieldState: { error } }) => (
+          <TextField
+            {...field}
+            label="Description"
+            size="small"
+            fullWidth
+            required
+            error={error !== undefined}
+            helperText={error?.message}
+            multiline
+            rows={2}
+          />
+        )}
+      />
+      <Controller
+        name="languageFrom"
+        control={control}
+        render={({ field, fieldState: { error } }) => (
+          <TextField
+            {...field}
+            select
+            label="Choose language from"
+            size="small"
+            error={error !== undefined}
+            helperText={error?.message}
+          >
+            {languagesAndCodes.map((option) => (
+              <MenuItem key={option.code} value={option.code}>
+                {option.name}
+              </MenuItem>
+            ))}
+          </TextField>
+        )}
+      />
+      <Controller
+        name="languageTo" // Replace with your field name
+        control={control}
+        render={({ field, fieldState: { error } }) => (
+          <TextField
+            {...field}
+            select
+            label="Choose language to"
+            size="small"
+            error={error !== undefined}
+            helperText={error?.message}
+          >
+            {languagesAndCodes.map((option) => (
+              <MenuItem key={option.code} value={option.code}>
+                {option.name}
+              </MenuItem>
+            ))}
+          </TextField>
+        )}
       />
     </div>
   );

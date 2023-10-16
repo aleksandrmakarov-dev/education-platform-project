@@ -30,12 +30,7 @@ const CreateDictionaryDialog: React.FC<CreateDictionaryDialogProps> = ({
     mutationFn: DictionaryService.create,
   });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<DictionaryFormSchemaType>({
+  const { control, handleSubmit, reset } = useForm<DictionaryFormSchemaType>({
     resolver: zodResolver(DictionaryFormSchema),
     defaultValues: { title: "" },
   });
@@ -63,7 +58,7 @@ const CreateDictionaryDialog: React.FC<CreateDictionaryDialogProps> = ({
       reset={() => reset()}
       isBusy={isLoading}
     >
-      <DictionaryForm register={register} errors={errors} />
+      <DictionaryForm control={control} />
     </DialogFormBase>
   );
 };

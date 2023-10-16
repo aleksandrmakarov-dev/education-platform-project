@@ -2,7 +2,7 @@ import React from "react";
 import QuizAnswerReveal from "./QuizAnswerReveal";
 import QuizCardBody from "./QuizCardBody";
 import { QuizCardState, QuizQuestionType } from "./QuizCard";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { Control } from "react-hook-form";
 import { QuizFormSchemaType } from "../../../lib/validations/quiz-form.schema";
 import QuizFormFactory from "../../forms/quiz/QuizFormFactory";
 
@@ -13,8 +13,7 @@ interface QuizContentProps {
   state: QuizCardState;
   additionalProps?: any;
   type: QuizQuestionType;
-  register: UseFormRegister<QuizFormSchemaType>;
-  errors: FieldErrors<QuizFormSchemaType>;
+  control: Control<QuizFormSchemaType>;
 }
 
 const QuizContent: React.FC<QuizContentProps> = ({
@@ -24,8 +23,7 @@ const QuizContent: React.FC<QuizContentProps> = ({
   state,
   additionalProps,
   type,
-  register,
-  errors,
+  control,
 }) => {
   return (
     <div className="flex flex-col gap-5 flex-1">
@@ -47,8 +45,7 @@ const QuizContent: React.FC<QuizContentProps> = ({
       />
       <QuizFormFactory
         type={type}
-        register={register}
-        errors={errors}
+        control={control}
         {...additionalProps}
         disabled={state !== "idle"}
       />

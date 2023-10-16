@@ -1,5 +1,5 @@
 import React from "react";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { Control, Controller } from "react-hook-form";
 import { QuizFormSchemaType } from "../../../lib/validations/quiz-form.schema";
 import {
   FormControl,
@@ -10,8 +10,7 @@ import {
 } from "@mui/material";
 
 interface QuizTrueFalsseFormProps {
-  register: UseFormRegister<QuizFormSchemaType>;
-  errors: FieldErrors<QuizFormSchemaType>;
+  control: Control<QuizFormSchemaType>;
   options: {
     trueValue: string;
     falseValue: string;
@@ -20,29 +19,34 @@ interface QuizTrueFalsseFormProps {
 }
 
 const QuizTrueFalsseForm: React.FC<QuizTrueFalsseFormProps> = ({
-  register,
-  errors,
+  control,
   disabled,
   options,
 }) => {
   return (
-    <FormControl error={errors.givenAnswer !== undefined} className="w-full">
-      <FormLabel>Choose true or false:</FormLabel>
-      <RadioGroup>
-        <div className="grid grid-cols-2 gap-1">
-          <FormControlLabel
-            value={options.trueValue}
-            label="True"
-            control={<Radio {...register("givenAnswer")} disabled={disabled} />}
-          />
-          <FormControlLabel
-            value={options.falseValue}
-            label="False"
-            control={<Radio {...register("givenAnswer")} disabled={disabled} />}
-          />
-        </div>
-      </RadioGroup>
-    </FormControl>
+    <Controller
+      name="givenAnswer"
+      control={control}
+      render={({ field: { value, ...field }, fieldState: { error } }) => (
+        <FormControl error={error !== undefined} className="w-full">
+          <FormLabel>Choose true or false:</FormLabel>
+          <RadioGroup>
+            <div className="grid grid-cols-2 gap-1">
+              <FormControlLabel
+                value={options.trueValue}
+                label="True"
+                control={<Radio {...field} disabled={disabled} />}
+              />
+              <FormControlLabel
+                value={options.falseValue}
+                label="False"
+                control={<Radio {...field} disabled={disabled} />}
+              />
+            </div>
+          </RadioGroup>
+        </FormControl>
+      )}
+    />
   );
 };
 

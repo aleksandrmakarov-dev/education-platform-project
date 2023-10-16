@@ -38,15 +38,11 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
     title: "",
     description: "",
     dictionary: "",
+    languageFrom: "en-US",
+    languageTo: "en-US",
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    setValue,
-  } = useForm<ThemeFormSchemaType>({
+  const { handleSubmit, reset, control } = useForm<ThemeFormSchemaType>({
     resolver: zodResolver(ThemeFormSchema),
     defaultValues: defaultValues,
     values: theme ? { ...theme } : defaultValues,
@@ -61,20 +57,6 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
       await mutateAsync({ identifier: theme.id, body: values });
       reset();
       dialogRef.current?.close();
-
-      // queryClient.cancelQueries(["dictionaries"]);
-      // const previousData = queryClient.getQueryData<Theme[]>([
-      //   "dictionaries",
-      // ]);
-      // console.log(previousData);
-      // queryClient.setQueryData(
-      //   ["dictionaries"],
-      //   previousData?.map((item) =>
-      //     item.id === updatedTheme.id ? updatedTheme : item
-      //   )
-      // );
-
-      // For some reason code above does not work (previous data undefined)
 
       push({ message: "Theme updated successfully", type: "success" });
 
@@ -93,7 +75,7 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
       isBusy={isLoading}
       ref={dialogRef}
     >
-      <ThemeForm setValue={setValue} register={register} errors={errors} />
+      <ThemeForm control={control} />
     </DialogFormBase>
   );
 };

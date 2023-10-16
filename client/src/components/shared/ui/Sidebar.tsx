@@ -7,7 +7,6 @@ import {
 } from "@mui/material";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import FolderRoundedIcon from "@mui/icons-material/FolderRounded";
-import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
 
 type ItemData = {
   name: string;
@@ -25,11 +24,6 @@ const items: ItemData[] = [
     name: "Dictionaries",
     icon: <FolderRoundedIcon />,
     route: "/dictionaries",
-  },
-  {
-    name: "Practice",
-    icon: <ExtensionRoundedIcon />,
-    route: "/practice",
   },
 ];
 

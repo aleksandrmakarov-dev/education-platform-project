@@ -23,7 +23,7 @@ const DeleteWordDialog: React.FC<DeleteWordDialogProps> = ({
   const { push } = useSnackbar();
 
   // How to handle errors???
-  const { mutateAsync, isLoading, isError } = useMutation({
+  const { mutateAsync, isLoading } = useMutation({
     mutationFn: WordsService.deleteById,
   });
 

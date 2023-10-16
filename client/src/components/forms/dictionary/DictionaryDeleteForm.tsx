@@ -1,24 +1,28 @@
 import { TextField } from "@mui/material";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { Control, Controller } from "react-hook-form";
 import { DictionaryDeleteFormSchemaType } from "../../../lib/validations/dictionary-form.schema";
 
 interface DictionaryDeleteFormProps {
-  register: UseFormRegister<DictionaryDeleteFormSchemaType>;
-  errors: FieldErrors<DictionaryDeleteFormSchemaType>;
+  control: Control<DictionaryDeleteFormSchemaType>;
 }
 
 const DictionaryDeleteForm: React.FC<DictionaryDeleteFormProps> = ({
-  register,
-  errors,
+  control,
 }) => {
   return (
     <div className="py-1.5 w-full">
-      <TextField
-        size="small"
-        fullWidth
-        {...register("input")}
-        error={errors.input !== undefined}
-        helperText={errors.input?.message}
+      <Controller
+        control={control}
+        name="input"
+        render={({ field, fieldState: { error } }) => (
+          <TextField
+            {...field}
+            size="small"
+            fullWidth
+            error={error !== undefined}
+            helperText={error?.message}
+          />
+        )}
       />
     </div>
   );

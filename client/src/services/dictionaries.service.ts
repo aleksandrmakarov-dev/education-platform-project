@@ -2,7 +2,6 @@ import { Dictionary, SearchParams, Theme } from "../lib/types";
 import { DictionaryFormSchemaType } from "../lib/validations/dictionary-form.schema";
 import axios from "axios";
 import BaseService, { PageResult, appendSearchParams } from "./base.service";
-import { wait } from "../lib/utils";
 
 const baseUrl = "http://localhost:3000/api/dictionaries";
 

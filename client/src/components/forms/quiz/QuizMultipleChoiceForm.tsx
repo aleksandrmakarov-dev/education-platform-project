@@ -1,5 +1,5 @@
 import React from "react";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { Control, Controller } from "react-hook-form";
 import { QuizFormSchemaType } from "../../../lib/validations/quiz-form.schema";
 import {
   FormControl,
@@ -10,36 +10,38 @@ import {
 } from "@mui/material";
 
 interface QuizMultipleChoiceFormProps {
-  register: UseFormRegister<QuizFormSchemaType>;
-  errors: FieldErrors<QuizFormSchemaType>;
+  control: Control<QuizFormSchemaType>;
   options: string[];
   disabled?: boolean;
 }
 
 const QuizMultipleChoiceForm: React.FC<QuizMultipleChoiceFormProps> = ({
   options,
-  register,
-  errors,
+  control,
   disabled,
 }) => {
   return (
-    <FormControl error={errors.givenAnswer !== undefined} className="w-full">
-      <FormLabel>Choose correct answer:</FormLabel>
-      <RadioGroup>
-        <div className="grid grid-cols-2 gap-1">
-          {options.map((option, index) => (
-            <FormControlLabel
-              key={index}
-              value={option}
-              label={option}
-              control={
-                <Radio {...register("givenAnswer")} disabled={disabled} />
-              }
-            />
-          ))}
-        </div>
-      </RadioGroup>
-    </FormControl>
+    <Controller
+      name="givenAnswer"
+      control={control}
+      render={({ field: { value, ...field }, fieldState: { error } }) => (
+        <FormControl error={error !== undefined} className="w-full">
+          <FormLabel>Choose correct answer:</FormLabel>
+          <RadioGroup>
+            <div className="grid grid-cols-2 gap-1">
+              {options.map((option, index) => (
+                <FormControlLabel
+                  key={index}
+                  value={option}
+                  label={option}
+                  control={<Radio {...field} disabled={disabled} />}
+                />
+              ))}
+            </div>
+          </RadioGroup>
+        </FormControl>
+      )}
+    />
   );
 };
 

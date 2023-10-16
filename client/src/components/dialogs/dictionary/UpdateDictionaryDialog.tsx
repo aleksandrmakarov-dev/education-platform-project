@@ -28,17 +28,11 @@ const UpdateDictionaryDialog: React.FC<UpdateDictionaryDialogProps> = ({
   const dialogRef = useRef<OpenCloseHandle>(null);
   const { push } = useSnackbar();
 
-  // How to handle errors???
   const { mutateAsync, isLoading } = useMutation({
     mutationFn: DictionaryService.updateById,
   });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<DictionaryFormSchemaType>({
+  const { control, handleSubmit, reset } = useForm<DictionaryFormSchemaType>({
     resolver: zodResolver(DictionaryFormSchema),
     defaultValues: { title: "" },
     values: { title: dictionary?.title ?? "" },
@@ -57,20 +51,6 @@ const UpdateDictionaryDialog: React.FC<UpdateDictionaryDialogProps> = ({
       reset();
       dialogRef.current?.close();
 
-      // queryClient.cancelQueries(["dictionaries"]);
-      // const previousData = queryClient.getQueryData<Dictionary[]>([
-      //   "dictionaries",
-      // ]);
-      // console.log(previousData);
-      // queryClient.setQueryData(
-      //   ["dictionaries"],
-      //   previousData?.map((item) =>
-      //     item.id === updatedDictionary.id ? updatedDictionary : item
-      //   )
-      // );
-
-      // For some reason code above does not work (previous data undefined)
-
       push({ message: "Dictionary updated successfully", type: "success" });
 
       queryClient.invalidateQueries([queryNames.dictionary.list]);
@@ -88,7 +68,7 @@ const UpdateDictionaryDialog: React.FC<UpdateDictionaryDialogProps> = ({
       isBusy={isLoading}
       ref={dialogRef}
     >
-      <DictionaryForm register={register} errors={errors} />
+      <DictionaryForm control={control} />
     </DialogFormBase>
   );
 };

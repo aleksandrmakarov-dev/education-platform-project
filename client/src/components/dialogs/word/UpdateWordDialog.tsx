@@ -40,14 +40,7 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
     theme: "",
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    setValue,
-    getValues,
-  } = useForm<WordFormSchemaType>({
+  const { control, handleSubmit, reset } = useForm<WordFormSchemaType>({
     resolver: zodResolver(WordFormSchema),
     defaultValues: defaultValues,
     values: word ? { ...word } : defaultValues,
@@ -94,12 +87,7 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
       isBusy={isLoading}
       ref={dialogRef}
     >
-      <WordForm
-        setValue={setValue}
-        register={register}
-        errors={errors}
-        getValues={getValues}
-      />
+      <WordForm control={control} />
     </DialogFormBase>
   );
 };

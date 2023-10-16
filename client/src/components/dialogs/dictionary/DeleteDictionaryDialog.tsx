@@ -27,23 +27,18 @@ const DeleteDictionaryDialog: React.FC<DeleteDictionaryDialogProps> = ({
   const dialogRef = useRef<OpenCloseHandle>(null);
   const { push } = useSnackbar();
 
-  // How to handle errors???
-  const { mutateAsync, isLoading, isError } = useMutation({
+  const { mutateAsync, isLoading } = useMutation({
     mutationFn: DictionaryService.deleteById,
   });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<DictionaryDeleteFormSchemaType>({
-    resolver: zodResolver(DictionaryDeleteFormSchema),
-    defaultValues: { value: "", input: "" },
-    values: { value: dictionary?.slug ?? "", input: "" },
-  });
+  const { control, handleSubmit, reset } =
+    useForm<DictionaryDeleteFormSchemaType>({
+      resolver: zodResolver(DictionaryDeleteFormSchema),
+      defaultValues: { value: "", input: "" },
+      values: { value: dictionary?.slug ?? "", input: "" },
+    });
 
-  const onSubmit = async (values: DictionaryDeleteFormSchemaType) => {
+  const onSubmit = async () => {
     if (!dictionary) {
       return;
     }
@@ -92,7 +87,7 @@ const DeleteDictionaryDialog: React.FC<DeleteDictionaryDialogProps> = ({
             </span>
           </p>
         </div>
-        <DictionaryDeleteForm register={register} errors={errors} />
+        <DictionaryDeleteForm control={control} />
       </div>
     </DialogFormBase>
   );
