@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { OpenCloseHandle } from "../../../hooks/shared/useImperativeDialog";
 import useSnackbar from "../../../hooks/shared/useSnackbar";
 import { queryNames } from "../../../lib/constants";
+import { copyFileSync } from "fs";
 
 interface CreateWordDialogProps {
   trigger?: JSX.Element;
@@ -37,6 +38,11 @@ const CreateWordDialog: React.FC<CreateWordDialogProps> = ({
     text: "",
     definition: "",
     theme: theme,
+    image: "",
+    definitionAudioUrl: "",
+    definitionContext: "",
+    textAudioUrl: "",
+    textContext: "",
   };
 
   const { control, handleSubmit, reset } = useForm<WordFormSchemaType>({
@@ -46,6 +52,7 @@ const CreateWordDialog: React.FC<CreateWordDialogProps> = ({
 
   const onSubmit = async (values: WordFormSchemaType) => {
     try {
+      console.log(values);
       await mutateAsync(values);
       reset();
       dialogRef.current?.close();

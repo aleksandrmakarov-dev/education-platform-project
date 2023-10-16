@@ -15,4 +15,8 @@ const signUploadForm = (path: string) => {
   return { timestamp, signature };
 };
 
-export { signUploadForm };
+async function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export { signUploadForm, wait };

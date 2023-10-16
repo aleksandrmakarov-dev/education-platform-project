@@ -7,6 +7,8 @@ const WordCreateValidationSchema = z.object({
   theme: z.string().nonempty(),
   textContext: z.string().optional(),
   definitionContext: z.string().optional(),
+  textAudioUrl: z.string().optional(),
+  definitionAudioUrl: z.string().optional(),
 });
 
 const WordUpdateValidationSchema = z.object({
@@ -16,6 +18,8 @@ const WordUpdateValidationSchema = z.object({
   theme: z.string().nonempty(),
   textContext: z.string().optional(),
   definitionContext: z.string().optional(),
+  textAudioUrl: z.string().optional(),
+  definitionAudioUrl: z.string().optional(),
 });
 
 export { WordCreateValidationSchema, WordUpdateValidationSchema };

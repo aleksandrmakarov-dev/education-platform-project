@@ -37,7 +37,12 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
   const defaultValues: WordFormSchemaType = {
     text: "",
     definition: "",
-    theme: "",
+    theme: word?.theme ?? "",
+    image: "",
+    definitionAudioUrl: "",
+    definitionContext: "",
+    textAudioUrl: "",
+    textContext: "",
   };
 
   const { control, handleSubmit, reset } = useForm<WordFormSchemaType>({
@@ -81,7 +86,7 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
   return (
     <DialogFormBase
       trigger={trigger}
-      title="Update theme"
+      title="Update word"
       onSubmit={handleSubmit(onSubmit)}
       reset={() => reset()}
       isBusy={isLoading}

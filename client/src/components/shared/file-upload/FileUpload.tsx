@@ -55,7 +55,6 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const { data: signData } = useQuery({
     queryKey: ["signData"],
     queryFn: async () => await FileSystemService.getSignature(path),
-    refetchOnWindowFocus: false,
   });
 
   const updateUploadProgress = (id: string, newProgress: number) => {

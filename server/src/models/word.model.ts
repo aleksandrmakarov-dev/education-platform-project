@@ -8,6 +8,8 @@ const WordSchema = new mongoose.Schema({
   createdAt: { type: Date, default: () => Date.now() },
   textContext: { type: String },
   definitionContext: { type: String },
+  textAudioUrl: { type: String },
+  definitionAudioUrl: { type: String },
   theme: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Theme",

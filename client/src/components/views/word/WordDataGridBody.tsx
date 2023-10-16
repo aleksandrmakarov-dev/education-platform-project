@@ -19,8 +19,6 @@ const WordDataGridBody: React.FC<WordDataGridBodyProps> = ({
   loadingView,
   emptyView,
 }) => {
-  const [showContext, setShowContext] = useState<boolean>(false);
-
   if (isLoading) {
     return loadingView;
   }
@@ -34,11 +32,7 @@ const WordDataGridBody: React.FC<WordDataGridBodyProps> = ({
       <div className="flex justify-center">
         <Carousel count={data.length}>
           {data.map((item) => (
-            <WordFlashCard
-              data={item}
-              key={item.id}
-              showContext={showContext}
-            />
+            <WordFlashCard data={item} key={item.id} showContext={false} />
           ))}
         </Carousel>
       </div>

@@ -15,9 +15,9 @@ async function getSignature(path?: string) {
 }
 
 async function uploadFile(
-  file: File,
+  file: File | string,
   signData: SignData,
-  onUploadProgress: (e: AxiosProgressEvent) => void
+  onUploadProgress?: (e: AxiosProgressEvent) => void
 ) {
   const url = `https://api.cloudinary.com/v1_1/${signData.cloudname}/auto/upload`;
 

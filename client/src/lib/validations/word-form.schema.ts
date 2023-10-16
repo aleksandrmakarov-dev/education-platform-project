@@ -7,6 +7,8 @@ export const WordFormSchema = z.object({
   image: z.string().optional(),
   textContext: z.string().optional(),
   definitionContext: z.string().optional(),
+  textAudioUrl: z.string().optional(),
+  definitionAudioUrl: z.string().optional(),
 });
 
 export type WordFormSchemaType = z.infer<typeof WordFormSchema>;
