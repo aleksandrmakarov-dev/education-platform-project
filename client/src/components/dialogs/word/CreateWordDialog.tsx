@@ -12,7 +12,6 @@ import { useForm } from "react-hook-form";
 import { OpenCloseHandle } from "../../../hooks/shared/useImperativeDialog";
 import useSnackbar from "../../../hooks/shared/useSnackbar";
 import { queryNames } from "../../../lib/constants";
-import { copyFileSync } from "fs";
 import { Word } from "../../../lib/types";
 import { PageResult } from "../../../services/base.service";
 
@@ -41,10 +40,6 @@ const CreateWordDialog: React.FC<CreateWordDialogProps> = ({
     definition: "",
     theme: theme,
     image: "",
-    definitionAudioUrl: "",
-    definitionContext: "",
-    textAudioUrl: "",
-    textContext: "",
   };
 
   const { control, handleSubmit, reset } = useForm<WordFormSchemaType>({

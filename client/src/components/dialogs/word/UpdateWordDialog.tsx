@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Word } from "../../../lib/types";
 import { OpenCloseHandle } from "../../../hooks/shared/useImperativeDialog";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import WordsService from "../../../services/words.service";
 import {
   WordFormSchema,
@@ -24,6 +24,8 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
   trigger,
   word,
 }) => {
+  const [isBusy, setIsBusy] = useState<boolean>(false);
+
   const queryClient = useQueryClient();
 
   const dialogRef = useRef<OpenCloseHandle>(null);
@@ -40,10 +42,6 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
     definition: "",
     theme: word?.theme ?? "",
     image: "",
-    definitionAudioUrl: "",
-    definitionContext: "",
-    textAudioUrl: "",
-    textContext: "",
   };
 
   const { control, handleSubmit, reset } = useForm<WordFormSchemaType>({
@@ -52,7 +50,7 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
     values: word ? { ...word } : defaultValues,
   });
 
-  const onSubmit = async (values: WordFormSchemaType) => {
+  const onSubmit = async (values: WordFormSchemaType): Promise<void> => {
     if (!word) {
       return;
     }
@@ -62,13 +60,13 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
         identifier: word.id,
         body: values,
       });
+
       reset();
       dialogRef.current?.close();
 
       const queryKey = [queryNames.word.list, word.theme];
-
-      queryClient.cancelQueries(queryKey);
       const previousData = queryClient.getQueryData<PageResult<Word>>(queryKey);
+
       queryClient.setQueryData(queryKey, {
         ...previousData,
         items: previousData?.items.map((item) =>
@@ -76,13 +74,10 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
         ),
       });
 
-      // For some reason code above does not work (previous data undefined)
-
       push({ message: "Word updated successfully", type: "success" });
-
-      // queryClient.invalidateQueries([queryNames.word.list]);
     } catch (error: any) {
       console.log(error);
+      push({ message: error.message, type: "error" });
     }
   };
 

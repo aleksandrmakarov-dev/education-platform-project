@@ -41,7 +41,7 @@ const WordDataGridBody: React.FC<WordDataGridBodyProps> = ({
       <div className="flex justify-center">
         <Carousel count={data.length}>
           {data.map((item) => (
-            <WordFlashCard data={item} key={item.id} showContext={false} />
+            <WordFlashCard data={item} key={item.id} />
           ))}
         </Carousel>
       </div>

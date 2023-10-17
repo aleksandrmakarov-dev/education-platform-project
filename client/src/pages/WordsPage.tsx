@@ -3,7 +3,6 @@ import WordDataGrid from "../components/views/word/WordDataGrid";
 import BreadcrumbsComponent from "../components/shared/breadcrumbs/BreadcrumbsComponent";
 import Header from "../components/shared/ui/header/Header";
 import useGetThemeBySlug from "../hooks/theme/useGetThemeBySlug";
-import { LanguageProvider } from "../hooks/shared/useLanguage";
 
 const WordsPage = () => {
   const { themeSlug } = useParams();
@@ -18,14 +17,7 @@ const WordsPage = () => {
         title={data?.title}
         subtitle={data?.description}
       />
-      {data && (
-        <LanguageProvider
-          languageCodeFrom={data.languageFrom}
-          languageCodeTo={data.languageTo}
-        >
-          <WordDataGrid themeId={data.id} themeSlug={themeSlug} />
-        </LanguageProvider>
-      )}
+      {data && <WordDataGrid themeId={data.id} themeSlug={themeSlug} />}
     </div>
   );
 };

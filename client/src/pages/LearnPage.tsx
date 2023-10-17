@@ -30,7 +30,7 @@ export default function LearnPage() {
       <BreadcrumbsComponent />
       <Header
         isBusy={themeIsLoading}
-        title={themeData?.title}
+        title={`Practice "${themeData?.title}"`}
         subtitle="Learn themes with quiz questions"
       />
       <div className="flex items-center justify-center h-full">
