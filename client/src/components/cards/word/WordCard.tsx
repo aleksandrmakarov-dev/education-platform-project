@@ -48,20 +48,6 @@ const WordCard: React.FC<WordCardProps> = ({ data }) => {
               <PlaySoundButton size="small" url={data.definitionAudioUrl} />
             </Typography>
           </div>
-          {data.textContext && data.definitionContext && (
-            <>
-              <Divider orientation="vertical" flexItem />
-              <div>
-                <Typography variant="subtitle1" className="underline">
-                  Example:
-                </Typography>
-                <Typography variant="h6">{data.textContext}</Typography>
-                <Typography variant="subtitle1" color="text.secondary">
-                  {data.definitionContext}
-                </Typography>
-              </div>
-            </>
-          )}
         </CardContent>
         <CardActions>
           <div className="h-full">

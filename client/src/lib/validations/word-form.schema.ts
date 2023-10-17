@@ -5,8 +5,6 @@ export const WordFormSchema = z.object({
   definition: z.string().nonempty(),
   theme: z.string().nonempty(),
   image: z.string().optional(),
-  textContext: z.string().optional(),
-  definitionContext: z.string().optional(),
   textAudioUrl: z.string().optional(),
   definitionAudioUrl: z.string().optional(),
 });

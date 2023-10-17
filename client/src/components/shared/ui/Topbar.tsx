@@ -13,7 +13,10 @@ const Topbar: React.FC<TopbarProps> = ({ appName }) => {
           <WhatshotRoundedIcon />
           <h5 className="text-xl font-semibold">{appName}</h5>
         </div>
-        <div>
+        <div className="flex gap-2 items-center">
+          <Button variant="text" href="/dictionaries">
+            Dictionaries
+          </Button>
           <Divider orientation="vertical" flexItem />
           <Button variant="contained" disableElevation>
             Sign in

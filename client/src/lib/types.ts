@@ -23,8 +23,6 @@ export type Word = {
   id: string;
   text: string;
   definition: string;
-  textContext?: string;
-  definitionContext?: string;
   createdAt: string;
   theme: string;
   image?: string;

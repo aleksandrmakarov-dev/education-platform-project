@@ -93,34 +93,6 @@ const WordForm: React.FC<WordFormProps> = ({ control }) => {
           </div>
         )}
       />
-      {/* <Controller
-        name="textContext"
-        control={control}
-        render={({ field, fieldState: { error } }) => (
-          <TextField
-            {...field}
-            label="Text context"
-            size="small"
-            fullWidth
-            error={error !== undefined}
-            helperText={error?.message}
-          />
-        )}
-      />
-      <Controller
-        name="definitionContext"
-        control={control}
-        render={({ field, fieldState: { error } }) => (
-          <TextField
-            {...field}
-            label="Definition context"
-            size="small"
-            fullWidth
-            error={error !== undefined}
-            helperText={error?.message}
-          />
-        )}
-      /> */}
     </div>
   );
 };

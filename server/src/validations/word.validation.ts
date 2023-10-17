@@ -16,8 +16,6 @@ const WordUpdateValidationSchema = z.object({
   definition: z.string().nonempty(),
   image: z.string().optional(),
   theme: z.string().nonempty(),
-  textContext: z.string().optional(),
-  definitionContext: z.string().optional(),
   textAudioUrl: z.string().optional(),
   definitionAudioUrl: z.string().optional(),
 });

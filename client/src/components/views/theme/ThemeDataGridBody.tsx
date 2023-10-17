@@ -32,7 +32,7 @@ const ThemeDataGridBody: React.FC<ThemeDataGridBodyProps> = ({
   }
 
   return (
-    <div className="grid grid-cols-3 gap-5">
+    <div className="grid grid-cols-3 gap-5 h-full items-start">
       {data.map((item) => (
         <ThemeCard
           key={item.id}

@@ -6,8 +6,6 @@ const WordSchema = new mongoose.Schema({
   definition: { type: String, required: true },
   image: { type: String },
   createdAt: { type: Date, default: () => Date.now() },
-  textContext: { type: String },
-  definitionContext: { type: String },
   textAudioUrl: { type: String },
   definitionAudioUrl: { type: String },
   theme: {

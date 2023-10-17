@@ -6,10 +6,9 @@ import PlaySoundButton from "../../shared/ui/PlaySoundButton";
 
 interface WordFlashCardProps {
   data: Word;
-  showContext?: boolean;
 }
 
-const WordFlashCard: React.FC<WordFlashCardProps> = ({ data, showContext }) => {
+const WordFlashCard: React.FC<WordFlashCardProps> = ({ data }) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const onChangeState = () => {
@@ -25,48 +24,33 @@ const WordFlashCard: React.FC<WordFlashCardProps> = ({ data, showContext }) => {
         }}
         className="h-[26rem] w-full flex flex-col cursor-pointer p-5"
       >
+        <div className="flex justify-end">
+          <PlaySoundButton
+            url={open ? data.definitionAudioUrl : data.textAudioUrl}
+          />
+        </div>
         {open ? (
-          <>
-            <div className="flex justify-end">
-              <PlaySoundButton url={data.definitionAudioUrl} />
-            </div>
-            <div
-              className="flex flex-col gap-2 text-center items-center justify-center flex-1"
-              onClick={onChangeState}
-            >
-              {data.image && (
-                <img
-                  src={data.image}
-                  className="w-96 h-72 object-cover object-center rounded-md"
-                />
-              )}
-              <Typography variant="h5">{data.definition}</Typography>
-              {showContext && (
-                <Typography variant="subtitle1" color="text.secondary">
-                  {data.definitionContext}
-                </Typography>
-              )}
-            </div>
-          </>
+          <div
+            className="flex flex-col gap-2 text-center items-center justify-center flex-1"
+            onClick={onChangeState}
+          >
+            {data.image && (
+              <img
+                src={data.image}
+                className="w-96 h-72 object-cover object-center rounded-md"
+              />
+            )}
+            <Typography variant="h5">{data.definition}</Typography>
+          </div>
         ) : (
-          <>
-            <div className="flex justify-end">
-              <PlaySoundButton url={data.textAudioUrl} />
-            </div>
-            <div
-              className="flex flex-col gap-2 text-center items-center justify-center flex-1"
-              onClick={onChangeState}
-            >
-              <Typography variant="h5" className="flex gap-1 items-center">
-                {data.text}
-              </Typography>
-              {showContext && (
-                <Typography variant="subtitle1" color="text.secondary">
-                  {data.textContext}
-                </Typography>
-              )}
-            </div>
-          </>
+          <div
+            className="flex text-center items-center justify-center flex-1"
+            onClick={onChangeState}
+          >
+            <Typography variant="h5" className="flex gap-1 items-center">
+              {data.text}
+            </Typography>
+          </div>
         )}
       </Paper>
     </FlipAnimation>
