@@ -19,12 +19,9 @@ const queryClient = new QueryClient({
       refetchOnMount: false,
       refetchOnReconnect: false,
       retry: 0,
-      cacheTime: 0,
-      staleTime: 0,
     },
     mutations: {
       retry: 0,
-      cacheTime: 0,
     },
   },
 });
@@ -32,6 +29,7 @@ const queryClient = new QueryClient({
 const disabledRoutes = [
   "/dictionaries/:dictionaryId/themes",
   "/practice/:themeSlug",
+  "/practice",
 ];
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

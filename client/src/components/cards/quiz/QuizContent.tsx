@@ -1,28 +1,28 @@
 import React from "react";
 import QuizAnswerReveal from "./QuizAnswerReveal";
 import QuizCardBody from "./QuizCardBody";
-import { QuizCardState, QuizQuestionType } from "./QuizCard";
+import { Question, QuizCardState, QuizQuestionType } from "./QuizCard";
 import { Control } from "react-hook-form";
 import { QuizFormSchemaType } from "../../../lib/validations/quiz-form.schema";
 import QuizFormFactory from "../../forms/quiz/QuizFormFactory";
 
 interface QuizContentProps {
-  question: string;
-  image?: string;
-  answer: string;
+  question: Question;
   state: QuizCardState;
-  additionalProps?: any;
-  type: QuizQuestionType;
   control: Control<QuizFormSchemaType>;
 }
 
 const QuizContent: React.FC<QuizContentProps> = ({
-  question,
-  image,
-  answer,
+  question: {
+    question,
+    image,
+    type,
+    answer,
+    additionalProps,
+    questionAudioUrl,
+    answerAudioUrl,
+  },
   state,
-  additionalProps,
-  type,
   control,
 }) => {
   return (
@@ -31,17 +31,26 @@ const QuizContent: React.FC<QuizContentProps> = ({
         question={question}
         image={image}
         answer={
-          type === "true-false" ? additionalProps.options.trueValue : answer
+          type === "true-false"
+            ? additionalProps.options.trueValue.value
+            : answer
         }
         answerLabel={type === "true-false" ? "Term: " : "Defimition: "}
         questionLabel="Definition: "
         showAnswer={type === "true-false"}
+        answerAudioUrl={
+          type === "true-false"
+            ? additionalProps.options.trueValue.audioUrl
+            : answerAudioUrl
+        }
+        questionAudioUrl={questionAudioUrl}
       />
       <QuizAnswerReveal
         state={state}
         answer={answer}
         correctLabel="Congratulations! Your answer is correct"
         wrongLabel="Sorry, your answer is wrong"
+        answerAudioUrl={answerAudioUrl}
       />
       <QuizFormFactory
         type={type}

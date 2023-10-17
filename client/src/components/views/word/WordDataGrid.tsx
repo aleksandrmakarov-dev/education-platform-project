@@ -21,7 +21,7 @@ const WordDataGrid: React.FC<WordDataGridProps> = ({ themeId, themeSlug }) => {
       <div className="flex gap-10 items-center justify-between">
         <div>
           <Button
-            sx={{ backgroundColor: "white" }}
+            className="!bg-blue-50"
             href={`/practice/${themeSlug}/learn`}
             variant="outlined"
           >

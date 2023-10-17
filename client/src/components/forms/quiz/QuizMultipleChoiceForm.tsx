@@ -8,10 +8,11 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
+import PlaySoundButton from "../../shared/ui/PlaySoundButton";
 
 interface QuizMultipleChoiceFormProps {
   control: Control<QuizFormSchemaType>;
-  options: string[];
+  options: { value: string; audioUrl: string }[];
   disabled?: boolean;
 }
 
@@ -30,12 +31,15 @@ const QuizMultipleChoiceForm: React.FC<QuizMultipleChoiceFormProps> = ({
           <RadioGroup>
             <div className="grid grid-cols-2 gap-1">
               {options.map((option, index) => (
-                <FormControlLabel
-                  key={index}
-                  value={option}
-                  label={option}
-                  control={<Radio {...field} disabled={disabled} />}
-                />
+                <div className="flex items-center">
+                  <FormControlLabel
+                    key={index}
+                    value={option.value}
+                    label={option.value}
+                    control={<Radio {...field} disabled={disabled} />}
+                  />
+                  <PlaySoundButton size="small" url={option.audioUrl} />
+                </div>
               ))}
             </div>
           </RadioGroup>

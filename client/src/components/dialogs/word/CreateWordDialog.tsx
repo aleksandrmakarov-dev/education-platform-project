@@ -13,6 +13,8 @@ import { OpenCloseHandle } from "../../../hooks/shared/useImperativeDialog";
 import useSnackbar from "../../../hooks/shared/useSnackbar";
 import { queryNames } from "../../../lib/constants";
 import { copyFileSync } from "fs";
+import { Word } from "../../../lib/types";
+import { PageResult } from "../../../services/base.service";
 
 interface CreateWordDialogProps {
   trigger?: JSX.Element;
@@ -52,15 +54,25 @@ const CreateWordDialog: React.FC<CreateWordDialogProps> = ({
 
   const onSubmit = async (values: WordFormSchemaType) => {
     try {
-      console.log(values);
-      await mutateAsync(values);
+      const createdWord = await mutateAsync(values);
       reset();
       dialogRef.current?.close();
+
+      const queryKey = [queryNames.word.list, theme];
+
+      queryClient.cancelQueries(queryKey);
+      const previousData = queryClient.getQueryData<PageResult<Word>>(queryKey);
+      queryClient.setQueryData(queryKey, {
+        items: [createdWord, ...(previousData?.items ?? [])],
+        meta: {
+          count: (previousData?.meta?.count ?? 0) + 1,
+        },
+      });
 
       push({ message: "Word created successfully", type: "success" });
 
       // Instead of invalidation maybe use setQueryData ?
-      queryClient.invalidateQueries([queryNames.word.list]);
+      // queryClient.invalidateQueries([queryNames.word.list]);
     } catch (error: any) {
       console.log(error);
     }

@@ -1,27 +1,21 @@
 import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface FlipAnimationProps {
   children: React.ReactNode;
+  open: boolean;
 }
 
-const FlipAnimation: React.FC<FlipAnimationProps> = ({ children }) => {
-  const [flipped, setFlipped] = useState<boolean>(false);
-
-  const handleFlip = () => {
-    setFlipped(!flipped);
-  };
-
+const FlipAnimation: React.FC<FlipAnimationProps> = ({ children, open }) => {
   return (
     <motion.div
-      onClick={handleFlip}
       initial={{ perspective: "500px" }}
-      animate={{ rotateX: flipped ? 180 : 0 }}
+      animate={{ rotateX: open ? 180 : 0 }}
       transition={{ duration: 0.5 }}
       className="h-full w-full"
     >
       <motion.div
-        animate={{ rotateX: flipped ? 180 : 0 }}
+        animate={{ rotateX: open ? 180 : 0 }}
         transition={{ duration: 0 }}
       >
         {children}

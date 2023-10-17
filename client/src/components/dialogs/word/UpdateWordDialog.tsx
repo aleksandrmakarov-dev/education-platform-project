@@ -13,6 +13,7 @@ import DialogFormBase from "../base/DialogFormBase";
 import WordForm from "../../forms/word/WordForm";
 import useSnackbar from "../../../hooks/shared/useSnackbar";
 import { queryNames } from "../../../lib/constants";
+import { PageResult } from "../../../services/base.service";
 
 interface UpdateThemeDialogProps {
   trigger: JSX.Element;
@@ -57,27 +58,29 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
     }
 
     try {
-      await mutateAsync({ identifier: word.id, body: values });
+      const updatedWord = await mutateAsync({
+        identifier: word.id,
+        body: values,
+      });
       reset();
       dialogRef.current?.close();
 
-      // queryClient.cancelQueries(["dictionaries"]);
-      // const previousData = queryClient.getQueryData<Theme[]>([
-      //   "dictionaries",
-      // ]);
-      // console.log(previousData);
-      // queryClient.setQueryData(
-      //   ["dictionaries"],
-      //   previousData?.map((item) =>
-      //     item.id === updatedTheme.id ? updatedTheme : item
-      //   )
-      // );
+      const queryKey = [queryNames.word.list, word.theme];
+
+      queryClient.cancelQueries(queryKey);
+      const previousData = queryClient.getQueryData<PageResult<Word>>(queryKey);
+      queryClient.setQueryData(queryKey, {
+        ...previousData,
+        items: previousData?.items.map((item) =>
+          item.id === updatedWord.id ? updatedWord : item
+        ),
+      });
 
       // For some reason code above does not work (previous data undefined)
 
       push({ message: "Word updated successfully", type: "success" });
 
-      queryClient.invalidateQueries([queryNames.word.list]);
+      // queryClient.invalidateQueries([queryNames.word.list]);
     } catch (error: any) {
       console.log(error);
     }

@@ -13,6 +13,7 @@ import UpdateWordDialog from "../../dialogs/word/UpdateWordDialog";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import DeleteWordDialog from "../../dialogs/word/DeleteWordDialog";
+import PlaySoundButton from "../../shared/ui/PlaySoundButton";
 
 interface WordCardProps {
   data: Word;
@@ -34,9 +35,17 @@ const WordCard: React.FC<WordCardProps> = ({ data }) => {
         </div>
         <CardContent className="flex-1 grid grid-cols-[1fr_0.5rem_1fr] items-center gap-5">
           <div className="px-4">
-            <Typography variant="h6">{data.text}</Typography>
-            <Typography variant="subtitle1" color="text.secondary">
-              {data.definition}
+            <Typography variant="h6" className="flex gap-1 items-center">
+              <span>{data.text}</span>
+              <PlaySoundButton url={data.textAudioUrl} />
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              color="text.secondary"
+              className="flex gap-1 items-center"
+            >
+              <span>{data.definition}</span>
+              <PlaySoundButton size="small" url={data.definitionAudioUrl} />
             </Typography>
           </div>
           {data.textContext && data.definitionContext && (

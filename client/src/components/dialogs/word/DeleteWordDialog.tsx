@@ -6,6 +6,7 @@ import WordsService from "../../../services/words.service";
 import useSnackbar from "../../../hooks/shared/useSnackbar";
 import DialogBase from "../base/DialogBase";
 import { queryNames } from "../../../lib/constants";
+import { PageResult } from "../../../services/base.service";
 
 interface DeleteWordDialogProps {
   trigger?: JSX.Element;
@@ -36,9 +37,20 @@ const DeleteWordDialog: React.FC<DeleteWordDialogProps> = ({
       await mutateAsync(word.id);
       dialogRef.current?.close();
 
+      const queryKey = [queryNames.word.list, word.theme];
+
+      queryClient.cancelQueries(queryKey);
+      const previousData = queryClient.getQueryData<PageResult<Word>>(queryKey);
+      queryClient.setQueryData(queryKey, {
+        items: previousData?.items?.filter((w) => w.id !== word.id),
+        meta: {
+          count: (previousData?.meta?.count ?? 1) - 1,
+        },
+      });
+
       push({ message: "Word deleted successfully", type: "success" });
 
-      queryClient.invalidateQueries([queryNames.word.list]);
+      // queryClient.invalidateQueries([queryNames.word.list]);
     } catch (error: any) {
       console.log(error);
     }

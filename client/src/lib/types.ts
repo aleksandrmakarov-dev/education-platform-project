@@ -28,6 +28,8 @@ export type Word = {
   createdAt: string;
   theme: string;
   image?: string;
+  textAudioUrl?: string;
+  definitionAudioUrl?: string;
 };
 
 export type User = {

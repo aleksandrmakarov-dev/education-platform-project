@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
 type Params = {
-  url: string;
+  url?: string;
 };
 
 export default function useAudio(params: Params) {
-  const [audio, setAudio] = useState<HTMLAudioElement>(new Audio(params.url));
+  const [audio, setAudio] = useState<HTMLAudioElement>();
   const [playing, setPlaying] = useState<boolean>(false);
 
   const toggle = () => setPlaying(!playing);
@@ -20,7 +20,7 @@ export default function useAudio(params: Params) {
   }, [params.url]);
 
   useEffect(() => {
-    playing ? audio.play() : audio.pause();
+    playing ? audio?.play() : audio?.pause();
   }, [playing]);
 
   return { playing, toggle };

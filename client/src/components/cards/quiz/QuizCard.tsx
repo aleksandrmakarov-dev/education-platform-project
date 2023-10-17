@@ -24,10 +24,17 @@ export type QuizQuestionType = "write" | "multiple-choice" | "true-false";
 
 export type Question = {
   question: string;
+  questionAudioUrl?: string;
   image?: string;
   type: QuizQuestionType;
   answer: string;
+  answerAudioUrl?: string;
   additionalProps?: any;
+};
+
+export type OptionType = {
+  value: string;
+  audioUrl?: string;
 };
 
 export type Answer = Question & { givenAnswer: string; correct: boolean };
@@ -65,27 +72,39 @@ const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
     let props = {};
 
     if (questionType === "multiple-choice") {
-      const wrongOptions = shuffle(
-        words.map((w) => w.text).filter((w) => w !== word.text)
+      const mappedWords: OptionType[] = words.map((w) => ({
+        value: w.text,
+        audioUrl: w.textAudioUrl,
+      }));
+      const wrongOptions: OptionType[] = shuffle(
+        mappedWords.filter((w) => w.value !== word.text)
       ).slice(0, 3);
 
       props = {
-        options: shuffle([...wrongOptions, word.text]),
+        options: shuffle([
+          ...wrongOptions,
+          { value: word.text, audioUrl: word.textAudioUrl },
+        ]),
       };
     } else if (questionType === "true-false") {
       const rnd2 = Math.round(Math.random() * 1);
       const isTrue = rnd2 > 0;
 
-      const wrongAnswer = shuffle(words.filter((w) => w.text !== word.text))[0]
-        .text;
-      const options = isTrue
+      const randomItem = shuffle(words.filter((w) => w.text !== word.text))[0];
+      const options: { trueValue: OptionType; falseValue: OptionType } = isTrue
         ? {
-            trueValue: word.text,
-            falseValue: wrongAnswer,
+            trueValue: { value: word.text, audioUrl: word.textAudioUrl },
+            falseValue: {
+              value: randomItem.text,
+              audioUrl: randomItem.textAudioUrl,
+            },
           }
         : {
-            trueValue: wrongAnswer,
-            falseValue: word.text,
+            trueValue: {
+              value: randomItem.text,
+              audioUrl: randomItem.textAudioUrl,
+            },
+            falseValue: { value: word.text, audioUrl: word.textAudioUrl },
           };
 
       props = {
@@ -98,6 +117,8 @@ const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
       answer: word.text,
       image: word.image,
       type: questionType,
+      questionAudioUrl: word.definitionAudioUrl,
+      answerAudioUrl: word.textAudioUrl,
       additionalProps: props,
     };
 
@@ -167,7 +188,11 @@ const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
         <CardContent className="border-y border-gray-200 flex-1 flex flex-col">
           {activeItem && state !== "finished" && (
             <SwipeAnimation direction={"left"} index={activeIndex}>
-              <QuizContent state={state} {...activeItem} control={control} />
+              <QuizContent
+                state={state}
+                question={activeItem}
+                control={control}
+              />
             </SwipeAnimation>
           )}
           {state === "finished" && <QuizResult answers={answers} />}

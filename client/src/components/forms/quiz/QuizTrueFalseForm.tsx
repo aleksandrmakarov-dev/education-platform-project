@@ -8,12 +8,13 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
+import { OptionType } from "../../cards/quiz/QuizCard";
 
 interface QuizTrueFalsseFormProps {
   control: Control<QuizFormSchemaType>;
   options: {
-    trueValue: string;
-    falseValue: string;
+    trueValue: OptionType;
+    falseValue: OptionType;
   };
   disabled?: boolean;
 }
@@ -33,12 +34,12 @@ const QuizTrueFalsseForm: React.FC<QuizTrueFalsseFormProps> = ({
           <RadioGroup>
             <div className="grid grid-cols-2 gap-1">
               <FormControlLabel
-                value={options.trueValue}
+                value={options.trueValue.value}
                 label="True"
                 control={<Radio {...field} disabled={disabled} />}
               />
               <FormControlLabel
-                value={options.falseValue}
+                value={options.falseValue.value}
                 label="False"
                 control={<Radio {...field} disabled={disabled} />}
               />

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Word } from "../../../lib/types";
 import WordCard from "../../cards/word/WordCard";
 import Carousel from "../../shared/carousel/Carousel";
 import WordFlashCard from "../../cards/word/WordFlashCard";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface WordDataGridBodyProps {
   data?: Word[];
@@ -27,6 +28,14 @@ const WordDataGridBody: React.FC<WordDataGridBodyProps> = ({
     return emptyView;
   }
 
+  // Extract animation to its own component
+  const animations = {
+    initial: { scale: 0, opacity: 0 },
+    animate: { scale: 1, opacity: 1 },
+    exit: { scale: 0, opacity: 0, transition: { duration: 0.15 } },
+    transition: { type: "spring", stiffness: 900, damping: 40 },
+  };
+
   return (
     <>
       <div className="flex justify-center">
@@ -40,11 +49,15 @@ const WordDataGridBody: React.FC<WordDataGridBodyProps> = ({
         <h5 className="mb-2 text-lg font-semibold">
           Words in theme ({data.length})
         </h5>
-        <div className="flex flex-col gap-2">
-          {data.map((item) => (
-            <WordCard key={item.id} data={item} />
-          ))}
-        </div>
+        <ul className="flex flex-col gap-2">
+          <AnimatePresence>
+            {data.map((item) => (
+              <motion.li {...animations} layout key={item.id}>
+                <WordCard data={item} />
+              </motion.li>
+            ))}
+          </AnimatePresence>
+        </ul>
       </div>
     </>
   );
