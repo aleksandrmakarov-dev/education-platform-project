@@ -1,6 +1,6 @@
 require("express-async-errors");
 
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
@@ -13,6 +13,7 @@ import WordsRouter from "./routes/words.routes";
 import ErrorHandlingMiddleware from "./middlewares/error-handling.middleware";
 import TokenExtractorMiddleware from "./middlewares/token-extractor.middleware";
 import AuthRouter from "./routes/auth.routes";
+import path from "path";
 
 cloudinaryConfigure();
 
@@ -30,8 +31,13 @@ app.use(cors());
 app.use(cookieParser());
 app.use(TokenExtractorMiddleware);
 
-app.get("/", (_req: Request, res: Response) => {
-  res.json({ message: "hello from server!" });
+app.use(express.static(path.join(__dirname, "build")));
+
+console.log(__dirname);
+
+app.get("/", (req, res) => {
+  console.log("react app");
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 app.use("/api/auth", AuthRouter);
