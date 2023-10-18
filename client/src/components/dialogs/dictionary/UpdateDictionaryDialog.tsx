@@ -56,6 +56,11 @@ const UpdateDictionaryDialog: React.FC<UpdateDictionaryDialogProps> = ({
       queryClient.invalidateQueries([queryNames.dictionary.list]);
     } catch (error: any) {
       console.log(error);
+      push({
+        title: error.message,
+        message: error.response.data.error,
+        type: "error",
+      });
     }
   };
 

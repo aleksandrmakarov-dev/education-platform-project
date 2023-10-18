@@ -63,6 +63,11 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
       queryClient.invalidateQueries([queryNames.theme.list]);
     } catch (error: any) {
       console.log(error);
+      push({
+        title: error.message,
+        message: error.response.data.error,
+        type: "error",
+      });
     }
   };
 

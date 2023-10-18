@@ -56,9 +56,6 @@ const FileUploadItem: React.FC<FileUploadItemProps> = ({
           )}
           {state === "failed" && (
             <>
-              <IconButton size="small">
-                <ReplayRoundedIcon sx={{ fontSize: 18 }} />
-              </IconButton>
               <IconButton size="small" onClick={onRemove}>
                 <CloseRoundedIcon sx={{ fontSize: 18 }} />
               </IconButton>

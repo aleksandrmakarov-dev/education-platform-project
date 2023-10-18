@@ -1,6 +1,7 @@
 import {
   Alert,
   AlertColor,
+  AlertTitle,
   Snackbar,
   SnackbarCloseReason,
   SnackbarOrigin,
@@ -9,6 +10,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export type SnackbarType = {
+  title?: string;
   message: string;
   autoHideDuration?: number;
   originAnchor?: SnackbarOrigin;
@@ -24,7 +26,7 @@ export type SnackbarContextType = {
 };
 
 const defaultValues: SnackbarContextType = {
-  push: (v) => {},
+  push: (_v) => {},
 };
 
 const SnackbarContext = createContext<SnackbarContextType>(defaultValues);
@@ -72,7 +74,7 @@ export const SnackbarProvider = ({ children }: React.PropsWithChildren<{}>) => {
   };
 
   const handleClose = (
-    event: Event | React.SyntheticEvent<any, Event>,
+    _event: Event | React.SyntheticEvent<any, Event>,
     reason: SnackbarCloseReason
   ) => {
     if (reason === "timeout") {
@@ -104,6 +106,7 @@ export const SnackbarProvider = ({ children }: React.PropsWithChildren<{}>) => {
             severity={activeItem?.type}
             sx={{ width: "100%" }}
           >
+            {activeItem?.title && <AlertTitle>{activeItem?.title}</AlertTitle>}
             {activeItem?.message}
           </Alert>
         </Snackbar>

@@ -14,6 +14,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import DeleteWordDialog from "../../dialogs/word/DeleteWordDialog";
 import PlaySoundButton from "../../shared/ui/PlaySoundButton";
+import ProtectionWrapper from "../../shared/ui/ProtectionWrapper";
 
 interface WordCardProps {
   data: Word;
@@ -49,26 +50,28 @@ const WordCard: React.FC<WordCardProps> = ({ data }) => {
             </Typography>
           </div>
         </CardContent>
-        <CardActions>
-          <div className="h-full">
-            <UpdateWordDialog
-              trigger={
-                <IconButton size="small">
-                  <EditRoundedIcon />
-                </IconButton>
-              }
-              word={data}
-            />
-            <DeleteWordDialog
-              trigger={
-                <IconButton size="small">
-                  <DeleteRoundedIcon />
-                </IconButton>
-              }
-              word={data}
-            />
-          </div>
-        </CardActions>
+        <ProtectionWrapper roles={["admin"]}>
+          <CardActions>
+            <div className="h-full">
+              <UpdateWordDialog
+                trigger={
+                  <IconButton size="small">
+                    <EditRoundedIcon />
+                  </IconButton>
+                }
+                word={data}
+              />
+              <DeleteWordDialog
+                trigger={
+                  <IconButton size="small">
+                    <DeleteRoundedIcon />
+                  </IconButton>
+                }
+                word={data}
+              />
+            </div>
+          </CardActions>
+        </ProtectionWrapper>
       </div>
     </Card>
   );

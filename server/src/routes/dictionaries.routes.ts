@@ -1,9 +1,14 @@
 import express from "express";
 import DictionariesController from "../controllers/dictionaries.controller";
+import RoleBasedProtectionMiddleware from "../middlewares/role-based-protection.middleware";
 
 const DictionariesRouter = express.Router();
 
-DictionariesRouter.post("/", DictionariesController.create);
+DictionariesRouter.post(
+  "/",
+  RoleBasedProtectionMiddleware(["admin"]),
+  DictionariesController.create
+);
 DictionariesRouter.get("/", DictionariesController.get);
 DictionariesRouter.get(
   "/id/:identifier/themes",
@@ -11,7 +16,15 @@ DictionariesRouter.get(
 );
 DictionariesRouter.get("/id/:identifier", DictionariesController.getById);
 DictionariesRouter.get("/slug/:identifier", DictionariesController.getBySlug);
-DictionariesRouter.put("/id/:identifier", DictionariesController.updateById);
-DictionariesRouter.delete("/id/:identifier", DictionariesController.deleteById);
+DictionariesRouter.put(
+  "/id/:identifier",
+  RoleBasedProtectionMiddleware(["admin"]),
+  DictionariesController.updateById
+);
+DictionariesRouter.delete(
+  "/id/:identifier",
+  RoleBasedProtectionMiddleware(["admin"]),
+  DictionariesController.deleteById
+);
 
 export default DictionariesRouter;

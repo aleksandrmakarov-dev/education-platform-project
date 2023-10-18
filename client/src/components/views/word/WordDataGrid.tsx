@@ -5,6 +5,7 @@ import WordDataGridBody from "./WordDataGridBody";
 import WordDataGridLoading from "./WordDataGridLoading";
 import WordDataGridEmpty from "./WordDataGridEmpty";
 import useGetWordListByThemeId from "../../../hooks/theme/useGetWordListByThemeId";
+import ProtectionWrapper from "../../shared/ui/ProtectionWrapper";
 
 interface WordDataGridProps {
   themeId: string;
@@ -28,18 +29,21 @@ const WordDataGrid: React.FC<WordDataGridProps> = ({ themeId, themeSlug }) => {
             Learn
           </Button>
         </div>
-        <CreateWordDialog
-          theme={themeId}
-          trigger={
-            <Button
-              startIcon={<AddIcon />}
-              variant="contained"
-              disableElevation
-            >
-              Create
-            </Button>
-          }
-        />
+        <ProtectionWrapper roles={["admin"]}>
+          {" "}
+          <CreateWordDialog
+            theme={themeId}
+            trigger={
+              <Button
+                startIcon={<AddIcon />}
+                variant="contained"
+                disableElevation
+              >
+                Create
+              </Button>
+            }
+          />
+        </ProtectionWrapper>
       </div>
       <WordDataGridBody
         data={data?.items}

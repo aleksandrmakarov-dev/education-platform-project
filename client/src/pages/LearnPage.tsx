@@ -1,13 +1,14 @@
 import BreadcrumbsComponent from "../components/shared/breadcrumbs/BreadcrumbsComponent";
 import Header from "../components/shared/ui/header/Header";
 import QuizCard from "../components/cards/quiz/QuizCard";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { shuffle } from "../lib/utils";
 import useGetThemeBySlug from "../hooks/theme/useGetThemeBySlug";
 import useGetWordListByThemeId from "../hooks/theme/useGetWordListByThemeId";
 
 export default function LearnPage() {
   const { themeSlug } = useParams();
+  const navigate = useNavigate();
 
   const { data: themeData, isLoading: themeIsLoading } = useGetThemeBySlug({
     themeSlug,
@@ -23,6 +24,10 @@ export default function LearnPage() {
 
   if (isError || !data) {
     return <p>Error</p>;
+  }
+
+  if (data.items.length === 0) {
+    navigate(-1);
   }
 
   return (

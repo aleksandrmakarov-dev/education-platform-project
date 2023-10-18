@@ -77,7 +77,11 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
       push({ message: "Word updated successfully", type: "success" });
     } catch (error: any) {
       console.log(error);
-      push({ message: error.message, type: "error" });
+      push({
+        title: error.message,
+        message: error.response.data.error,
+        type: "error",
+      });
     }
   };
 

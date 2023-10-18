@@ -40,6 +40,11 @@ const DeleteThemeDialog: React.FC<DeleteThemeDialogProps> = ({
       queryClient.invalidateQueries([queryNames.theme.list]);
     } catch (error: any) {
       console.log(error);
+      push({
+        title: error.message,
+        message: error.response.data.error,
+        type: "error",
+      });
     }
   };
 

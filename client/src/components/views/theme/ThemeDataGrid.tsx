@@ -14,6 +14,7 @@ import DataGridSearchForm from "../../forms/DataGridSearchForm";
 import ThemeDataGridEmpty from "./ThemeDataGridEmpty";
 import ThemeDataGridLoading from "./ThemeDataGridLoading";
 import useGetThemeListByDictionaryId from "../../../hooks/dictionary/useGetThemeListByDictionaryId";
+import ProtectionWrapper from "../../shared/ui/ProtectionWrapper";
 
 interface ThemeDataGridProps {
   dictionaryId: string;
@@ -70,35 +71,39 @@ const ThemeDataGrid: React.FC<ThemeDataGridProps> = ({
               setSearch={setSearch}
               resetSearch={resetSearch}
             />
-            <UpdateThemeDialog
-              trigger={
-                <IconButton size="small" disabled={!selectedTheme}>
-                  <EditIcon />
-                </IconButton>
-              }
-              theme={selectedTheme}
-            />
-            <DeleteThemeDialog
-              trigger={
-                <IconButton size="small" disabled={!selectedTheme}>
-                  <DeleteIcon />
-                </IconButton>
-              }
-              theme={selectedTheme}
-            />
+            <ProtectionWrapper roles={["admin"]}>
+              <UpdateThemeDialog
+                trigger={
+                  <IconButton size="small" disabled={!selectedTheme}>
+                    <EditIcon />
+                  </IconButton>
+                }
+                theme={selectedTheme}
+              />
+              <DeleteThemeDialog
+                trigger={
+                  <IconButton size="small" disabled={!selectedTheme}>
+                    <DeleteIcon />
+                  </IconButton>
+                }
+                theme={selectedTheme}
+              />
+            </ProtectionWrapper>
           </div>
-          <CreateThemeDialog
-            dictionary={dictionaryId}
-            trigger={
-              <Button
-                startIcon={<AddIcon />}
-                variant="contained"
-                disableElevation
-              >
-                Create
-              </Button>
-            }
-          />
+          <ProtectionWrapper roles={["admin"]}>
+            <CreateThemeDialog
+              dictionary={dictionaryId}
+              trigger={
+                <Button
+                  startIcon={<AddIcon />}
+                  variant="contained"
+                  disableElevation
+                >
+                  Create
+                </Button>
+              }
+            />
+          </ProtectionWrapper>
         </div>
       </div>
       <ThemeDataGridBody

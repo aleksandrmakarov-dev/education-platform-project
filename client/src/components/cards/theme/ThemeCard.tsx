@@ -13,6 +13,7 @@ import { Theme } from "../../../lib/types";
 import ContentPasteRoundedIcon from "@mui/icons-material/ContentPasteRounded";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import { Link } from "react-router-dom";
+import ProtectionWrapper from "../../shared/ui/ProtectionWrapper";
 
 interface ThemeCardProps {
   data: Theme;
@@ -39,10 +40,12 @@ const ThemeCard: React.FC<ThemeCardProps> = ({
         subheader={new Date(data.createdAt).toDateString()}
         subheaderTypographyProps={{ fontSize: "0.875rem" }}
         action={
-          <Checkbox
-            checked={isSelectedItem}
-            onChange={() => onSelectItem(data)}
-          />
+          <ProtectionWrapper roles={["admin"]}>
+            <Checkbox
+              checked={isSelectedItem}
+              onChange={() => onSelectItem(data)}
+            />
+          </ProtectionWrapper>
         }
       />
       <div className="bg-blue-400 h-48 border-y border-gray-200 flex items-center justify-center">

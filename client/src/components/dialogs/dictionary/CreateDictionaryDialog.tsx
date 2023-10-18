@@ -25,8 +25,7 @@ const CreateDictionaryDialog: React.FC<CreateDictionaryDialogProps> = ({
   const dialogRef = useRef<OpenCloseHandle>(null);
   const { push } = useSnackbar();
 
-  // How to handle errors???
-  const { mutateAsync, isLoading, isError } = useMutation({
+  const { mutateAsync, isLoading } = useMutation({
     mutationFn: DictionaryService.create,
   });
 
@@ -46,6 +45,11 @@ const CreateDictionaryDialog: React.FC<CreateDictionaryDialogProps> = ({
       queryClient.invalidateQueries([queryNames.dictionary.list]);
     } catch (error: any) {
       console.log(error);
+      push({
+        title: error.message,
+        message: error.response.data.error,
+        type: "error",
+      });
     }
   };
 

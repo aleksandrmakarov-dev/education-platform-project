@@ -11,6 +11,8 @@ import { cloudinaryConfigure } from "./config/cloudinary.config";
 import FileSystemRouter from "./routes/filesystem.routes";
 import WordsRouter from "./routes/words.routes";
 import ErrorHandlingMiddleware from "./middlewares/error-handling.middleware";
+import TokenExtractorMiddleware from "./middlewares/token-extractor.middleware";
+import AuthRouter from "./routes/auth.routes";
 
 cloudinaryConfigure();
 
@@ -26,11 +28,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(cookieParser());
+app.use(TokenExtractorMiddleware);
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "hello from server!" });
 });
 
+app.use("/api/auth", AuthRouter);
 app.use("/api/dictionaries", DictionariesRouter);
 app.use("/api/themes", ThemesRouter);
 app.use("/api/words", WordsRouter);

@@ -14,6 +14,7 @@ import DataGridSearchForm from "../../forms/DataGridSearchForm";
 import DictionaryDataGridEmpty from "./DictionaryDataGridEmpty";
 import DictionaryDataGridLoading from "./DictionaryDataGridLoading";
 import useGetDictionaryList from "../../../hooks/dictionary/useGetDictionaryList";
+import ProtectionWrapper from "../../shared/ui/ProtectionWrapper";
 
 const DictionaryDataGrid = () => {
   const { pagination, setPagination } = usePagination();
@@ -60,34 +61,38 @@ const DictionaryDataGrid = () => {
               setSearch={setSearch}
               resetSearch={resetSearch}
             />
-            <UpdateDictionaryDialog
-              dictionary={selectedDictionary}
-              trigger={
-                <IconButton size="small" disabled={!selectedDictionary}>
-                  <EditIcon />
-                </IconButton>
-              }
-            />
-            <DeleteDictionaryDialog
-              dictionary={selectedDictionary}
-              trigger={
-                <IconButton size="small" disabled={!selectedDictionary}>
-                  <DeleteIcon />
-                </IconButton>
-              }
-            />
+            <ProtectionWrapper roles={["admin"]}>
+              <UpdateDictionaryDialog
+                dictionary={selectedDictionary}
+                trigger={
+                  <IconButton size="small" disabled={!selectedDictionary}>
+                    <EditIcon />
+                  </IconButton>
+                }
+              />
+              <DeleteDictionaryDialog
+                dictionary={selectedDictionary}
+                trigger={
+                  <IconButton size="small" disabled={!selectedDictionary}>
+                    <DeleteIcon />
+                  </IconButton>
+                }
+              />
+            </ProtectionWrapper>
           </div>
-          <CreateDictionaryDialog
-            trigger={
-              <Button
-                startIcon={<AddIcon />}
-                variant="contained"
-                disableElevation
-              >
-                Create
-              </Button>
-            }
-          />
+          <ProtectionWrapper roles={["admin"]}>
+            <CreateDictionaryDialog
+              trigger={
+                <Button
+                  startIcon={<AddIcon />}
+                  variant="contained"
+                  disableElevation
+                >
+                  Create
+                </Button>
+              }
+            />
+          </ProtectionWrapper>
         </div>
       </div>
       <DictionaryDataGridBody

@@ -70,6 +70,11 @@ const CreateWordDialog: React.FC<CreateWordDialogProps> = ({
       // queryClient.invalidateQueries([queryNames.word.list]);
     } catch (error: any) {
       console.log(error);
+      push({
+        title: error.message,
+        message: error.response.data.error,
+        type: "error",
+      });
     }
   };
 

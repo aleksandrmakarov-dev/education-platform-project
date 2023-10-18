@@ -1,5 +1,6 @@
 import WhatshotRoundedIcon from "@mui/icons-material/WhatshotRounded";
-import { Button, Divider } from "@mui/material";
+import { Button } from "@mui/material";
+import SignInUser from "./SignInUser";
 
 interface TopbarProps {
   appName: string;
@@ -19,9 +20,7 @@ const Topbar: React.FC<TopbarProps> = ({ appName }) => {
               Dictionaries
             </Button>
           </div>
-          <Button variant="contained" disableElevation>
-            Sign in
-          </Button>
+          <SignInUser />
         </div>
       </div>
     </div>

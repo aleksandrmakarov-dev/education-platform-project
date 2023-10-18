@@ -12,6 +12,7 @@ import { Dictionary } from "../../../lib/types";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import { Link } from "react-router-dom";
 import FolderRoundedIcon from "@mui/icons-material/FolderRounded";
+import ProtectionWrapper from "../../shared/ui/ProtectionWrapper";
 
 interface DictionaryCardProps {
   data: Dictionary;
@@ -38,10 +39,12 @@ const DictionaryCard: React.FC<DictionaryCardProps> = ({
         subheader={new Date(data.createdAt).toDateString()}
         subheaderTypographyProps={{ fontSize: "0.875rem" }}
         action={
-          <Checkbox
-            checked={isSelectedItem}
-            onChange={() => onSelectItem(data)}
-          />
+          <ProtectionWrapper roles={["admin"]}>
+            <Checkbox
+              checked={isSelectedItem}
+              onChange={() => onSelectItem(data)}
+            />
+          </ProtectionWrapper>
         }
       />
       <div className="bg-blue-400 h-48 border-y border-gray-200 flex items-center justify-center">
