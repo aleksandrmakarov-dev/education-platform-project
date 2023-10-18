@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
 import CloudinaryConfig from "../config/cloudinary.config";
-import { signUploadForm } from "../utils/utils";
 import { SignValidationSchema } from "../validations/filesystem.validation";
+import FileSystemService from "../services/filesystem.service";
 
 async function sign(req: Request, res: Response) {
   const { path } = SignValidationSchema.parse(req.body);
 
-  const fullPath = CloudinaryConfig.FILESYSTEM_ROOT + (path ?? "");
-
-  const { timestamp, signature } = signUploadForm(fullPath);
+  const { timestamp, signature, fullPath } =
+    FileSystemService.signUploadForm(path);
 
   const data = {
     signature: signature,

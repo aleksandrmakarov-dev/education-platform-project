@@ -23,7 +23,7 @@ const WordForm: React.FC<WordFormProps> = ({ control }) => {
                 field.onChange("");
               }
             }}
-            path={`/themes/${control._formValues.theme}/images`}
+            path="/temp"
           />
         )}
       />

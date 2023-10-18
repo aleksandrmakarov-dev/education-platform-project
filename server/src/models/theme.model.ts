@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import WordModel from "./word.model";
 import DictionaryModel from "./dictionary.model";
+import FileSystemService from "../services/filesystem.service";
 
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 
@@ -47,6 +48,14 @@ ThemeSchema.pre(["deleteOne"], async function (this: any, next) {
     await DictionaryModel.findByIdAndUpdate(foundTheme.dictionary, {
       $pull: { themes: foundTheme._id },
     });
+
+    //delete images and audios of words
+    await FileSystemService.deleteFolder(`/themes/${id}`);
+
+    //delete preview of theme
+    if (foundTheme.image) {
+      await FileSystemService.deleteResources([foundTheme.image], "image");
+    }
 
     // Call the next middleware
     next();

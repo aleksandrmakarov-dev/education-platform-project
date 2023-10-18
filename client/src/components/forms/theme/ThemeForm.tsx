@@ -23,7 +23,7 @@ const ThemeForm: React.FC<ThemeFormProps> = ({ control }) => {
                 onChange("");
               }
             }}
-            path="/themes/previews"
+            path="/temp"
           />
         )}
       />

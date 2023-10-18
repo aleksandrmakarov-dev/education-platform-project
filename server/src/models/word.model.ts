@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import ThemeModel from "./theme.model";
+import FileSystemService from "../services/filesystem.service";
 
 const WordSchema = new mongoose.Schema({
   text: { type: String, required: true },
@@ -23,6 +24,15 @@ WordSchema.pre(["deleteOne"], async function (next) {
   // If word is not found, call the next middleware
   if (!foundWord) {
     next();
+  }
+
+  const audioUrls = [foundWord.textAudioUrl, foundWord.definitionAudioUrl];
+
+  await FileSystemService.deleteResources(audioUrls, "video");
+
+  const imageUrls = [foundWord.image];
+  if (imageUrls) {
+    await FileSystemService.deleteResources(imageUrls, "image");
   }
 
   // Remove word reference from themes

@@ -11,11 +11,16 @@ import {
   SearchParamsValidationSchema,
 } from "../validations/shared.validation";
 import { TitleSearchOptions } from "../utils/mongoose.utils";
-import { NotFoundError } from "../utils/api-errors.utls";
+import { InternalError, NotFoundError } from "../utils/api-errors.utls";
 import { NoContent, Ok } from "../utils/express.utils";
+import FileSystemService from "../services/filesystem.service";
+
+const uploadFilesPath = `/themes/previews`;
 
 async function create(req: Request, res: Response) {
-  const { dictionary, ...body } = ThemeCreateValidationSchema.parse(req.body);
+  const { dictionary, image, ...body } = ThemeCreateValidationSchema.parse(
+    req.body
+  );
 
   const foundDictionary = await DictionaryModel.findById(dictionary);
 
@@ -25,13 +30,25 @@ async function create(req: Request, res: Response) {
     );
   }
 
+  let newImageUrl = image;
+  if (image) {
+    newImageUrl = await FileSystemService.moveResource(
+      image,
+      uploadFilesPath,
+      "image"
+    );
+  }
+
   const createdTheme = await ThemeModel.create({
     ...body,
+    image: newImageUrl,
     dictionary: foundDictionary._id,
   });
 
   foundDictionary.themes.push(createdTheme._id);
   await foundDictionary.save();
+
+  await FileSystemService.createFolder(`/themes/${createdTheme._id}`);
 
   return Ok(res, createdTheme);
 }
@@ -97,11 +114,24 @@ async function getWordsByThemeId(req: Request, res: Response) {
 
 async function updateById(req: Request, res: Response) {
   const { identifier } = IdentifierValidationSchema.parse(req.params);
-  const body = ThemeUpdateValidationSchema.parse(req.body);
+  const { image, ...body } = ThemeUpdateValidationSchema.parse(req.body);
+
+  const foundTheme = await ThemeModel.findById(identifier);
+
+  let newImageUrl = image;
+  const imageHasChanged = foundTheme.image !== newImageUrl;
+
+  if (imageHasChanged && newImageUrl) {
+    newImageUrl = await FileSystemService.moveResource(
+      newImageUrl,
+      uploadFilesPath,
+      "image"
+    );
+  }
 
   const updatedTheme = await ThemeModel.findByIdAndUpdate(
     identifier,
-    { ...body },
+    { ...body, image: newImageUrl },
     {
       returnDocument: "after",
       new: true,
@@ -110,6 +140,18 @@ async function updateById(req: Request, res: Response) {
 
   if (!updatedTheme) {
     throw new NotFoundError(`theme with identifier "${identifier}" not found`);
+  }
+
+  if (imageHasChanged) {
+    const imageUrls = [foundTheme.image];
+    const deletedImagesCount = await FileSystemService.deleteResources(
+      imageUrls,
+      "image"
+    );
+
+    if (deletedImagesCount !== imageUrls.length) {
+      throw new InternalError("some image files were not deleted");
+    }
   }
 
   return Ok(res, updatedTheme);
