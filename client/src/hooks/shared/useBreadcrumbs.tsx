@@ -16,7 +16,7 @@ export type BreadcrumbsContextType = {
 
 const defaultValues: BreadcrumbsContextType = {
   breadcrumbs: [],
-  setBreadcrumbs: (v) => {},
+  setBreadcrumbs: () => {},
 };
 
 const BreadcrumbsContext = createContext<BreadcrumbsContextType>(defaultValues);

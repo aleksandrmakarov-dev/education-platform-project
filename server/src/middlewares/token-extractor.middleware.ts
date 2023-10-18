@@ -5,7 +5,7 @@ import { User } from "../types/user.type";
 
 export default function TokenExtractorMiddleware(
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ) {
   //  - Use only signedCookies

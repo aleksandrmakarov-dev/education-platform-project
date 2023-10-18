@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { UnAuthorizedError } from "../utils/api-errors.utls";
 
 export default function RoleBasedProtectionMiddleware(roles?: string[]) {
-  return function (req: Request, res: Response, next: NextFunction) {
+  return function (req: Request, _res: Response, next: NextFunction) {
     const user = req.currentUser;
 
     if (!user) {

@@ -2,7 +2,6 @@ import React from "react";
 import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
 import { IconButton, LinearProgress } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
 import { cn } from "../../../lib/utils";
 
 export type FileUploadItemState = "uploading" | "failed" | "success";

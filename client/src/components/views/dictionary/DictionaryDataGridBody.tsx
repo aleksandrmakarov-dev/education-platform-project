@@ -1,7 +1,5 @@
 import React from "react";
 import { Dictionary } from "../../../lib/types";
-import { TableRow, TableCell, Checkbox } from "@mui/material";
-import { Link } from "react-router-dom";
 import DictionaryCard from "../../cards/dictionary/DictionaryCard";
 
 interface DictionaryDataGridBodyProps {

@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.set("toJSON", {
-  transform: (doc, returnObj) => {
+  transform: (_doc, returnObj) => {
     returnObj.id = returnObj._id.toString();
 
     delete returnObj.passwordHash;

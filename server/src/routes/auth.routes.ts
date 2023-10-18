@@ -2,7 +2,6 @@ import express from "express";
 import AuthController from "../controllers/auth.controller";
 import UserModel from "../models/user.model";
 import { connect } from "../database/mongoose";
-import RoleBasedProtectionMiddleware from "../middlewares/role-based-protection.middleware";
 
 const AuthRouter = express.Router();
 
@@ -19,9 +18,5 @@ AuthRouter.post("/sign-out", AuthController.signOut);
 AuthRouter.get("/sign-in/google", AuthController.signInWithGoogle);
 
 AuthRouter.get("/callback/oauth/google", AuthController.googleOAuthCallback);
-
-AuthRouter.get("/test", RoleBasedProtectionMiddleware(), (req, res) => {
-  return res.status(200).json({ msg: "Hello!" });
-});
 
 export default AuthRouter;

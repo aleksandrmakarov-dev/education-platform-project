@@ -18,7 +18,7 @@ export type AuthContextPayload = {
 
 const AuthContext = React.createContext<AuthContextPayload>({
   isLoading: false,
-  signIn: (user) => {},
+  signIn: () => {},
   signOut: () => {},
 });
 

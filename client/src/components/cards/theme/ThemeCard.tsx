@@ -2,7 +2,6 @@ import {
   Card,
   CardHeader,
   Checkbox,
-  CardMedia,
   CardContent,
   Typography,
   CardActions,

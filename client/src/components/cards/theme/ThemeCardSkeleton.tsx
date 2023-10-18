@@ -4,7 +4,6 @@ import {
   CardMedia,
   CardContent,
   CardActions,
-  Button,
   Skeleton,
 } from "@mui/material";
 

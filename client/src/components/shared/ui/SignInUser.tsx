@@ -13,7 +13,7 @@ import { signInWithGoogle } from "../../../services/auth.service";
 import GoogleIcon from "@mui/icons-material/Google";
 
 const SignInUser = () => {
-  const { user, signOut, isLoading } = useCurrentUser();
+  const { user, isLoading } = useCurrentUser();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -31,11 +31,6 @@ const SignInUser = () => {
     } catch (error: any) {
       console.log("sign in with google", error);
     }
-  };
-
-  const handleSignOut = () => {
-    signOut();
-    handleClose();
   };
 
   if (isLoading) {

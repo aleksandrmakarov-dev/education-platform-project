@@ -1,7 +1,7 @@
 import React from "react";
 import QuizAnswerReveal from "./QuizAnswerReveal";
 import QuizCardBody from "./QuizCardBody";
-import { Question, QuizCardState, QuizQuestionType } from "./QuizCard";
+import { Question, QuizCardState } from "./QuizCard";
 import { Control } from "react-hook-form";
 import { QuizFormSchemaType } from "../../../lib/validations/quiz-form.schema";
 import QuizFormFactory from "../../forms/quiz/QuizFormFactory";

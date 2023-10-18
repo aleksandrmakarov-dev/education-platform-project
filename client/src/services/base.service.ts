@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Meta, SearchParams } from "../lib/types";
-import { wait } from "../lib/utils";
 
 export interface PageResult<T> {
   items: T[];

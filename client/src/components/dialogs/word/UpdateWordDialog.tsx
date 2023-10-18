@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Word } from "../../../lib/types";
 import { OpenCloseHandle } from "../../../hooks/shared/useImperativeDialog";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import WordsService from "../../../services/words.service";
 import {
   WordFormSchema,
@@ -24,8 +24,6 @@ const UpdateThemeDialog: React.FC<UpdateThemeDialogProps> = ({
   trigger,
   word,
 }) => {
-  const [isBusy, setIsBusy] = useState<boolean>(false);
-
   const queryClient = useQueryClient();
 
   const dialogRef = useRef<OpenCloseHandle>(null);
