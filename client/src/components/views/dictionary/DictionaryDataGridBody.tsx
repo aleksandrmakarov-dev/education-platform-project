@@ -30,7 +30,7 @@ const DictionaryDataGridBody: React.FC<DictionaryDataGridBodyProps> = ({
   }
 
   return (
-    <div className="grid grid-cols-3 gap-5 h-full items-start">
+    <div className="grid lg:grid-cols-3 grid-cols-1 sm:grid-cols-2 gap-5 h-full items-start">
       {data.map((item) => (
         <DictionaryCard
           key={item.id}

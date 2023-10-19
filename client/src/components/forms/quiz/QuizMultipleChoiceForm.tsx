@@ -29,11 +29,10 @@ const QuizMultipleChoiceForm: React.FC<QuizMultipleChoiceFormProps> = ({
         <FormControl error={error !== undefined} className="w-full">
           <FormLabel>Choose correct answer:</FormLabel>
           <RadioGroup>
-            <div className="grid grid-cols-2 gap-1">
-              {options.map((option, index) => (
-                <div className="flex items-center">
+            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-1">
+              {options.map((option) => (
+                <div className="flex items-center" key={option.value}>
                   <FormControlLabel
-                    key={index}
                     value={option.value}
                     label={option.value}
                     control={<Radio {...field} disabled={disabled} />}

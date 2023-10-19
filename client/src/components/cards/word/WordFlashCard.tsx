@@ -22,7 +22,7 @@ const WordFlashCard: React.FC<WordFlashCardProps> = ({ data }) => {
         sx={{
           boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
         }}
-        className="h-[26rem] w-full flex flex-col cursor-pointer p-5"
+        className="h-[26rem] w-full flex flex-col cursor-pointer p-5 gap-y-2"
       >
         <div className="flex justify-end">
           <PlaySoundButton

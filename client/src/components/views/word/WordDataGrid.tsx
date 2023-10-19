@@ -6,6 +6,7 @@ import WordDataGridLoading from "./WordDataGridLoading";
 import WordDataGridEmpty from "./WordDataGridEmpty";
 import useGetWordListByThemeId from "../../../hooks/theme/useGetWordListByThemeId";
 import ProtectionWrapper from "../../shared/ui/ProtectionWrapper";
+import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 
 interface WordDataGridProps {
   themeId: string;
@@ -19,22 +20,22 @@ const WordDataGrid: React.FC<WordDataGridProps> = ({ themeId, themeSlug }) => {
 
   return (
     <div className="w-full flex flex-col gap-3">
-      <div className="flex gap-10 items-center justify-between">
-        <div>
-          <Button
-            className="!bg-blue-50"
-            href={`/practice/${themeSlug}/learn`}
-            variant="outlined"
-          >
-            Learn
-          </Button>
-        </div>
+      <div className="flex gap-x-10 gap-y-2 items-center justify-between flex-wrap">
+        <Button
+          className="!bg-blue-50 w-full sm:w-auto"
+          startIcon={<SchoolRoundedIcon />}
+          href={`/practice/${themeSlug}/learn`}
+          variant="outlined"
+          disableElevation
+        >
+          Learn
+        </Button>
         <ProtectionWrapper roles={["admin"]}>
-          {" "}
           <CreateWordDialog
             theme={themeId}
             trigger={
               <Button
+                className="w-full sm:w-auto"
                 startIcon={<AddIcon />}
                 variant="contained"
                 disableElevation

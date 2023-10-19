@@ -10,7 +10,7 @@ const WordsPage = () => {
   const { data, isLoading } = useGetThemeBySlug({ themeSlug });
 
   return (
-    <div className="p-5 flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
       <BreadcrumbsComponent />
       <Header
         isBusy={isLoading}

@@ -6,7 +6,7 @@ export default function MainLayout() {
     <div className="flex flex-col h-screen">
       <Topbar appName="Squeezelet" />
       <div className="flex flex-1 bg-gray-50">
-        <div className="p-5 w-full max-w-screen-xl mx-auto">
+        <div className="px-2 py-5 sm:px-5 w-full max-w-screen-xl mx-auto">
           <Outlet />
         </div>
       </div>

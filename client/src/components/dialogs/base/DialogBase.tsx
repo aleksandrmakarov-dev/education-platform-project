@@ -5,6 +5,8 @@ import {
   DialogContent,
   DialogActions,
   Button,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import React from "react";
 import useImperativeHandleDialog, {
@@ -46,6 +48,8 @@ const DialogBase: React.ForwardRefRenderFunction<
   ref
 ) => {
   const { isOpen, handleOpen, handleClose } = useImperativeHandleDialog(ref);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const onCloseDialog = () => {
     handleClose();
@@ -57,10 +61,10 @@ const DialogBase: React.ForwardRefRenderFunction<
       <Dialog
         open={isOpen}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        fullScreen={fullScreen}
+        fullWidth
       >
-        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
         <DialogContent dividers>{children}</DialogContent>
         <DialogActions>
           <Button onClick={onCloseDialog} disabled={isBusy}>

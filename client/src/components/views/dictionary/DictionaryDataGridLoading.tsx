@@ -7,7 +7,7 @@ interface DictionaryDataGridLoadingProps {
 const DictionaryDataGridLoading: React.FC<DictionaryDataGridLoadingProps> = ({
   count,
 }) => (
-  <div className="grid grid-cols-3 gap-5">
+  <div className="grid lg:grid-cols-3 grid-cols-1 sm:grid-cols-2 gap-5 h-full items-start">
     {[...Array(count).keys()].map((item) => (
       <DictionaryCardSkeleton key={item} />
     ))}

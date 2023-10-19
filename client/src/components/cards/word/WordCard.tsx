@@ -22,8 +22,8 @@ interface WordCardProps {
 const WordCard: React.FC<WordCardProps> = ({ data }) => {
   return (
     <Card key={data.id} variant="outlined">
-      <div className="flex gap-5">
-        <div className="border-r border-gray-200 flex items-center justify-center h-48 w-64 bg-gray-200">
+      <div className="flex flex-col md:flex-row gap-5">
+        <div className="border-r border-gray-200 flex flex-shrink-0 items-center justify-center h-48 w-full md:w-64 bg-gray-200">
           {data.image ? (
             <img
               src={data.image}
@@ -33,7 +33,7 @@ const WordCard: React.FC<WordCardProps> = ({ data }) => {
             <ImageIcon className="text-gray-400" sx={{ fontSize: 72 }} />
           )}
         </div>
-        <CardContent className="flex-1 grid grid-cols-[1fr_0.5rem_1fr] items-center gap-5">
+        <CardContent className="w-full">
           <div className="px-4">
             <Typography variant="h6" className="flex gap-1 items-center">
               <span>{data.text}</span>
@@ -50,25 +50,23 @@ const WordCard: React.FC<WordCardProps> = ({ data }) => {
           </div>
         </CardContent>
         <ProtectionWrapper roles={["admin"]}>
-          <CardActions>
-            <div className="h-full">
-              <UpdateWordDialog
-                trigger={
-                  <IconButton size="small">
-                    <EditRoundedIcon />
-                  </IconButton>
-                }
-                word={data}
-              />
-              <DeleteWordDialog
-                trigger={
-                  <IconButton size="small">
-                    <DeleteRoundedIcon />
-                  </IconButton>
-                }
-                word={data}
-              />
-            </div>
+          <CardActions className="flex justify-end gap-3 md:flex-col md:justify-start">
+            <UpdateWordDialog
+              trigger={
+                <IconButton size="small">
+                  <EditRoundedIcon />
+                </IconButton>
+              }
+              word={data}
+            />
+            <DeleteWordDialog
+              trigger={
+                <IconButton size="small">
+                  <DeleteRoundedIcon />
+                </IconButton>
+              }
+              word={data}
+            />
           </CardActions>
         </ProtectionWrapper>
       </div>

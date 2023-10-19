@@ -4,7 +4,7 @@ import Header from "../components/shared/ui/header/Header";
 
 export default function DictionariesPage() {
   return (
-    <div className="p-5 flex flex-col gap-1">
+    <div className="flex flex-col gap-2">
       <BreadcrumbsComponent />
       <Header
         title="Dictionaries"

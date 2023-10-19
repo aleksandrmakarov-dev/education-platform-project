@@ -13,7 +13,6 @@ import WordsRouter from "./routes/words.routes";
 import ErrorHandlingMiddleware from "./middlewares/error-handling.middleware";
 import TokenExtractorMiddleware from "./middlewares/token-extractor.middleware";
 import AuthRouter from "./routes/auth.routes";
-import path from "path";
 
 cloudinaryConfigure();
 
@@ -30,15 +29,6 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(cookieParser());
 app.use(TokenExtractorMiddleware);
-
-app.use(express.static(path.join(__dirname, "build")));
-
-console.log(__dirname);
-
-app.get("/", (req, res) => {
-  console.log("react app");
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
 
 app.use("/api/auth", AuthRouter);
 app.use("/api/dictionaries", DictionariesRouter);

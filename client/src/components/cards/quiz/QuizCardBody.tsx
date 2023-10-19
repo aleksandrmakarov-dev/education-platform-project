@@ -31,16 +31,26 @@ const QuizCardBody: React.FC<QuizCardBodyProps> = ({
           className="w-96 h-52 object-cover object-center rounded-md"
         />
       )}
-      <Typography variant="h5" className="flex gap-1 items-center">
+      <Typography
+        variant="h5"
+        className="flex flex-wrap justify-center gap-1 items-center"
+      >
         <span>{questionLabel}</span>
-        <span>{question}</span>
-        <PlaySoundButton url={questionAudioUrl} />
+        <div className="flex gap-1 items-center flex-wrap justify-center">
+          <span>{question}</span>
+          <PlaySoundButton url={questionAudioUrl} />
+        </div>
       </Typography>
       {showAnswer && (
-        <Typography variant="h5" className="flex gap-1 items-center">
+        <Typography
+          variant="h5"
+          className="flex flex-wrap justify-center gap-1 items-center"
+        >
           <span> {answerLabel}</span>
-          <span>{answer}</span>
-          <PlaySoundButton url={answerAudioUrl} />
+          <div className="flex gap-1 items-center flex-wrap justify-center">
+            <span>{answer}</span>
+            <PlaySoundButton url={answerAudioUrl} />
+          </div>
         </Typography>
       )}
     </div>

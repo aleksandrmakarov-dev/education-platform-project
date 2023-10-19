@@ -4,6 +4,8 @@ import {
   DialogContent,
   DialogActions,
   Button,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import React from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -50,6 +52,8 @@ const DialogFormBase: React.ForwardRefRenderFunction<
   ref
 ) => {
   const { isOpen, handleOpen, handleClose } = useImperativeHandleDialog(ref);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const onCloseDialog = () => {
     reset();
@@ -62,11 +66,11 @@ const DialogFormBase: React.ForwardRefRenderFunction<
       <Dialog
         open={isOpen}
         onClose={onCloseDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        fullScreen={fullScreen}
+        fullWidth
       >
-        <form onSubmit={onSubmit}>
-          <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+        <form onSubmit={onSubmit} className="flex-1 flex flex-col">
+          <DialogTitle>{title}</DialogTitle>
           <DialogContent dividers>{children}</DialogContent>
           <DialogActions>
             <Button onClick={onCloseDialog} disabled={isBusy}>

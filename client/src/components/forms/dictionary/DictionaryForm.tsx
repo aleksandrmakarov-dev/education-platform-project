@@ -8,7 +8,7 @@ interface DictionaryFormProps {
 
 const DictionaryForm: React.FC<DictionaryFormProps> = ({ control }) => {
   return (
-    <div className="py-1.5 w-[512px] flex flex-col gap-5">
+    <div className="py-1.5 w-full flex flex-col gap-y-5">
       <Controller
         control={control}
         name="title"

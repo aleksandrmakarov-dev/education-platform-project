@@ -1,4 +1,4 @@
-import { TablePagination, IconButton, Button } from "@mui/material";
+import { IconButton, Button, Pagination } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -47,47 +47,39 @@ const ThemeDataGrid: React.FC<ThemeDataGridProps> = ({
     }
   };
 
-  const onChangePageSize = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const limit = parseInt(e.target.value, 10);
-    setPagination({ page: 1, limit: limit });
-  };
-
-  const onChangePage = (
-    _event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
-    page: number
-  ) => {
-    setPagination({ ...pagination, page: page + 1 });
+  const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
+    setPagination({ ...pagination, page: page });
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col gap-3">
       <div className="mb-2">
-        <div className="flex gap-10 items-center justify-between">
-          <div className="flex gap-1 items-center">
+        <div className="flex gap-x-10 gap-y-2 items-center justify-between flex-wrap">
+          <div className="flex gap-x-2 items-center justify-between w-full sm:w-auto sm:gap-x-10">
             <DataGridSearchForm
               search={search}
               setSearch={setSearch}
               resetSearch={resetSearch}
             />
             <ProtectionWrapper roles={["admin"]}>
-              <UpdateThemeDialog
-                trigger={
-                  <IconButton size="small" disabled={!selectedTheme}>
-                    <EditIcon />
-                  </IconButton>
-                }
-                theme={selectedTheme}
-              />
-              <DeleteThemeDialog
-                trigger={
-                  <IconButton size="small" disabled={!selectedTheme}>
-                    <DeleteIcon />
-                  </IconButton>
-                }
-                theme={selectedTheme}
-              />
+              <div>
+                <UpdateThemeDialog
+                  trigger={
+                    <IconButton size="small" disabled={!selectedTheme}>
+                      <EditIcon />
+                    </IconButton>
+                  }
+                  theme={selectedTheme}
+                />
+                <DeleteThemeDialog
+                  trigger={
+                    <IconButton size="small" disabled={!selectedTheme}>
+                      <DeleteIcon />
+                    </IconButton>
+                  }
+                  theme={selectedTheme}
+                />
+              </div>
             </ProtectionWrapper>
           </div>
           <ProtectionWrapper roles={["admin"]}>
@@ -95,6 +87,7 @@ const ThemeDataGrid: React.FC<ThemeDataGridProps> = ({
               dictionary={dictionaryId}
               trigger={
                 <Button
+                  className="w-full sm:w-auto"
                   startIcon={<AddIcon />}
                   variant="contained"
                   disableElevation
@@ -116,17 +109,17 @@ const ThemeDataGrid: React.FC<ThemeDataGridProps> = ({
         loadingView={<ThemeDataGridLoading count={6} />}
         baseUrl={baseUrl}
       />
-      <TablePagination
-        rowsPerPageOptions={[6, 12, 24]}
-        component="div"
-        count={data?.meta.count ?? 0}
-        rowsPerPage={pagination.limit}
-        page={pagination.page - 1}
-        onPageChange={onChangePage}
-        onRowsPerPageChange={onChangePageSize}
-        showFirstButton
-        showLastButton
-      />
+      <div className="flex justify-end">
+        <Pagination
+          defaultPage={1}
+          count={Math.ceil((data?.meta.count ?? 1) / pagination.limit)}
+          page={pagination.page}
+          onChange={onChangePage}
+          size="large"
+          showFirstButton
+          showLastButton
+        />
+      </div>
     </div>
   );
 };

@@ -31,7 +31,7 @@ export default function LearnPage() {
   }
 
   return (
-    <div className="p-5 flex flex-col gap-2 h-full">
+    <div className="flex flex-col gap-2 h-full">
       <BreadcrumbsComponent />
       <Header
         isBusy={themeIsLoading}

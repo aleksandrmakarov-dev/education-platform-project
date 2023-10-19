@@ -49,7 +49,7 @@ const WordDataGridBody: React.FC<WordDataGridBodyProps> = ({
         <h5 className="mb-2 text-lg font-semibold">
           Words in theme ({data.length})
         </h5>
-        <ul className="flex flex-col gap-2">
+        <ul className="flex flex-col gap-3">
           <AnimatePresence>
             {data.map((item) => (
               <motion.li {...animations} layout key={item.id}>
