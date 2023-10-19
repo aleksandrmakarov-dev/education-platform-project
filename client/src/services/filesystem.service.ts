@@ -1,7 +1,7 @@
 import axios, { AxiosProgressEvent } from "axios";
 import { SignData } from "../lib/types";
 
-const baseUrl = `${import.meta.env.VITE_PUBLIC_URL}/api/filesystem`;
+const baseUrl = `http://localhost:3000/api/filesystem`;
 
 async function getSignature(path?: string) {
   const body = path

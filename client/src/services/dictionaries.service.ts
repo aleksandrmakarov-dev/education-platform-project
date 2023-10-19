@@ -3,7 +3,7 @@ import { DictionaryFormSchemaType } from "../lib/validations/dictionary-form.sch
 import axios from "axios";
 import BaseService, { PageResult, appendSearchParams } from "./base.service";
 
-const baseUrl = `${import.meta.env.VITE_PUBLIC_URL}/api/dictionaries`;
+const baseUrl = "http://localhost:3000/api/dictionaries";
 
 const baseServiceFunctions = BaseService<DictionaryFormSchemaType, Dictionary>(
   baseUrl
@@ -19,8 +19,6 @@ async function getThemesByDictionaryId(params: {
   appendSearchParams(url, searchParams);
 
   const response = await axios.get<PageResult<Theme>>(url.href);
-
-  //await wait<boolean>(2000, true);
 
   return response.data;
 }

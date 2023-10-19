@@ -20,7 +20,6 @@ export default function BaseService<TForm, TReturn>(baseUrl: string) {
   return {
     create: async function (values: TForm): Promise<TReturn> {
       const response = await axios.post(baseUrl, values);
-      //await wait<boolean>(2000, true);
       return response.data;
     },
 
@@ -29,13 +28,11 @@ export default function BaseService<TForm, TReturn>(baseUrl: string) {
       appendSearchParams(url, searchParams);
 
       const response = await axios.get<PageResult<TReturn>>(url.href);
-      //await wait<boolean>(2000, true);
       return response.data;
     },
 
     getById: async function (identifier: string) {
       const response = await axios.get<TReturn>(`${baseUrl}/id/${identifier}`);
-      //await wait<boolean>(2000, true);
       return response.data;
     },
 
@@ -43,8 +40,6 @@ export default function BaseService<TForm, TReturn>(baseUrl: string) {
       const response = await axios.get<TReturn>(
         `${baseUrl}/slug/${identifier}`
       );
-
-      //await wait<boolean>(2000, true);
 
       return response.data;
     },
@@ -57,13 +52,11 @@ export default function BaseService<TForm, TReturn>(baseUrl: string) {
         `${baseUrl}/id/${params.identifier}`,
         params.body
       );
-      //await wait<boolean>(2000, true);
       return response.data;
     },
 
     deleteById: async function (identifier: string) {
       const response = await axios.delete(`${baseUrl}/id/${identifier}`);
-      //await wait<boolean>(2000, true);
       return response.data;
     },
   };

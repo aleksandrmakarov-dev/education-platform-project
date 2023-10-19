@@ -3,7 +3,7 @@ import { SearchParams, Theme, Word } from "../lib/types";
 import BaseService, { PageResult, appendSearchParams } from "./base.service";
 import { ThemeFormSchemaType } from "../lib/validations/theme-form.schema";
 
-const baseUrl = `${import.meta.env.VITE_PUBLIC_URL}/api/themes`;
+const baseUrl = `http://localhost:3000/api/themes`;
 
 const baseServiceFunctions = BaseService<ThemeFormSchemaType, Theme>(baseUrl);
 
