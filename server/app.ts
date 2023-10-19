@@ -40,9 +40,7 @@ app.use("/api/words", WordsRouter);
 app.use("/api/filesystem", FileSystemRouter);
 
 app.get("*", (_req, res) => {
-  res.sendFile(
-    path.resolve(__dirname, "the path to your react project", "index.html")
-  );
+  res.sendFile(path.resolve(__dirname, "dist", "index.html"));
 });
 
 app.use(ErrorHandlingMiddleware);
