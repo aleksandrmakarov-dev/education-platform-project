@@ -1,5 +1,4 @@
 import WhatshotRoundedIcon from "@mui/icons-material/WhatshotRounded";
-import { Button } from "@mui/material";
 import SignInUser from "./SignInUser";
 
 interface TopbarProps {

@@ -30,6 +30,8 @@ app.use(cors());
 app.use(cookieParser());
 app.use(TokenExtractorMiddleware);
 
+app.use(express.static("build"));
+
 app.use("/api/auth", AuthRouter);
 app.use("/api/dictionaries", DictionariesRouter);
 app.use("/api/themes", ThemesRouter);

@@ -2,7 +2,6 @@ import BreadcrumbsComponent from "../components/shared/breadcrumbs/BreadcrumbsCo
 import Header from "../components/shared/ui/header/Header";
 import QuizCard from "../components/cards/quiz/QuizCard";
 import { useNavigate, useParams } from "react-router-dom";
-import { shuffle } from "../lib/utils";
 import useGetThemeBySlug from "../hooks/theme/useGetThemeBySlug";
 import useGetWordListByThemeId from "../hooks/theme/useGetWordListByThemeId";
 

@@ -18,11 +18,7 @@ const QuizStart: React.FC<QuizStartProps> = ({
   questionTypes,
   onSubmitCallback,
 }) => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { control, handleSubmit } = useForm();
 
   const onSubmit = (data: any) => {
     const selectedCheckboxes = Object.keys(data).filter(

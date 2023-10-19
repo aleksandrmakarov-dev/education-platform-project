@@ -3,7 +3,7 @@ import { DictionaryFormSchemaType } from "../lib/validations/dictionary-form.sch
 import axios from "axios";
 import BaseService, { PageResult, appendSearchParams } from "./base.service";
 
-const baseUrl = "http://localhost:3000/api/dictionaries";
+const baseUrl = `${import.meta.env.VITE_PUBLIC_URL}/api/dictionaries`;
 
 const baseServiceFunctions = BaseService<DictionaryFormSchemaType, Dictionary>(
   baseUrl
