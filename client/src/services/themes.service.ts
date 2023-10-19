@@ -1,9 +1,10 @@
 import axios from "axios";
 import { SearchParams, Theme, Word } from "../lib/types";
-import BaseService, { PageResult, appendSearchParams } from "./base.service";
+import BaseService, { PageResult } from "./base.service";
 import { ThemeFormSchemaType } from "../lib/validations/theme-form.schema";
+import { appendParams } from "../lib/utils";
 
-const baseUrl = `http://localhost:3000/api/themes`;
+const baseUrl = `/api/themes`;
 
 const baseServiceFunctions = BaseService<ThemeFormSchemaType, Theme>(baseUrl);
 
@@ -13,11 +14,9 @@ async function getWordsByThemeId(params: {
 }) {
   const { identifier, searchParams } = params;
 
-  const url = new URL(`${baseUrl}/id/${identifier}/words`);
+  const url = appendParams(`${baseUrl}/id/${identifier}/words`, searchParams);
 
-  appendSearchParams(url, searchParams);
-
-  const response = await axios.get<PageResult<Word>>(url.href);
+  const response = await axios.get<PageResult<Word>>(url);
 
   //await wait<boolean>(2000, true);
 

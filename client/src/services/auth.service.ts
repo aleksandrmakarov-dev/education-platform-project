@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 
-const baseUrl = "http://localhost:3000/api/auth";
+const baseUrl = "/api/auth";
 
 const axiosConfig: AxiosRequestConfig = {
   withCredentials: true,

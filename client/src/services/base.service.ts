@@ -1,19 +1,11 @@
 import axios from "axios";
 import { Meta, SearchParams } from "../lib/types";
+import { object } from "zod";
+import { appendParams, objectToQueryString } from "../lib/utils";
 
 export interface PageResult<T> {
   items: T[];
   meta: Meta;
-}
-
-export function appendSearchParams(url: URL, searchParams?: SearchParams) {
-  if (!searchParams) {
-    return;
-  }
-
-  Object.entries(searchParams)
-    .map(([key, value]) => ({ key, value }))
-    .forEach((p) => url.searchParams.append(p.key, p.value.toString()));
 }
 
 export default function BaseService<TForm, TReturn>(baseUrl: string) {
@@ -24,10 +16,9 @@ export default function BaseService<TForm, TReturn>(baseUrl: string) {
     },
 
     getAll: async function (searchParams?: SearchParams) {
-      const url = new URL(baseUrl);
-      appendSearchParams(url, searchParams);
+      const url = appendParams(baseUrl, searchParams);
 
-      const response = await axios.get<PageResult<TReturn>>(url.href);
+      const response = await axios.get<PageResult<TReturn>>(url);
       return response.data;
     },
 

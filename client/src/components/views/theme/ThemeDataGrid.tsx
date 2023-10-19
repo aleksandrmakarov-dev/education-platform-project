@@ -112,7 +112,7 @@ const ThemeDataGrid: React.FC<ThemeDataGridProps> = ({
       <div className="flex justify-end">
         <Pagination
           defaultPage={1}
-          count={Math.ceil((data?.meta.count ?? 1) / pagination.limit)}
+          count={Math.ceil((data?.meta?.count ?? 1) / pagination.limit)}
           page={pagination.page}
           onChange={onChangePage}
           size="large"

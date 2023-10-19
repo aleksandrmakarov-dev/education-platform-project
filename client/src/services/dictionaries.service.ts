@@ -1,9 +1,10 @@
 import { Dictionary, SearchParams, Theme } from "../lib/types";
 import { DictionaryFormSchemaType } from "../lib/validations/dictionary-form.schema";
 import axios from "axios";
-import BaseService, { PageResult, appendSearchParams } from "./base.service";
+import BaseService, { PageResult } from "./base.service";
+import { appendParams } from "../lib/utils";
 
-const baseUrl = "http://localhost:3000/api/dictionaries";
+const baseUrl = "/api/dictionaries";
 
 const baseServiceFunctions = BaseService<DictionaryFormSchemaType, Dictionary>(
   baseUrl
@@ -14,12 +15,9 @@ async function getThemesByDictionaryId(params: {
   searchParams?: SearchParams;
 }) {
   const { identifier, searchParams } = params;
-
-  const url = new URL(`${baseUrl}/id/${identifier}/themes`);
-  appendSearchParams(url, searchParams);
-
-  const response = await axios.get<PageResult<Theme>>(url.href);
-
+  const url = appendParams(`${baseUrl}/id/${identifier}/themes`, searchParams);
+  const response = await axios.get<PageResult<Theme>>(url);
+  console.log(response.data);
   return response.data;
 }
 

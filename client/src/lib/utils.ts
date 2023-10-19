@@ -24,3 +24,20 @@ export function shuffle<T>(array: T[]) {
   }
   return a;
 }
+
+export function objectToQueryString(obj: any) {
+  return Object.entries<any>(obj)
+    .map(
+      ([key, value]) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(value.toString())}`
+    )
+    .join("&");
+}
+
+export function appendParams(url: string, params: any) {
+  if (!params) {
+    return url;
+  }
+
+  return url + "?" + objectToQueryString(params);
+}
