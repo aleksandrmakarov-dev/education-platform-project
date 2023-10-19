@@ -9,7 +9,7 @@ export default function RoleBasedProtectionMiddleware(roles?: string[]) {
       throw new UnAuthorizedError("Route requires authorization");
     }
 
-    if (roles && !user.roles.some((role) => roles.includes(role))) {
+    if (roles && !user.roles.some((role: any) => roles.includes(role))) {
       throw new UnAuthorizedError(
         "User doesn't have enough rights to access route"
       );
