@@ -13,6 +13,7 @@ import WordsRouter from "./routes/words.routes";
 import ErrorHandlingMiddleware from "./middlewares/error-handling.middleware";
 import TokenExtractorMiddleware from "./middlewares/token-extractor.middleware";
 import AuthRouter from "./routes/auth.routes";
+import path from "path";
 
 cloudinaryConfigure();
 
@@ -37,6 +38,12 @@ app.use("/api/dictionaries", DictionariesRouter);
 app.use("/api/themes", ThemesRouter);
 app.use("/api/words", WordsRouter);
 app.use("/api/filesystem", FileSystemRouter);
+
+app.get("*", (_req, res) => {
+  res.sendFile(
+    path.resolve(__dirname, "the path to your react project", "index.html")
+  );
+});
 
 app.use(ErrorHandlingMiddleware);
 
