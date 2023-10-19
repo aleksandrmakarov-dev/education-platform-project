@@ -41,7 +41,7 @@ export default function LearnPage() {
       <div className="flex items-center justify-center h-full">
         <div className="max-w-screen-md w-full h-full">
           <QuizCard
-            words={shuffle(data.items)}
+            words={data.items}
             questionTypes={["true-false", "multiple-choice", "write"]}
           />
         </div>

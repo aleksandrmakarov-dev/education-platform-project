@@ -12,42 +12,16 @@ import QuizResult from "./QuizResult";
 import QuizActions from "./QuizActions";
 import SwipeAnimation from "../../shared/animations/SwipeAnimation";
 import QuizStart from "./QuizStart";
+import {
+  QuizCardProps,
+  QuizCardState,
+  Answer,
+  Question,
+  OptionType,
+} from "./QuizCard";
 
-export type QuizCardState =
-  | "start"
-  | "idle"
-  | "correct"
-  | "wrong"
-  | "skipped"
-  | "finished";
-export type QuizQuestionType = "write" | "multiple-choice" | "true-false";
-
-export type Question = {
-  question: string;
-  questionAudioUrl?: string;
-  image?: string;
-  type: QuizQuestionType;
-  answer: string;
-  answerAudioUrl?: string;
-  additionalProps?: any;
-};
-
-export type OptionType = {
-  value: string;
-  audioUrl?: string;
-};
-
-export type Answer = Question & { givenAnswer: string; correct: boolean };
-
-interface QuizCardProps {
-  words: Word[];
-  questionTypes: QuizQuestionType[];
-}
-
-const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
+export const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
   const [state, setState] = useState<QuizCardState>("start");
-  const [selectedQuestionTypes, setSelectedQuestionTypes] =
-    useState<QuizQuestionType[]>(questionTypes);
   const [shuffledWords, setShuffledWords] = useState<Word[]>(shuffle(words));
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>();
@@ -71,8 +45,8 @@ const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
 
     const word = shuffledWords[activeIndex];
 
-    const rnd = Math.round(Math.random() * (selectedQuestionTypes.length - 1));
-    const questionType = selectedQuestionTypes[rnd];
+    const rnd = Math.round(Math.random() * (questionTypes.length - 1));
+    const questionType = questionTypes[rnd];
 
     let props = {};
 
@@ -183,8 +157,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
     setState("start");
   };
 
-  const onStartClickCallback = (values: QuizQuestionType[]) => {
-    setSelectedQuestionTypes(values);
+  const onStartClick = () => {
     setShuffledWords(shuffle(words));
     setAnswers([]);
     setActiveIndex(0);
@@ -200,20 +173,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
       className="h-full flex flex-col"
     >
       {state === "start" ? (
-        <QuizStart
-          questionTypes={
-            [
-              { label: "Write", value: "write", checked: true },
-              {
-                label: "Multiple choice",
-                value: "multiple-choice",
-                checked: true,
-              },
-              { label: "True or false", value: "true-false", checked: true },
-            ] as any[]
-          }
-          onSubmitCallback={onStartClickCallback}
-        />
+        <QuizStart onStart={onStartClick} />
       ) : (
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -248,5 +208,3 @@ const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
     </Card>
   );
 };
-
-export default QuizCard;
