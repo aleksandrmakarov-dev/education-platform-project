@@ -45,11 +45,13 @@ async function createAudioAndGetLocation(text: string, lang: string) {
   let pending = true;
   let retry = 0;
 
-  while (pending || retry < 3) {
+  while (pending || retry < 5) {
     const { status, location } = await getAudio(id);
     if (status === "Done") {
       return location;
     }
+
+    console.log("retrying...", retry);
 
     await wait(500);
     pending = status === "Pending";

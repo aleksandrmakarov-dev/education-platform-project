@@ -22,6 +22,8 @@ function signUploadForm(path?: string) {
 }
 
 async function uploadResource(file: File | string, path: string) {
+  if (!file) throw new Error("No file provided");
+
   const { signature, timestamp, fullPath } = signUploadForm(path);
 
   const fd = new FormData();
