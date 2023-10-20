@@ -151,7 +151,8 @@ const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
       return;
     }
     const isAnswerCorrect =
-      values.givenAnswer.toLowerCase() === activeItem?.answer.toLowerCase();
+      values.givenAnswer.trim().toLowerCase() ===
+      activeItem?.answer.trim().toLowerCase();
     setState(isAnswerCorrect ? "correct" : "wrong");
     appendQuestionToAnswers(activeItem, values.givenAnswer, isAnswerCorrect);
   };
