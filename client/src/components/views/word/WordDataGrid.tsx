@@ -21,7 +21,7 @@ const WordDataGrid: React.FC<WordDataGridProps> = ({ themeId, themeSlug }) => {
   return (
     <div className="w-full flex flex-col gap-3">
       <div className="flex gap-x-10 gap-y-2 items-center justify-between flex-wrap">
-        {(data?.meta?.count ?? 0) > 4 && (
+        {(data?.meta?.count ?? 0) >= 4 && (
           <Button
             className="!bg-blue-50 w-full sm:w-auto"
             startIcon={<SchoolRoundedIcon />}
