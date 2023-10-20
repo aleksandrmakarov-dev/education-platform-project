@@ -160,6 +160,7 @@ function getGoogleOAuthUrl() {
 
   url.searchParams.append("client_id", GoogleOAuthConfig.client_id);
   url.searchParams.append("access_type", "offline");
+  url.searchParams.append("prompt", "consent");
   url.searchParams.append("redirect_uri", GoogleOAuthConfig.callbackUrl);
   url.searchParams.append("response_type", "code");
   url.searchParams.append(
