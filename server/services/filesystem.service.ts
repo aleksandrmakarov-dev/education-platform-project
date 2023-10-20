@@ -2,6 +2,7 @@ import axios from "axios";
 import cloudinary from "cloudinary";
 import CloudinaryConfig from "../config/cloudinary.config";
 import { extractPublicId } from "cloudinary-build-url";
+import FormData from "form-data";
 
 const cloudinaryUploadUrl = `https://api.cloudinary.com/v1_1/${CloudinaryConfig.CLOUDINARY_CLOUD_NAME}/auto`;
 
