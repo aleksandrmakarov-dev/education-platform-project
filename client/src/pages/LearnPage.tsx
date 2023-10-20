@@ -25,7 +25,7 @@ export default function LearnPage() {
     return <p>Error</p>;
   }
 
-  if (data.items.length === 0) {
+  if ((data?.meta?.count ?? 0) < 4) {
     navigate(-1);
   }
 

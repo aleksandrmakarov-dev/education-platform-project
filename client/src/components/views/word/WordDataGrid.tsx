@@ -21,15 +21,17 @@ const WordDataGrid: React.FC<WordDataGridProps> = ({ themeId, themeSlug }) => {
   return (
     <div className="w-full flex flex-col gap-3">
       <div className="flex gap-x-10 gap-y-2 items-center justify-between flex-wrap">
-        <Button
-          className="!bg-blue-50 w-full sm:w-auto"
-          startIcon={<SchoolRoundedIcon />}
-          href={`/practice/${themeSlug}/learn`}
-          variant="outlined"
-          disableElevation
-        >
-          Learn
-        </Button>
+        {(data?.meta?.count ?? 0) > 4 && (
+          <Button
+            className="!bg-blue-50 w-full sm:w-auto"
+            startIcon={<SchoolRoundedIcon />}
+            href={`/practice/${themeSlug}/learn`}
+            variant="outlined"
+            disableElevation
+          >
+            Learn
+          </Button>
+        )}
         <ProtectionWrapper roles={["admin"]}>
           <CreateWordDialog
             theme={themeId}
