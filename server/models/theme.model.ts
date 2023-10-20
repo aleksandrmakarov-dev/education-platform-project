@@ -6,8 +6,8 @@ import FileSystemService from "../services/filesystem.service";
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 
 const ThemeSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  description: { type: String },
+  title: { type: String, trim: true, required: true },
+  description: { type: String, trim: true },
   slug: { type: String, slug: "title", slugPaddingSize: 4, unique: true },
   createdAt: { type: Date, default: () => Date.now() },
   image: { type: String },

@@ -3,7 +3,7 @@ import ThemeModel from "./theme.model";
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 
 const DictionarySchema = new mongoose.Schema({
-  title: { type: String, required: true },
+  title: { type: String, trim: true, required: true },
   slug: { type: String, slug: "title", slugPaddingSize: 4, unique: true },
   createdAt: { type: Date, default: () => Date.now() },
   themes: [

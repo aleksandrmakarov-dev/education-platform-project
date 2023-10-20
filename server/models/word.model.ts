@@ -3,8 +3,8 @@ import ThemeModel from "./theme.model";
 import FileSystemService from "../services/filesystem.service";
 
 const WordSchema = new mongoose.Schema({
-  text: { type: String, required: true },
-  definition: { type: String, required: true },
+  text: { type: String, trim: true, required: true },
+  definition: { type: String, trim: true, required: true },
   image: { type: String },
   createdAt: { type: Date, default: () => Date.now() },
   textAudioUrl: { type: String },
