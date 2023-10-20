@@ -17,7 +17,6 @@ async function getThemesByDictionaryId(params: {
   const { identifier, searchParams } = params;
   const url = appendParams(`${baseUrl}/id/${identifier}/themes`, searchParams);
   const response = await axios.get<PageResult<Theme>>(url);
-  console.log(response.data);
   return response.data;
 }
 
