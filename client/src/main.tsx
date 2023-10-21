@@ -27,11 +27,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const disabledRoutes = [
-  "/dictionaries/:dictionaryId/themes",
-  "/practice/:themeSlug",
-  "/practice",
-];
+const disabledRoutes = ["/dictionaries/:dictionaryId/themes"];
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <AuthProvider>

@@ -25,7 +25,7 @@ const WordDataGrid: React.FC<WordDataGridProps> = ({ themeId, themeSlug }) => {
           <Button
             className="!bg-blue-50 w-full sm:w-auto"
             startIcon={<SchoolRoundedIcon />}
-            href={`/practice/${themeSlug}/learn`}
+            href={`${themeSlug}/learn`}
             variant="outlined"
             disableElevation
           >

@@ -16,13 +16,11 @@ function App() {
           <Route path=":dictionarySlug">
             <Route index element={<ThemesPage />} />
             <Route path="themes">
-              <Route path=":themeSlug" element={<WordsPage />} />
+              <Route path=":themeSlug">
+                <Route index element={<WordsPage />} />
+                <Route path="learn" element={<LearnPage />} />
+              </Route>
             </Route>
-          </Route>
-        </Route>
-        <Route path="practice">
-          <Route path=":themeSlug">
-            <Route path="learn" element={<LearnPage />} />
           </Route>
         </Route>
         <Route path="sign-out" element={<SignOut />} />
