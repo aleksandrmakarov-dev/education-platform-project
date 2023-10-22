@@ -15,7 +15,7 @@ interface QuizResultProps {
 
 const QuizResult: React.FC<QuizResultProps> = ({ answers }) => {
   return (
-    <Box sx={{ overflowX: "auto" }}>
+    <Box sx={{ overflowX: "auto", maxHeight: "26rem" }}>
       <Table>
         <TableHead>
           <TableRow>
