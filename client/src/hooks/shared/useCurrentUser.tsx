@@ -23,7 +23,7 @@ const AuthContext = React.createContext<AuthContextPayload>({
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const timeInterval = 15 * 60 * 1000;
+  const timeInterval = 10 * 60 * 1000;
 
   const [currentUser, setCurrentUser] = useState<
     CurrentUserPayload | undefined
