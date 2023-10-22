@@ -221,7 +221,13 @@ const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
           className="flex flex-col flex-1"
         >
           <CardHeader
-            title={`Question ${(activeIndex ?? 0) + 1} of ${words.length}`}
+            title={
+              state === "finished"
+                ? `Quiz finished! You got ${
+                    answers.filter((a) => a.correct).length
+                  } out of ${words.length} correct!`
+                : `Question ${(activeIndex ?? 0) + 1} of ${words.length}`
+            }
           />
           <CardContent className="border-y border-gray-200 flex-1 flex flex-col">
             {activeItem && state !== "finished" && (
