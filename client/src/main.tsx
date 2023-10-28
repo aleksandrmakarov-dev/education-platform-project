@@ -31,14 +31,12 @@ const disabledRoutes = ["/dictionaries/:dictionaryId/themes"];
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <AuthProvider>
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <BreadcrumbsProvider disabledRoutes={disabledRoutes}>
-          <SnackbarProvider>
-            <App />
-          </SnackbarProvider>
-        </BreadcrumbsProvider>
-      </QueryClientProvider>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BreadcrumbsProvider disabledRoutes={disabledRoutes}>
+        <SnackbarProvider>
+          <App />
+        </SnackbarProvider>
+      </BreadcrumbsProvider>
+    </QueryClientProvider>
   </AuthProvider>
 );

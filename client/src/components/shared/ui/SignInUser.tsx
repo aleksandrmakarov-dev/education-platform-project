@@ -11,9 +11,13 @@ import React from "react";
 import useCurrentUser from "../../../hooks/shared/useCurrentUser";
 import { signInWithGoogle } from "../../../services/auth.service";
 import GoogleIcon from "@mui/icons-material/Google";
+import { useLocation } from "react-router-dom";
+import useSnackbar from "../../../hooks/shared/useSnackbar";
 
 const SignInUser = () => {
   const { user, isLoading } = useCurrentUser();
+  const location = useLocation();
+  const { push } = useSnackbar();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -27,9 +31,15 @@ const SignInUser = () => {
   const onSignInWithGoogle = async () => {
     try {
       const response = await signInWithGoogle();
-      window.location.href = response.redirect;
+      window.location.href =
+        location.state?.from?.pathname || response.redirect;
     } catch (error: any) {
       console.log("sign in with google", error);
+      push({
+        title: "Sign in with Google",
+        message: error.message,
+        type: "error",
+      });
     }
   };
 

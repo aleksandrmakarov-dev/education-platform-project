@@ -28,35 +28,33 @@ const QuizStart: React.FC<QuizStartProps> = ({
   };
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <FormGroup>
-          <FormLabel>Choose question types</FormLabel>
-          {questionTypes.map((questionType) => (
-            <Controller
-              key={questionType.value}
-              name={questionType.value}
-              control={control}
-              defaultValue={questionType.checked}
-              render={({ field }) => (
-                <FormControlLabel
-                  control={<Checkbox {...field} checked={field.value} />}
-                  label={questionType.label}
-                />
-              )}
-            />
-          ))}
-        </FormGroup>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          disableElevation
-        >
-          Start quiz
-        </Button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+      <FormGroup>
+        <FormLabel>Choose question types</FormLabel>
+        {questionTypes.map((questionType) => (
+          <Controller
+            key={questionType.value}
+            name={questionType.value}
+            control={control}
+            defaultValue={questionType.checked}
+            render={({ field }) => (
+              <FormControlLabel
+                control={<Checkbox {...field} checked={field.value} />}
+                label={questionType.label}
+              />
+            )}
+          />
+        ))}
+      </FormGroup>
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        disableElevation
+      >
+        Start quiz
+      </Button>
+    </form>
   );
 };
 

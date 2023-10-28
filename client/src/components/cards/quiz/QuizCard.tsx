@@ -198,23 +198,25 @@ const QuizCard: React.FC<QuizCardProps> = ({ words, questionTypes }) => {
       sx={{
         boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
       }}
-      className="h-full flex flex-col"
+      className="min-h-[28rem] flex flex-col"
     >
       {state === "start" ? (
-        <QuizStart
-          questionTypes={
-            [
-              { label: "Write", value: "write", checked: true },
-              {
-                label: "Multiple choice",
-                value: "multiple-choice",
-                checked: true,
-              },
-              { label: "True or false", value: "true-false", checked: true },
-            ] as any[]
-          }
-          onSubmitCallback={onStartClickCallback}
-        />
+        <div className="p-5 flex-1 flex items-center justify-center">
+          <QuizStart
+            questionTypes={
+              [
+                { label: "Write", value: "write", checked: true },
+                {
+                  label: "Multiple choice",
+                  value: "multiple-choice",
+                  checked: true,
+                },
+                { label: "True or false", value: "true-false", checked: true },
+              ] as any[]
+            }
+            onSubmitCallback={onStartClickCallback}
+          />
+        </div>
       ) : (
         <form
           onSubmit={handleSubmit(onSubmit)}

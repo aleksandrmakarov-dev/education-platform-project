@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { refreshToken } from "../../services/auth.service";
+import { set } from "react-hook-form";
 
 export type CurrentUserPayload = {
   name?: string;
@@ -30,22 +31,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   >(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const signIn = (user: CurrentUserPayload) => {
-    setCurrentUser(user);
+  const signIn = async () => {
+    setIsLoading(true);
 
     //  - After signing in set interval to refresh access token
-    if (!intervalRef.current) {
-      const interval = setInterval(() => authenticate(), timeInterval);
-      intervalRef.current = interval;
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
     }
+    await authenticate();
+    const interval = setInterval(() => authenticate(), timeInterval);
+    intervalRef.current = interval;
+
+    setIsLoading(false);
   };
 
   const signOut = () => {
-    setCurrentUser(undefined);
+    setIsLoading(true);
 
+    setCurrentUser(undefined);
     //  - Clear interval after signing out so it does not try to refresh token again
     clearInterval(intervalRef.current);
     intervalRef.current = undefined;
+
+    setIsLoading(false);
   };
 
   const authenticate = useCallback(async () => {
@@ -54,17 +62,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       //  - Send post request to /refresh-token
       const response = await refreshToken();
-
-      //  - Add user data to context
-      signIn({
+      setCurrentUser({
         name: response.name,
         email: response.email,
         image: response.image,
         roles: response.roles,
       });
-
       setIsLoading(false);
-
       return true;
     } catch (error: any) {
       // -  If error then clear user in context if there was any data
