@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { refreshToken } from "../../services/auth.service";
-import { set } from "react-hook-form";
 
 export type CurrentUserPayload = {
   name?: string;

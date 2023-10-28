@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import useCurrentUser from "../../hooks/shared/useCurrentUser";
 import { signOut } from "../../services/auth.service";
 

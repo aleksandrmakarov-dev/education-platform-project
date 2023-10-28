@@ -7,7 +7,6 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
-import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BreadcrumbsProvider } from "./hooks/shared/useBreadcrumbs.tsx";
 import { SnackbarProvider } from "./hooks/shared/useSnackbar.tsx";
