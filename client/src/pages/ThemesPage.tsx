@@ -1,6 +1,6 @@
 import ThemeDataGrid from "../components/views/theme/ThemeDataGrid";
 import BreadcrumbsComponent from "../components/shared/breadcrumbs/BreadcrumbsComponent";
-import { redirect, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Header from "../components/shared/ui/header/Header";
 import useGetDictionaryBySlug from "../hooks/dictionary/useGetDictionaryBySlug";
 
