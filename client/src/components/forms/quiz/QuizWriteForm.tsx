@@ -22,6 +22,10 @@ const QuizWriteForm: React.FC<QuizWriteFormProps> = ({ control, disabled }) => {
             fullWidth
             required
             disabled={disabled}
+            autoComplete="off"
+            inputProps={{
+              "aria-autocomplete": "none",
+            }}
           />
         </FormControl>
       )}

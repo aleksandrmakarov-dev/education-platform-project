@@ -24,6 +24,9 @@ const QuizStart: React.FC<QuizStartProps> = ({
     const selectedCheckboxes = Object.keys(data).filter(
       (key) => data[key] === true
     );
+    if (selectedCheckboxes.length === 0) {
+      return;
+    }
     onSubmitCallback(selectedCheckboxes as QuizQuestionType[]);
   };
 
